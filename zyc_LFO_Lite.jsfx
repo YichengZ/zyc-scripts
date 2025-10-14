@@ -1,0 +1,449 @@
+desc:zyc_LFO_Lite (FX Parameter Modulator)
+//author: EthanZhu @yichengzhu316@outlook.com
+//version: v1.0
+//changelog:
+//v1.0 - Lite version release
+//  - Removed all extra outputs functionality
+//  - Removed MOOOAAARRR outputs functionality
+//  - Kept only main output and core LFO features
+//  - Optimized performance by removing unused calculations
+//  - Simplified UI with only essential controls
+//  - Maintained all 7 waveform types and modulation features
+
+slider1:0<-100,100,0.01>Main Output
+slider2:0<0,6,1{Sine,Up,Down,Triangle,Square,Random,Bin}>Waveform
+slider3:1<0,5,0.01>Rate Fine (Hz)
+slider4:0<0,10,0.01>Rate Coarse (Hz)
+slider5:100<0,100,0.01>Depth (%)
+slider6:0<-100,100,0.01>Offset (%)
+slider7:0<0,100,0.01>Jitter (%)
+slider8:0<0,100,0.01>Smooth (%)
+slider9:0<0,100,0.01>Phase (%)
+slider10:0<0,1,1{Off,On}>Hold
+slider11:0<0,1,1{Off,Retrigger}>Retrigger
+
+@init
+// Basic variable initialization
+two_pi = 2*$pi;
+rand_seed = 12345;  // Use integer as seed
+lfo_phase = 0;
+retrigger_last = 0;
+bin_value = 1;
+random_val = 0;
+mouse_last = 0;
+hold_val = 0;
+smooth_value = 0;
+
+// Jitter related variables
+jitter_counter = 0;
+jitter_current = 0;
+jitter_target = 0;
+
+// Initialize random array
+i = 0;
+while(i < 1000) (
+    rand_array[i] = rand() * 2 - 1;
+    i += 1;
+);
+rand_index = 0;
+
+// Oscilloscope buffer initialization
+osc_buffer_seconds = 2.0;
+osc_buffer_size = floor(srate * osc_buffer_seconds);
+osc_buffer_size = max(1, osc_buffer_size);
+
+// Pre-calculated constants
+min_y = 0;
+max_y = 0;
+last_update = 0;
+update_interval = 0.016;  // ~60fps update rate
+
+osc_buffer_ptr = 0;
+_osc_init_i = 0;
+while (_osc_init_i < osc_buffer_size) (
+    osc_buffer[_osc_init_i] = 0.0;
+    _osc_init_i += 1;
+);
+
+// Smoothing transition variables
+smooth_factor = 0.1;
+last_draw_time = 0;
+
+// UI state variables
+ui_spacing = 5;
+
+function rand() (
+    rand_seed = (rand_seed * 1103515245 + 12345) & 0x7fffffff;
+    rand_seed / 0x7fffffff;
+);
+
+@slider
+// Show main controls
+slider_show(1, 1); // Main Output
+slider_show(2, 1); // Waveform
+slider_show(4, 1); // Rate Fine (Hz)
+slider_show(8, 1); // Rate Coarse (Hz)
+slider_show(16, 1); // Depth (%)
+slider_show(32, 1); // Offset (%)
+slider_show(64, 1); // Jitter (%)
+slider_show(128, 1); // Smooth (%)
+slider_show(256, 1); // Phase (%)
+slider_show(512, 0); // Hold
+slider_show(1024, 0); // Retrigger
+
+waveform = slider2;
+rate = slider3 + slider4;
+depth = slider5/100;
+offset = slider6/100;
+jitter_amt = slider7/100;
+smooth = exp(slider8/100 * 1.5) - 1;
+phase = slider9/100;
+
+@sample
+// Update state
+hold = slider10;
+retrigger = slider11;
+
+// Retrigger processing
+retrigger_last != retrigger ? (
+    retrigger_last = retrigger;
+    retrigger == 1 ? lfo_phase = 0;
+);
+
+// Phase calculation
+srate > 0 ? phase_inc = rate / srate : phase_inc = 0;
+
+lfo_phase += phase_inc;
+lfo_phase -= floor(lfo_phase);
+
+lfo_phase_mod = lfo_phase + phase;
+lfo_phase_mod -= floor(lfo_phase_mod);
+
+// Waveform generation
+lfo_shape_val =
+    waveform == 0 ? -cos(lfo_phase_mod * two_pi) :
+    waveform == 1 ? 2 * lfo_phase_mod - 1 :
+    waveform == 2 ? 1 - 2 * lfo_phase_mod :
+    waveform == 3 ? (lfo_phase_mod < 0.5 ? 4 * lfo_phase_mod - 1 : 3 - 4 * lfo_phase_mod) :
+    waveform == 4 ? (floor(lfo_phase_mod * 2) == 0 ? 1 : -1) :
+    waveform == 5 ? (
+        lfo_phase_mod < phase_inc ? (
+            random_val = rand() * 2 - 1;  // Generate new random value directly
+        );
+        random_val;
+    ) :
+    waveform == 6 ? (
+        lfo_phase_mod < phase_inc ? (
+            bin_value = rand() >= 0.5 ? 1 : -1;  // Generate new target value
+            bin_smooth_target = bin_value;  // Set smooth transition target value
+        );
+        // Smooth transition to target value
+        bin_smooth_factor = 0.1;  // Smoothing factor
+        bin_smooth_current = bin_smooth_current + (bin_smooth_target - bin_smooth_current) * bin_smooth_factor;
+        bin_smooth_current;
+    ) :
+    0;
+
+// Depth and Offset processing
+raw_value = offset + depth * lfo_shape_val;
+raw_value = max(-1, min(1, raw_value));
+
+// Jitter processing
+jitter_counter += 1;
+jitter_counter >= 20 ? (  // Every 20 samples
+    jitter_counter = 0;
+    jitter_target = rand() * 2 - 1;  // Generate new target value
+);
+// Smooth transition to target value
+jitter_current = jitter_current + (jitter_target - jitter_current) * 0.1;  // 0.1 is transition speed
+_jitter_rand_val = jitter_current * jitter_amt;
+raw_value = raw_value + _jitter_rand_val;
+raw_value = max(-1, min(1, raw_value));
+
+// Smooth processing
+smooth_val_target = raw_value;
+smooth < 0.001 ? (
+    smooth_value = smooth_val_target;
+) : (
+    smooth_factor = 1 - exp(-1 / (srate * smooth * 0.1 + 0.000000001));
+    smooth_value = smooth_value + (smooth_val_target - smooth_value) * smooth_factor;
+);
+
+// Output processing
+param_out = smooth_value * 100;
+
+// Store data in oscilloscope buffer
+(osc_buffer_size > 0 && srate > 0) ? (
+    osc_buffer[osc_buffer_ptr] = slider1;
+    osc_buffer_ptr = (osc_buffer_ptr + 1) % osc_buffer_size;
+);
+
+// Hold processing
+hold ? slider1 = hold_val : (slider1 = param_out; hold_val = param_out);
+
+@gfx 150 200  // Set height to 200 pixels
+
+// Dark gray background
+gfx_r = gfx_g = gfx_b = 0.08;  // Slightly lighter black
+gfx_rect(0,0,gfx_w,gfx_h,1);
+
+// Set font size
+max_font_size = 18;
+min_font_size = 12;
+font_size = min(max(gfx_h * 0.06, min_font_size), max_font_size);
+gfx_setfont(1, "Arial", font_size, 0);
+
+// Output value display - use brighter white
+gfx_set(1,1,1,1);  // Pure white
+gfx_x = gfx_w * 0.02;
+gfx_y = gfx_h * 0.02;
+gfx_printf("LFO Out: %.2f", slider1);
+
+// Unified button height
+button_h = font_size + 8;  // Increased button height
+
+// Calculate button widths
+_retrigger_text_w = 0; _retrigger_text_h = 0;
+gfx_measurestr("Retrigger", _retrigger_text_w, _retrigger_text_h);
+_retrigger_w = _retrigger_text_w + font_size * 0.8;
+
+_hold_text_w = 0; _hold_text_h = 0;
+gfx_measurestr("Hold", _hold_text_w, _hold_text_h);
+_hold_w = _hold_text_w + font_size * 0.8;
+
+// Unified spacing
+btn_spacing = font_size * 0.6;
+
+// Calculate button positions
+_hold_x = gfx_w - gfx_w * 0.04 - _hold_w;
+_hold_y = gfx_h * 0.02;
+_retrigger_x = _hold_x - btn_spacing - _retrigger_w;
+_retrigger_y = _hold_y;
+
+// Improved button style
+function draw_button(x, y, w, h, text, is_active) (
+    // Button background
+    is_active ? (
+        gfx_set(0.2,0.7,0.4,1);  // Active state - brighter green
+    ) : (
+        mouse_cap == 1 && mouse_x >= x && mouse_x <= (x + w) && mouse_y >= y && mouse_y <= (y + h) ? (
+            gfx_set(0.25,0.25,0.25,1);  // Hover state - brighter gray
+        ) : (
+            gfx_set(0.18,0.18,0.18,1);  // Default state - brighter dark gray
+        );
+    );
+    gfx_rect(x, y, w, h, 1);
+    
+    // Button border
+    gfx_set(0.3,0.3,0.3,1);  // Brighter border color
+    gfx_rect(x, y, w, h, 0);
+    
+    // Center text
+    text_w = 0; text_h = 0;
+    gfx_measurestr(text, text_w, text_h);
+    text_x = x + (w - text_w) / 2;
+    text_y = y + (h - text_h) / 2;
+    
+    gfx_set(1,1,1,1);  // Pure white
+    gfx_x = floor(text_x);
+    gfx_y = floor(text_y);
+    gfx_drawstr(text);
+);
+
+draw_button(_retrigger_x, _retrigger_y, _retrigger_w, button_h, "Retrigger", slider11 == 1);
+draw_button(_hold_x, _hold_y, _hold_w, button_h, "Hold", slider10 == 1);
+
+// --- Oscilloscope Drawing ---
+gfx_osc_x_start = gfx_w * 0.02;
+gfx_osc_y_start = _hold_y + button_h + font_size * 0.5;
+gfx_osc_w = gfx_w * 0.96;
+gfx_osc_h = gfx_h - gfx_osc_y_start - gfx_h * 0.03;
+
+osc_buffer_is_valid = osc_buffer_size > 0 && gfx_osc_w > 1 && srate > 0;
+
+osc_buffer_is_valid ? (
+    // Draw grid
+    gfx_set(0.12,0.12,0.12,1);
+    
+    // Horizontal grid lines
+    grid_lines = 5;
+    grid_spacing = gfx_osc_h / grid_lines;
+    i = 0;
+    while(i <= grid_lines) (
+        y = gfx_osc_y_start + i * grid_spacing;
+        gfx_line(gfx_osc_x_start, y, gfx_osc_x_start + gfx_osc_w, y);
+        i += 1;
+    );
+    
+    // Vertical grid lines
+    grid_lines = 10;
+    grid_spacing = gfx_osc_w / grid_lines;
+    i = 0;
+    while(i <= grid_lines) (
+        x = gfx_osc_x_start + i * grid_spacing;
+        gfx_line(x, gfx_osc_y_start, x, gfx_osc_y_start + gfx_osc_h);
+        i += 1;
+    );
+
+    // Draw center line
+    gfx_set(0.15,0.15,0.15,1);
+    gfx_line(gfx_osc_x_start, gfx_osc_y_start + gfx_osc_h/2, 
+             gfx_osc_x_start + gfx_osc_w, gfx_osc_y_start + gfx_osc_h/2);
+
+    // Draw waveform
+    gfx_set(0.3,0.9,0.5,1);
+    
+    // Use optimized drawing algorithm
+    samples_per_pixel = 2;  // Keep moderate sampling density
+    total_samples = gfx_osc_w * samples_per_pixel;
+    
+    // Calculate first point position (skip boundaries)
+    first_sample_offset = floor(1 * (osc_buffer_size - 1) / (total_samples - 1));
+    first_buf_idx = (osc_buffer_ptr + first_sample_offset) % osc_buffer_size;
+    first_val = osc_buffer[first_buf_idx];
+    first_x = gfx_osc_x_start + (1 / samples_per_pixel);
+    first_y = gfx_osc_y_start + gfx_osc_h/2 - (first_val / 100 * (gfx_osc_h/2));
+    first_y = max(gfx_osc_y_start, min(gfx_osc_y_start + gfx_osc_h - 1, first_y));
+    
+    // Use smooth line drawing
+    _osc_plot_prev_x = first_x;
+    _osc_plot_prev_y = first_y;
+    
+    i = 2;  // Start from second point
+    while(i < total_samples-1) (  // End at second to last point
+        // Calculate sample point position
+        sample_offset = floor(i * (osc_buffer_size - 1) / (total_samples - 1));
+        buf_idx = (osc_buffer_ptr + sample_offset) % osc_buffer_size;
+        
+        // Use simple linear interpolation
+        val = osc_buffer[buf_idx];
+        
+        x = gfx_osc_x_start + (i / samples_per_pixel);
+        y = gfx_osc_y_start + gfx_osc_h/2 - (val / 100 * (gfx_osc_h/2));
+        y = max(gfx_osc_y_start, min(gfx_osc_y_start + gfx_osc_h - 1, y));
+        
+        // Use smooth line drawing
+        dx = x - _osc_plot_prev_x;
+        dy = y - _osc_plot_prev_y;
+        steps = max(abs(dx), abs(dy));
+        
+        steps > 0 ? (
+            x_inc = dx / steps;
+            y_inc = dy / steps;
+            
+            j = 0;
+            while(j <= steps) (
+                curr_x = _osc_plot_prev_x + j * x_inc;
+                curr_y = _osc_plot_prev_y + j * y_inc;
+                
+                // Use smooth line drawing
+                gfx_line(
+                    curr_x-0.5, curr_y,
+                    curr_x+0.5, curr_y,
+                    1
+                );
+                
+                j += 1;
+            );
+        );
+        
+        _osc_plot_prev_x = x;
+        _osc_plot_prev_y = y;
+        
+        i += 1;
+    );
+    
+    // Add additional smoothing layer
+    gfx_set(0.3,0.9,0.5,0.3);  // Use semi-transparent color
+    i = 2;  // Start from second point
+    while(i < total_samples-2) (  // End at third to last point
+        sample_offset = floor(i * (osc_buffer_size - 1) / (total_samples - 1));
+        buf_idx = (osc_buffer_ptr + sample_offset) % osc_buffer_size;
+        next_buf_idx = (buf_idx + 1) % osc_buffer_size;
+        
+        val = osc_buffer[buf_idx];
+        next_val = osc_buffer[next_buf_idx];
+        
+        x = gfx_osc_x_start + (i / samples_per_pixel);
+        next_x = gfx_osc_x_start + ((i + 1) / samples_per_pixel);
+        
+        y = gfx_osc_y_start + gfx_osc_h/2 - (val / 100 * (gfx_osc_h/2));
+        next_y = gfx_osc_y_start + gfx_osc_h/2 - (next_val / 100 * (gfx_osc_h/2));
+        
+        y = max(gfx_osc_y_start, min(gfx_osc_y_start + gfx_osc_h - 1, y));
+        next_y = max(gfx_osc_y_start, min(gfx_osc_y_start + gfx_osc_h - 1, next_y));
+        
+        // Draw smooth transition
+        gfx_line(x, y, next_x, next_y, 1);
+        
+        i += 1;
+    );
+);
+
+// Mouse handling
+mouse_cap != mouse_last ? (
+    mouse_cap == 1 ? (
+        // Hold button
+        mouse_x >= _hold_x && mouse_x <= (_hold_x + _hold_w) && mouse_y >= _hold_y && mouse_y <= (_hold_y + button_h) ? (
+            slider10 = !slider10;
+            slider_automate(slider10);
+        );
+        // Retrigger button
+        mouse_x >= _retrigger_x && mouse_x <= (_retrigger_x + _retrigger_w) && mouse_y >= _retrigger_y && mouse_y <= (_retrigger_y + button_h) ? (
+            slider11 = 1;
+            slider_automate(slider11);
+        );
+    ) : (
+        slider11 = 0;
+        slider_automate(slider11);
+    );
+    mouse_last = mouse_cap;
+);
+
+// Draw pixel onion in bottom right corner
+function draw_pixel_onion(x, y) (
+    // Set onion color - light purple
+    gfx_set(0.8, 0.6, 0.9, 1);
+    
+    // Onion body - horizontal ellipse
+    gfx_rect(x, y+2, 12, 4, 1);   // Outer layer
+    gfx_rect(x+1, y+1, 10, 6, 1); // Middle layer
+    gfx_rect(x+2, y, 8, 8, 1);    // Inner layer
+    
+    // Onion top
+    gfx_rect(x+4, y-2, 4, 2, 1);  // Top
+    gfx_rect(x+3, y-1, 6, 1, 1);  // Connection
+    
+    // Onion vertical stripes - dark purple, with curves
+    gfx_set(0.6, 0.4, 0.7, 1);
+    // Left stripe
+    gfx_line(x+3, y, x+2, y+2, 1);
+    gfx_line(x+2, y+2, x+3, y+4, 1);
+    gfx_line(x+3, y+4, x+2, y+6, 1);
+    gfx_line(x+2, y+6, x+3, y+8, 1);
+    
+    // Middle-left stripe
+    gfx_line(x+5, y, x+4, y+2, 1);
+    gfx_line(x+4, y+2, x+5, y+4, 1);
+    gfx_line(x+5, y+4, x+4, y+6, 1);
+    gfx_line(x+4, y+6, x+5, y+8, 1);
+    
+    // Middle-right stripe
+    gfx_line(x+7, y, x+6, y+2, 1);
+    gfx_line(x+6, y+2, x+7, y+4, 1);
+    gfx_line(x+7, y+4, x+6, y+6, 1);
+    gfx_line(x+6, y+6, x+7, y+8, 1);
+    
+    // Right stripe
+    gfx_line(x+9, y, x+8, y+2, 1);
+    gfx_line(x+8, y+2, x+9, y+4, 1);
+    gfx_line(x+9, y+4, x+8, y+6, 1);
+    gfx_line(x+8, y+6, x+9, y+8, 1);
+    
+    // Add some highlights
+    gfx_set(0.9, 0.7, 1, 1);  // Brighter purple
+    gfx_rect(x+4, y+2, 4, 4, 1);  // Center highlight
+);
+
+// Draw onion in bottom right corner
+draw_pixel_onion(gfx_w - 16, gfx_h - 10);
