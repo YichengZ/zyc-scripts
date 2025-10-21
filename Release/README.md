@@ -1,84 +1,84 @@
 # Zyc Scripts
 
-专业的音频脚本集合，目前专注于REAPER效果插件，通过ReaPack轻松安装和管理。
+Professional audio scripts collection, currently focused on REAPER effect plugins, easily installable and manageable through ReaPack.
 
-## 🎵 REAPER 脚本
+## 🎵 REAPER Scripts
 
 ### zyc_EnvFollower
-专业的包络跟随器，具有以下特性：
-- **Peak/RMS检测模式** - 快速峰值检测或平滑RMS检测
-- **滤波器预处理** - 高通和低通滤波器，频率范围20Hz-20kHz
-- **平滑处理** - Cockos风格的时间基础平滑，消除跳跃显示
-- **实时示波器** - 2秒窗口的实时波形显示
-- **调试功能** - 完整的信号链调试信息
+Professional envelope follower with the following features:
+- **Peak/RMS Detection Modes** - Fast peak detection or smooth RMS detection
+- **Filter Preprocessing** - High-pass and low-pass filters, frequency range 20Hz-20kHz
+- **Smooth Processing** - Cockos-style time-based smoothing, eliminating display jumps
+- **Real-time Oscilloscope** - 2-second window real-time waveform display
+- **Debug Features** - Complete signal chain debugging information
 
 ### zyc_LFO
-高级LFO调制器，具有以下特性：
-- **7种波形类型** - 正弦波、上升、下降、三角波、方波、随机、二进制
-- **精确频率控制** - 精细和粗糙频率调节
-- **抖动效果** - 添加随机变化
-- **平滑处理** - 指数平滑算法
-- **Hold和Retrigger** - 保持当前值和重新触发功能
-- **实时可视化** - 实时波形显示
+Advanced LFO modulator with the following features:
+- **7 Waveform Types** - Sine, Up, Down, Triangle, Square, Random, Binary
+- **Precise Frequency Control** - Fine and coarse frequency adjustment
+- **Jitter Effect** - Add random variations
+- **Smooth Processing** - Exponential smoothing algorithm
+- **Hold and Retrigger** - Hold current value and retrigger functionality
+- **Real-time Visualization** - Real-time waveform display
 
-## 🚀 安装方法
+## 🚀 Installation
 
-### 通过ReaPack安装（推荐）
+### Via ReaPack (Recommended)
 
-1. 确保已安装ReaPack插件
-2. 在REAPER中：`Extensions` > `ReaPack` > `Manage repositories`
-3. 点击 `Import a repository`
-4. 粘贴以下URL：
+1. Ensure ReaPack plugin is installed
+2. In REAPER: `Extensions` > `ReaPack` > `Manage repositories`
+3. Click `Import a repository`
+4. Paste the following URL:
    ```
    https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml
    ```
-5. 点击 `OK` 然后 `Apply`
-6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
+5. Click `OK` then `Apply`
+6. Search and install scripts in `Extensions` > `ReaPack` > `Browse packages`
 
-## 📖 使用方法
+## 📖 Usage
 
 ### zyc_EnvFollower
-1. 将效果添加到音频轨道
-2. 调整输入增益和滤波器设置
-3. 选择Peak或RMS检测模式
-4. 设置Attack和Release时间
-5. 使用Main Output控制包络跟随的输出
+1. Add effect to audio track
+2. Adjust input gain and filter settings
+3. Select Peak or RMS detection mode
+4. Set Attack and Release times
+5. Use Main Output to control envelope follower output
 
 ### zyc_LFO
-1. 将效果添加到需要调制的参数轨道
-2. 选择波形类型
-3. 调整频率（Fine + Coarse）
-4. 设置深度和偏移
-5. 可选：添加抖动和平滑效果
-6. 使用Hold和Retrigger功能
+1. Add effect to parameter track that needs modulation
+2. Select waveform type
+3. Adjust frequency (Fine + Coarse)
+4. Set depth and offset
+5. Optional: Add jitter and smooth effects
+6. Use Hold and Retrigger functions
 
-## 🔧 技术特性
+## 🔧 Technical Features
 
-- **高性能** - 优化的算法，低CPU占用
-- **实时显示** - 60fps的实时波形显示
-- **专业级平滑** - Cockos风格的时间基础平滑算法
-- **完整调试** - 详细的信号链调试信息
-- **现代UI** - 深色主题，清晰的视觉反馈
+- **High Performance** - Optimized algorithms, low CPU usage
+- **Real-time Display** - 60fps real-time waveform display
+- **Professional Smoothing** - Cockos-style time-based smoothing algorithm
+- **Complete Debugging** - Detailed signal chain debugging information
+- **Modern UI** - Dark theme, clear visual feedback
 
-## 📝 版本历史
+## 📝 Version History
 
 ### zyc_EnvFollower v1.0.0
-- 初始发布
-- 专业包络跟随器，具有完整的Peak/RMS检测功能
+- Initial release
+- Professional envelope follower with complete Peak/RMS detection functionality
 
 ### zyc_LFO v1.0.0
-- 初始发布
-- 精简版本，保留核心LFO功能
-- 优化的性能和简化的UI
+- Initial release
+- Lite version with core LFO features
+- Optimized performance and simplified UI
 
-## 👨‍💻 作者
+## 👨‍💻 Author
 
 **EthanZhu** - [@yichengzhu316@outlook.com](mailto:yichengzhu316@outlook.com)
 
-## 📄 许可证
+## 📄 License
 
-本项目采用开源许可证，欢迎使用和修改。
+This project is licensed under an open source license. Feel free to use and modify.
 
-## 🆘 支持
+## 🆘 Support
 
-如有问题或建议，请通过GitHub Issues联系。
+For questions or suggestions, please contact via GitHub Issues.
