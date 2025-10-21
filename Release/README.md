@@ -2,7 +2,7 @@
 
 专业的REAPER音频效果脚本集合，通过ReaPack轻松安装和管理。
 
-## 包含的脚本
+## 🎵 包含的脚本
 
 ### zyc_EnvFollower
 专业的包络跟随器，具有以下特性：
@@ -21,7 +21,7 @@
 - **Hold和Retrigger** - 保持当前值和重新触发功能
 - **实时可视化** - 实时波形显示
 
-## 安装方法
+## 🚀 安装方法
 
 ### 通过ReaPack安装（推荐）
 
@@ -30,18 +30,12 @@
 3. 点击 `Import a repository`
 4. 粘贴以下URL：
    ```
-   https://github.com/zhuyicheng/Zyc_Reaper_Mod/raw/main/index.xml
+   https://github.com/YichengZ/Zyc_Reaper_Mod/raw/main/Release/index.xml
    ```
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
 
-### 手动安装
-
-1. 下载对应的 `.jsfx` 文件
-2. 将文件复制到REAPER的Effects文件夹
-3. 重启REAPER或刷新效果列表
-
-## 使用方法
+## 📖 使用方法
 
 ### zyc_EnvFollower
 1. 将效果添加到音频轨道
@@ -58,7 +52,7 @@
 5. 可选：添加抖动和平滑效果
 6. 使用Hold和Retrigger功能
 
-## 技术特性
+## 🔧 技术特性
 
 - **高性能** - 优化的算法，低CPU占用
 - **实时显示** - 60fps的实时波形显示
@@ -66,7 +60,7 @@
 - **完整调试** - 详细的信号链调试信息
 - **现代UI** - 深色主题，清晰的视觉反馈
 
-## 版本历史
+## 📝 版本历史
 
 ### zyc_EnvFollower v3.3.0
 - 设置RMS平滑默认值为15%，获得最佳平衡
@@ -77,14 +71,14 @@
 - 精简版本，保留核心LFO功能
 - 优化的性能和简化的UI
 
-## 作者
+## 👨‍💻 作者
 
 **EthanZhu** - [@yichengzhu316@outlook.com](mailto:yichengzhu316@outlook.com)
 
-## 许可证
+## 📄 许可证
 
 本项目采用开源许可证，欢迎使用和修改。
 
-## 支持
+## 🆘 支持
 
 如有问题或建议，请通过GitHub Issues联系。

@@ -24,11 +24,13 @@ Thumbs.db
 *.backup
 *~
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Development files (keep private)
+Development/
+*.jsfx.bak
+*.jsfx.backup
+
+# Old script versions (keep private)
+zyc_EnvFollower_v*.jsfx
+zyc_LFO_Lite.jsfx
+zyc_LFO
+cockos_meter
