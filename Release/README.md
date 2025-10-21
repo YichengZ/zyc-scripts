@@ -1,4 +1,4 @@
-# ZYC Scripts
+# Zyc Scripts
 
 专业的音频脚本集合，目前专注于REAPER效果插件，通过ReaPack轻松安装和管理。
 
