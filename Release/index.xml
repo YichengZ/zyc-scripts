@@ -5,13 +5,13 @@
       <description>Professional envelope follower with Peak/RMS detection</description>
       <author>EthanZhu</author>
       <version>3.3.0</version>
-      <link>https://raw.githubusercontent.com/YichengZ/zyc_Reaper_Mod/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</link>
+      <link>https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</link>
     </package>
     <package name="zyc_LFO" type="effect">
       <description>Advanced LFO modulator with 7 waveform types</description>
       <author>EthanZhu</author>
       <version>1.0.0</version>
-      <link>https://raw.githubusercontent.com/YichengZ/zyc_Reaper_Mod/main/Release/Scripts/Effects/zyc_LFO.jsfx</link>
+      <link>https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_LFO.jsfx</link>
     </package>
   </repository>
 </index>
