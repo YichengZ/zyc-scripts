@@ -25,7 +25,7 @@
 
 ### 通过ReaPack安装（推荐）
 
-1. 确保已安装ReaPack插件
+1. 确保已安装 [ReaPack插件](https://reapack.com/)
 2. 在REAPER中：`Extensions` > `ReaPack` > `Manage repositories`
 3. 点击 `Import a repository`
 4. 粘贴以下URL：
@@ -34,6 +34,25 @@
    ```
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
+
+## 🔗 推荐配套脚本
+
+为了获得更好的工作流程，我们建议与Zyc Scripts一起使用这些脚本：
+
+### 必要依赖
+- **[ReaTeam Scripts](https://github.com/ReaTeam/ReaScripts)** - 核心ReaTeam仓库
+- **[MGUI](https://github.com/ReaTeam/ReaScripts/tree/master/ReaTeam Scripts/Development/MGUI)** - REAPER脚本的现代GUI框架
+
+### 推荐配套脚本
+- **[Paranormal FX](https://github.com/ReaTeam/ReaScripts/tree/master/ReaTeam Scripts/Effects/Paranormal%20FX)** - 高级音频效果集合
+- **[Saxmand FX Router](https://github.com/ReaTeam/ReaScripts/tree/master/ReaTeam Scripts/Effects/Saxmand%20FX%20Router)** - 灵活的效果路由系统
+
+### 安装顺序
+1. 首先安装 [ReaPack](https://reapack.com/)
+2. 添加ReaTeam仓库：`https://github.com/ReaTeam/ReaScripts/raw/master/index.xml`
+3. 安装MGUI框架
+4. 安装Paranormal FX和Saxmand FX Router
+5. 添加Zyc Scripts仓库并安装我们的效果
 
 ## 📖 使用方法
 
