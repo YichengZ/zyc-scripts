@@ -1,17 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<index version="1">
-  <repository name="ZYC Reaper Scripts">
-    <package name="zyc_EnvFollower" type="effect">
-      <description>Professional envelope follower with Peak/RMS detection</description>
-      <author>EthanZhu</author>
-      <version>3.3.0</version>
-      <link>https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</link>
-    </package>
-    <package name="zyc_LFO" type="effect">
-      <description>Advanced LFO modulator with 7 waveform types</description>
-      <author>EthanZhu</author>
-      <version>1.0.0</version>
-      <link>https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_LFO.jsfx</link>
-    </package>
-  </repository>
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" name="ZYC Reaper Scripts" commit="1bac2da">
+  <category name="Effects">
+    <reapack name="zyc_EnvFollower.jsfx" type="effect" desc="Professional envelope follower with Peak/RMS detection">
+      <version name="3.3.0" author="EthanZhu" time="2025-01-21T00:00:00Z">
+        <changelog><![CDATA[Set RMS Smooth default to 15% for optimal balance
+Added RMS Smooth control to eliminate step-like changes
+Fixed Y-coordinate alignment for oscilloscope display
+Optimized Peak response and smooth drawing]]></changelog>
+        <source main="main">https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="zyc_LFO.jsfx" type="effect" desc="Advanced LFO modulator with 7 waveform types">
+      <version name="1.0.0" author="EthanZhu" time="2025-01-21T00:00:00Z">
+        <changelog><![CDATA[Initial release - Lite version with core LFO features]]></changelog>
+        <source main="main">https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_LFO.jsfx</source>
+      </version>
+    </reapack>
+  </category>
+  <metadata>
+    <description><![CDATA[Professional REAPER audio effect scripts by EthanZhu
+- zyc_EnvFollower: Professional envelope follower with Peak/RMS detection
+- zyc_LFO: Advanced LFO modulator with 7 waveform types]]></description>
+    <link rel="website">https://github.com/YichengZ/zyc_Reaper_Mod</link>
+  </metadata>
 </index>
