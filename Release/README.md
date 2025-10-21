@@ -30,7 +30,7 @@
 3. 点击 `Import a repository`
 4. 粘贴以下URL：
    ```
-   https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/index.xml
+   https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml
    ```
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
