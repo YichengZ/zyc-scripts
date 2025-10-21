@@ -1,8 +1,8 @@
-# ZYC Reaper Scripts
+# ZYC Scripts
 
-专业的REAPER音频效果脚本集合，通过ReaPack轻松安装和管理。
+专业的音频脚本集合，目前专注于REAPER效果插件，通过ReaPack轻松安装和管理。
 
-## 🎵 包含的脚本
+## 🎵 REAPER 脚本
 
 ### zyc_EnvFollower
 专业的包络跟随器，具有以下特性：
@@ -30,7 +30,7 @@
 3. 点击 `Import a repository`
 4. 粘贴以下URL：
    ```
-   https://github.com/YichengZ/Zyc_Reaper_Mod/raw/main/Release/index.xml
+   https://github.com/YichengZ/zyc_Reaper_Mod/raw/main/Release/index.xml
    ```
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
@@ -62,9 +62,9 @@
 
 ## 📝 版本历史
 
-### zyc_EnvFollower v3.3.0
-- 设置RMS平滑默认值为15%，获得最佳平衡
-- 提供适度的平滑效果和合理的响应速度
+### zyc_EnvFollower v1.0.0
+- 初始发布
+- 专业包络跟随器，具有完整的Peak/RMS检测功能
 
 ### zyc_LFO v1.0.0
 - 初始发布
