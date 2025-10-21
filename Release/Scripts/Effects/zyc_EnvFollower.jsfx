@@ -1,7 +1,12 @@
 desc:zyc_EnvFollower (Envelope Follower)
 //author: EthanZhu @yichengzhu316@outlook.com
-//version: v3.3
+//version: v1.0
 //changelog:
+//v1.0 - Initial release
+//  - Professional envelope follower with Peak/RMS detection
+//  - Filter preprocessing with HPF/LPF
+//  - Smooth processing and real-time oscilloscope display
+//  - Complete debugging functionality
 //v3.3 - Set RMS Smooth default to 15% for optimal balance
 //  - RMS Smooth slider now defaults to 15% for good balance
 //  - Provides moderate smoothing with reasonable response speed
