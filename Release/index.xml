@@ -4,7 +4,7 @@
     <description>Professional envelope follower with Peak/RMS detection, filtering, and real-time oscilloscope display</description>
     <author>EthanZhu</author>
     <version>3.3.0</version>
-    <link>https://github.com/zhuyicheng/Zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</link>
+    <link>https://github.com/YichengZ/Zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_EnvFollower.jsfx</link>
     <changelog>
       <version number="3.3.0" date="2025-01-21">
         <description>Set RMS Smooth default to 15% for optimal balance</description>
@@ -25,7 +25,7 @@
     <description>Advanced LFO modulator with 7 waveform types, jitter, smoothing, and real-time visualization</description>
     <author>EthanZhu</author>
     <version>1.0.0</version>
-    <link>https://github.com/zhuyicheng/Zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_LFO.jsfx</link>
+    <link>https://github.com/YichengZ/Zyc_Reaper_Mod/raw/main/Release/Scripts/Effects/zyc_LFO.jsfx</link>
     <changelog>
       <version number="1.0.0" date="2025-01-21">
         <description>Initial release - Lite version with core LFO features</description>
