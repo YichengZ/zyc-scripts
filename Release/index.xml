@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <index version="1">
+  <repository name="ZYC Reaper Scripts">
+    <description>Professional REAPER audio effect scripts by EthanZhu</description>
+    <author>EthanZhu</author>
+    <url>https://github.com/YichengZ/Zyc_Reaper_Mod</url>
+  </repository>
+  
   <package name="zyc_EnvFollower" type="effect">
     <description>Professional envelope follower with Peak/RMS detection, filtering, and real-time oscilloscope display</description>
     <author>EthanZhu</author>
