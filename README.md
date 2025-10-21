@@ -1,6 +1,6 @@
 # Zyc Scripts
 
-Professional audio scripts collection by EthanZhu.
+Advanced audio scripts collection by EthanZhu.
 
 ## 📁 Repository Structure
 
@@ -21,7 +21,7 @@ zyc-scripts/
 ## 🎵 Current Scripts
 
 ### REAPER Effects
-- **zyc_EnvFollower** - Professional envelope follower with Peak/RMS detection
+- **zyc_EnvFollower** - Advanced envelope follower with Peak/RMS detection
 - **zyc_LFO** - Advanced LFO modulator with 7 waveform types
 
 ## 🚀 Installation

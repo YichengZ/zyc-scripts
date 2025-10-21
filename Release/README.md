@@ -1,11 +1,11 @@
 # Zyc Scripts
 
-Professional audio scripts collection, currently focused on REAPER effect plugins, easily installable and manageable through ReaPack.
+Advanced audio scripts collection, currently focused on REAPER effect plugins, easily installable and manageable through ReaPack.
 
 ## 🎵 REAPER Scripts
 
 ### zyc_EnvFollower
-Professional envelope follower with the following features:
+Advanced envelope follower with the following features:
 - **Peak/RMS Detection Modes** - Fast peak detection or smooth RMS detection
 - **Filter Preprocessing** - High-pass and low-pass filters, frequency range 20Hz-20kHz
 - **Smooth Processing** - Cockos-style time-based smoothing, eliminating display jumps
@@ -56,7 +56,7 @@ Advanced LFO modulator with the following features:
 
 - **High Performance** - Optimized algorithms, low CPU usage
 - **Real-time Display** - 60fps real-time waveform display
-- **Professional Smoothing** - Cockos-style time-based smoothing algorithm
+- **High-quality Smoothing** - Cockos-style time-based smoothing algorithm
 - **Complete Debugging** - Detailed signal chain debugging information
 - **Modern UI** - Dark theme, clear visual feedback
 
@@ -64,7 +64,7 @@ Advanced LFO modulator with the following features:
 
 ### zyc_EnvFollower v1.0.0
 - Initial release
-- Professional envelope follower with complete Peak/RMS detection functionality
+- Advanced envelope follower with complete Peak/RMS detection functionality
 
 ### zyc_LFO v1.0.0
 - Initial release
