@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <index version="1">
-  <repository name="ZYC Reaper Scripts">
+  <repository name="ZYC Reaper Scripts" url="https://github.com/YichengZ/Zyc_Reaper_Mod">
     <description>Professional REAPER audio effect scripts by EthanZhu</description>
     <author>EthanZhu</author>
-    <url>https://github.com/YichengZ/Zyc_Reaper_Mod</url>
   </repository>
   
   <package name="zyc_EnvFollower" type="effect">
