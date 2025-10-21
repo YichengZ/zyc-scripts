@@ -27,7 +27,7 @@ zyc-scripts/
 ## 🚀 Installation
 
 ### For REAPER Users
-1. Install ReaPack plugin
+1. Install [ReaPack plugin](https://reapack.com/)
 2. Add repository: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
 3. Browse and install scripts
 
