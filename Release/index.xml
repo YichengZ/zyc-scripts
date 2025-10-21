@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ZYC Scripts" commit="1bac2da">
+<index version="1" name="Zyc Scripts" commit="1bac2da">
   <category name="Effects">
     <reapack name="zyc_EnvFollower.jsfx" type="effect" desc="Professional envelope follower with Peak/RMS detection">
       <version name="1.0.0" author="EthanZhu" time="2025-01-21T00:00:00Z">
