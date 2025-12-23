@@ -1,6 +1,6 @@
 # Zyc Scripts
 
-Advanced audio scripts collection by EthanZhu.
+Advanced REAPER scripts collection by EthanZhu (Yicheng Zhu).
 
 ## 📁 Repository Structure
 
@@ -8,7 +8,9 @@ Advanced audio scripts collection by EthanZhu.
 zyc-scripts/
 ├── Release/                   # 🚀 Published scripts
 │   ├── REAPER/               # REAPER scripts
-│   │   └── Effects/          # Effect plugins
+│   │   ├── Effects/          # Effect plugins (JSFX)
+│   │   └── Scripts/          # Lua scripts
+│   │       └── ReaPet/      # ReaPet companion app
 │   ├── index.xml             # ReaPack index
 │   ├── README.md             # English documentation
 │   └── README_CN.md          # Chinese documentation
@@ -16,10 +18,13 @@ zyc-scripts/
 │   ├── zyc_EnvFollower.jsfx  # Development versions
 │   └── zyc_LFO.jsfx
 └── README.md                 # This file
-
 ```
 
 ## 🎵 Current Scripts
+
+### REAPER Scripts
+
+* **zyc_ReaPet** - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
 
 ### REAPER Effects
 
@@ -30,21 +35,60 @@ zyc-scripts/
 
 ### For REAPER Users
 
-1. Install [ReaPack plugin](https://reapack.com/)
-2. Add repository: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
-3. Browse and install scripts
+1. **Install ReaPack plugin** (if not already installed)
+   - Download from [reapack.com](https://reapack.com/)
+   - Install and restart REAPER
+
+2. **Add repository**
+   - In REAPER: `Extensions` > `ReaPack` > `Manage repositories...`
+   - Click `Import a repository`
+   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
+   - Click `OK` then `Apply`
+
+3. **Install scripts**
+   - `Extensions` > `ReaPack` > `Browse packages...`
+   - Search for scripts (e.g., `zyc_ReaPet`, `zyc_EnvFollower`)
+   - Click `Install`
+
+4. **Run scripts**
+   - Find scripts in `Actions` list or ReaPack browser
+   - Run directly or add to toolbar
 
 ### For Developers
 
 1. Clone the repository
 2. Modify scripts in `Development/` folder
 3. Copy to `Release/` when ready to publish
-4. Update version numbers and commit
+4. Update `Release/index.xml` with new version
+5. Commit and push changes
 
 ## 📖 Documentation
 
-* **English**: [Release/README.md](./Release/README.md)
-* **中文**: [Release/README_CN.md](./Release/README_CN.md)
+### Scripts Documentation
+
+* **English**: [Release/README.md](Release/README.md)
+* **中文**: [Release/README_CN.md](Release/README_CN.md)
+
+### ReaPet Documentation
+
+* **User Guide**: See [Release/REAPER/Scripts/ReaPet/README.md](Release/REAPER/Scripts/ReaPet/README.md)
+* **API Reference**: See [Release/REAPER/Scripts/ReaPet/docs/API_REFERENCE.md](Release/REAPER/Scripts/ReaPet/docs/API_REFERENCE.md)
+* **Skin Configuration**: See [Release/REAPER/Scripts/ReaPet/docs/SKIN_CONFIGURATION_GUIDE.md](Release/REAPER/Scripts/ReaPet/docs/SKIN_CONFIGURATION_GUIDE.md)
+
+## 🎯 Featured Scripts
+
+### zyc_ReaPet
+
+A comprehensive REAPER companion application featuring:
+
+- 📊 **Operation Statistics** - Track operations, time, and active time (global and project level)
+- 🍅 **Pomodoro Timer** - Focus/break timer with customizable presets
+- 🎁 **Treasure Box System** - Discover and try new plugins randomly
+- 💰 **Coin System & Shop** - Earn coins and unlock character skins
+- 🎨 **8 Character Skins** - cat, dog, bear, rabbit, koala, lion, onion, chick
+- 🔄 **Multi-Project Support** - Automatic data switching between projects
+
+Perfect for tracking your REAPER workflow and staying focused!
 
 ## 🔧 Development Workflow
 
@@ -70,7 +114,7 @@ zyc-scripts/
 
 ## 👨‍💻 Author
 
-**EthanZhu** - @yichengzhu316@outlook.com
+**EthanZhu (Yicheng Zhu)** - @yichengzhu316@outlook.com
 
 ## 📄 License
 
