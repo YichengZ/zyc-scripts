@@ -4,6 +4,15 @@ Advanced audio scripts collection, currently focused on REAPER effect plugins, e
 
 ## 🎵 REAPER Scripts
 
+### zyc_ReaPet
+REAPER companion app with the following features:
+- **Operation Statistics** - Track operations, time, and active time (global and project level)
+- **Pomodoro Timer** - Focus/break timer with customizable presets
+- **Treasure Box System** - Discover and try new plugins randomly
+- **Coin System & Shop** - Earn coins and unlock character skins
+- **8 Character Skins** - cat, dog, bear, rabbit, koala, lion, onion, chick
+- **Multi-Project Support** - Automatic data switching between projects
+
 ### zyc_EnvFollower
 Advanced envelope follower with the following features:
 - **Peak/RMS Detection Modes** - Fast peak detection or smooth RMS detection
@@ -89,6 +98,12 @@ For enhanced workflow, we recommend using these scripts together with Zyc Script
 - Initial release
 - Lite version with core LFO features
 - Optimized performance and simplified UI
+
+### zyc_ReaPet v1.0.0
+- Initial release
+- Complete REAPER companion app with stats tracking, pomodoro timer, and treasure box system
+- 8 character skins with PNG layered rendering
+- Multi-project support with automatic data management
 
 ## 👨‍💻 Author
 

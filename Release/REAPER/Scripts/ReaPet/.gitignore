@@ -1,0 +1,52 @@
+# REAPER Companion .gitignore
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+
+# 数据文件（用户数据，不应提交）
+data/companion_data.json
+docs/tests/data/companion_data.json
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Lua 字节码（如果有）
+*.luac
+
+# 备份文件
+*_backup.lua
+*_old.lua
+*.orig
+
+# 测试文件
+test_*.lua
+*_test.lua
+
+# 临时文档
+STRUCTURE_SUMMARY.txt
+CLEANUP_PLAN.md
+*_SUMMARY.txt
+
+# 未使用的工具文件
+# ui/utils/
