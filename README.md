@@ -48,11 +48,25 @@ zyc-scripts/
 
 ## 🔧 Development Workflow
 
+### For Effects (JSFX)
+
 1. **Develop**: Edit scripts in `Development/` folder
 2. **Test**: Ensure functionality works correctly
 3. **Release**: Copy to `Release/REAPER/Effects/`
 4. **Update**: Modify `Release/index.xml` with new version
 5. **Commit**: Push changes to GitHub
+
+### For Scripts (Lua)
+
+1. **Develop**: Work in separate repository (e.g., ReaPet)
+2. **Test**: Ensure functionality works correctly
+3. **Release**: Merge to `main` branch
+4. **Sync**: Use sync script to update zyc-scripts
+   ```bash
+   ./scripts/sync_to_zyc_scripts.sh v1.0.0
+   ```
+5. **Update**: Modify `Release/index.xml` with new version
+6. **Commit**: Push changes to GitHub
 
 ## 👨‍💻 Author
 
