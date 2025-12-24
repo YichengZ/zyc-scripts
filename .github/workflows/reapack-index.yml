@@ -75,25 +75,24 @@ jobs:
           echo "=== reapack-index 执行成功 ==="
           rm -f reapack-output.log
       
-      - name: Check for changes
-        id: check-changes
+      - name: Check for new commits
+        id: check-commits
         run: |
           cd Release
-          if [ -n "$(git status --porcelain index.xml)" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ index.xml 有更新"
-            git diff index.xml | head -30
+          # reapack-index --commit 会创建提交，检查是否有新提交需要推送
+          if [ -n "$(git log origin/main..HEAD --oneline)" ]; then
+            echo "has_commits=true" >> $GITHUB_OUTPUT
+            echo "✅ 有新的 index 提交需要推送"
+            git log origin/main..HEAD --oneline
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ index.xml 无变化"
+            echo "has_commits=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ 无新提交"
           fi
       
-      - name: Commit and push
-        if: steps.check-changes.outputs.changed == 'true'
+      - name: Push index updates
+        if: steps.check-commits.outputs.has_commits == 'true'
         run: |
           cd Release
-          git add index.xml
-          git commit -m "Auto-update ReaPack index [skip ci]"
           git push
       
       - name: Summary
