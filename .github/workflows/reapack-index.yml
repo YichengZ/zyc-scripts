@@ -17,11 +17,23 @@ jobs:
         with:
           fetch-depth: 0  # 需要完整历史记录用于 reapack-index
 
-      - name: Run reapack-index
-        uses: cfillion/reapack-index-action@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          path: Release
-          version: '1.2.6'  # 可选：锁定版本，或删除这行使用最新版
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Install reapack-index
+        run: gem install reapack-index
+
+      - name: Run reapack-index
+        run: |
+          cd Release
+          reapack-index --rebuild
+        env:
+          REAPACK_INDEX_NO_PROMPT: 1
+          GIT_AUTHOR_NAME: "GitHub Actions"
+          GIT_AUTHOR_EMAIL: "actions@github.com"
 
       - name: Check for changes
         id: verify-changed-files
