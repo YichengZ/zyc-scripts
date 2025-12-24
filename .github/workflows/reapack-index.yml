@@ -8,6 +8,9 @@ on:
       - '.github/workflows/reapack-index.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write  # 允许推送提交
+
 jobs:
   update-index:
     runs-on: ubuntu-latest
