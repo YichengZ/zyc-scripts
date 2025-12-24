@@ -1,58 +1,56 @@
 # zyc-scripts 工具脚本
 
-## 索引生成工具
+## ReaPack Index 生成
 
-### 方法 1：使用官方 reapack-index（推荐）
+本项目使用官方的 **`reapack-index`** 工具自动生成 ReaPack 索引文件。
 
-**安装**：
+### 自动生成（推荐）
+
+GitHub Actions 工作流会自动生成和更新 `index.xml`：
+
+- **触发条件**：推送 `main` 分支且更改涉及 `Release/REAPER/**`
+- **工作流文件**：`.github/workflows/reapack-index.yml`
+- **查看状态**：https://github.com/YichengZ/zyc-scripts/actions
+
+### 本地生成
+
+如果需要本地生成索引：
+
 ```bash
-bash scripts/install_reapack_index.sh
-```
-
-**使用**：
-```bash
-bash scripts/use_official_index.sh
-```
-
-**手动安装**：
-```bash
+# 1. 安装 reapack-index
 gem install reapack-index --user-install
+
+# 2. 设置 PATH（临时）
+export PATH="$HOME/.gem/ruby/$(ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]')/bin:$PATH"
+
+# 3. 生成索引
+cd Release
+reapack-index --rebuild
+```
+
+### 永久添加到 PATH
+
+编辑 `~/.zshrc` 或 `~/.bash_profile`：
+
+```bash
 export PATH="$HOME/.gem/ruby/$(ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]')/bin:$PATH"
 ```
 
-**手动使用**：
+然后重新加载：
+
 ```bash
-cd /Users/zhuyicheng/Documents/GitHub/zyc_scripts
-reapack-index --rebuild Release/
+source ~/.zshrc
 ```
 
-### 方法 2：使用自定义脚本（快速）
+## 官方工具优势
 
-**使用**：
-```bash
-cd /Users/zhuyicheng/Documents/GitHub/zyc_scripts
-ruby scripts/generate_index.rb > Release/index.xml
-```
+- ✅ 自动识别所有文件（Lua、PNG、JSON 等）
+- ✅ 基于 Git 提交历史自动生成版本
+- ✅ 支持多文件脚本和资源文件
+- ✅ 自动提取元数据
+- ✅ 官方维护，功能完善
 
-## 工具对比
+## 参考资源
 
-| 特性 | 官方 reapack-index | 自定义脚本 |
-|------|-------------------|-----------|
-| 安装 | 需要 gem install | 无需安装 |
-| 版本管理 | 自动 | 手动 |
-| Git 集成 | 是 | 否 |
-| 文件检测 | 自动 | 手动 |
-| 推荐场景 | 发布版本 | 快速迭代 |
-
-## 文件说明
-
-- `install_reapack_index.sh` - 安装官方工具
-- `use_official_index.sh` - 使用官方工具生成索引
-- `generate_index.rb` - 自定义索引生成脚本
-- `INSTALL_REAPACK_INDEX.md` - 详细安装指南
-
-## 推荐工作流程
-
-1. **开发阶段**：使用自定义脚本快速生成
-2. **发布前**：使用官方工具生成最终索引
-3. **验证**：在 REAPER 中测试安装
+- **reapack-index GitHub**: https://github.com/cfillion/reapack-index
+- **ReaPack 文档**: https://github.com/cfillion/reapack-index/wiki
