@@ -60,8 +60,8 @@ jobs:
           echo "=== 开始运行 reapack-index ==="
           echo "当前目录: $(pwd)"
           
-          # 使用 --commit 参数自动提交，无需交互确认
-          reapack-index --rebuild --commit 2>&1 | tee reapack-output.log || {
+          # 不使用 --commit，避免路径问题
+          reapack-index --rebuild 2>&1 | tee reapack-output.log || {
             echo ""
             echo "=== reapack-index 执行失败 ==="
             echo "退出码: $?"
@@ -78,27 +78,27 @@ jobs:
           echo "=== reapack-index 执行成功 ==="
           rm -f reapack-output.log
       
-      - name: Check for new commits
-        id: check-commits
+      - name: Commit index changes
         run: |
-          # 在仓库根目录检查提交（不要 cd Release）
-          if [ -n "$(git log origin/main..HEAD --oneline)" ]; then
-            echo "has_commits=true" >> $GITHUB_OUTPUT
-            echo "✅ 有新的 index 提交需要推送"
-            git log origin/main..HEAD --oneline
-            echo ""
-            echo "修改的文件："
-            git diff --name-only origin/main HEAD
+          # 在仓库根目录添加和提交 Release/index.xml
+          if [ -n "$(git status --porcelain Release/index.xml)" ]; then
+            git add Release/index.xml
+            git commit -m "Auto-update ReaPack index [skip ci]"
+            echo "✅ index.xml 已提交"
           else
-            echo "has_commits=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ 无新提交"
+            echo "ℹ️ index.xml 无变化"
           fi
       
       - name: Push index updates
-        if: steps.check-commits.outputs.has_commits == 'true'
         run: |
-          # 在仓库根目录推送
-          git push
+          # 检查是否有新提交需要推送
+          if [ -n "$(git log origin/main..HEAD --oneline)" ]; then
+            echo "✅ 有新提交，开始推送"
+            git log origin/main..HEAD --oneline
+            git push
+          else
+            echo "ℹ️ 无新提交，跳过推送"
+          fi
       
       - name: Summary
         if: always()
