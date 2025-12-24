@@ -75,6 +75,14 @@ local skin_defs = {
     module = "ui.skins.lion_base",
     accent = 0xFFFFB84D,  -- 金黄色系，适合狮子
     preview_image = "lion_base.png",  -- 使用 lion_base.png 作为预览图
+  },
+  {
+    id = "panda_base",
+    name = "Panda PNG (Base)",
+    description = "Panda rendered using PNG layers (panda_base version).",
+    module = "ui.skins.panda_base",
+    accent = 0xFFE8E8E8,  -- 黑白灰系，适合熊猫
+    preview_image = "panda_base.png",  -- 使用 panda_base.png 作为预览图
   }
 }
 

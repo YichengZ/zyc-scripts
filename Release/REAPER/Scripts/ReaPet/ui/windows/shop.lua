@@ -89,6 +89,7 @@ local function get_skin_folder(skin_id)
   elseif skin_id == "onion_base" then return "onion_base"
   elseif skin_id == "koala_base" then return "koala_base"
   elseif skin_id == "lion_base" then return "lion_base"
+  elseif skin_id == "panda_base" then return "panda_base"
   end
   return "cat_base"  
 end
