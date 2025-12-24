@@ -29,7 +29,20 @@ jobs:
       - name: Generate index.xml
         run: |
           cd Release
-          reapack-index --rebuild
+          echo "=== 当前目录 ==="
+          pwd
+          ls -la
+          echo ""
+          echo "=== 检查 Git 状态 ==="
+          git status
+          echo ""
+          echo "=== 运行 reapack-index ==="
+          reapack-index --rebuild || {
+            echo "❌ reapack-index 失败，退出代码: $?"
+            echo "=== 详细错误信息 ==="
+            reapack-index --rebuild --verbose 2>&1 || true
+            exit 1
+          }
         env:
           GIT_AUTHOR_NAME: "GitHub Actions"
           GIT_AUTHOR_EMAIL: "actions@github.com"

@@ -1,4 +1,8 @@
 --[[
+@version 1.0.0
+@author Yicheng Zhu (Ethan)
+@description REAPER companion app with stats tracking, pomodoro timer, treasure box system, and multiple character skins
+@about
   ReaPet - 主控制器 (Final Polish - Optimized)
   集成优化后的 Pomodoro UI 和 Logic
   
