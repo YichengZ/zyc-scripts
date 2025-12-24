@@ -17,52 +17,11 @@ jobs:
         with:
           fetch-depth: 0  # 需要完整历史记录用于 reapack-index
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Run reapack-index
+        uses: cfillion/reapack-index-action@v1
         with:
-          ruby-version: '3.0'
-          bundler-cache: true
-
-      - name: Install reapack-index
-        run: gem install reapack-index
-
-      - name: Generate index.xml
-        run: |
-          cd Release
-          echo "=== 当前目录 ==="
-          pwd
-          ls -la
-          echo ""
-          echo "=== 检查 Git 状态 ==="
-          git status
-          echo ""
-          echo "=== 运行 reapack-index (非交互模式) ==="
-          # 使用 yes 命令自动回答所有提示，或者使用环境变量
-          # 设置环境变量避免交互式提示
-          export REAPACK_INDEX_NO_PROMPT=1
-          # 使用 yes 命令自动回答 'y' 到所有提示
-          yes | reapack-index --rebuild 2>&1 || {
-            echo "❌ reapack-index 失败，尝试其他方法"
-            # 如果失败，尝试使用 --no-commit（如果支持）
-            reapack-index --rebuild --no-commit 2>&1 || {
-              echo "❌ 所有方法都失败"
-              exit 1
-            }
-          }
-          echo ""
-          echo "=== 检查生成的 index.xml ==="
-          if [ -f "index.xml" ]; then
-            echo "✅ index.xml 已生成"
-            echo "文件大小: $(wc -l < index.xml) 行"
-            echo "文件数: $(grep -c '<source' index.xml || echo '0')"
-          else
-            echo "❌ index.xml 未生成"
-            exit 1
-          fi
-        env:
-          GIT_AUTHOR_NAME: "GitHub Actions"
-          GIT_AUTHOR_EMAIL: "actions@github.com"
-          CI: "true"  # 标记为 CI 环境
+          path: Release
+          version: '1.2.6'  # 可选：锁定版本，或删除这行使用最新版
 
       - name: Check for changes
         id: verify-changed-files
