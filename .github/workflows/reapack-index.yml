@@ -6,72 +6,102 @@ on:
     paths:
       - 'Release/REAPER/**'
       - '.github/workflows/reapack-index.yml'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 需要完整历史记录用于 reapack-index
-
+          fetch-depth: 0  # 完整历史记录
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          echo "=== Git 配置完成 ==="
+          git config --list | grep user
+      
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: true
-
+      
       - name: Install reapack-index
-        run: gem install reapack-index
-
+        run: |
+          gem install reapack-index
+          echo "=== reapack-index 安装完成 ==="
+          reapack-index --version
+      
+      - name: Debug - Show environment
+        run: |
+          echo "=== 环境信息 ==="
+          echo "当前目录: $(pwd)"
+          echo "用户: $(whoami)"
+          echo "Release 目录内容:"
+          ls -la Release/
+          echo ""
+          echo "配置文件:"
+          cat Release/.reapack-index.yml
+          echo ""
+          echo "Git 状态:"
+          git status --short
+      
       - name: Run reapack-index
         run: |
           cd Release
-          echo "y" | reapack-index --rebuild || {
-            echo "=== reapack-index 失败，显示详细信息 ==="
-            echo "当前目录: $(pwd)"
-            echo "文件列表:"
-            ls -la
-            echo "Git 状态:"
+          echo "=== 开始运行 reapack-index ==="
+          echo "当前目录: $(pwd)"
+          
+          # 使用 yes 自动确认，并捕获输出
+          yes | reapack-index --rebuild 2>&1 | tee reapack-output.log || {
+            echo ""
+            echo "=== reapack-index 执行失败 ==="
+            echo "退出码: $?"
+            echo ""
+            echo "输出日志:"
+            cat reapack-output.log
+            echo ""
+            echo "当前 Git 状态:"
             git status
             exit 1
           }
-        env:
-          GIT_AUTHOR_NAME: "GitHub Actions"
-          GIT_AUTHOR_EMAIL: "actions@github.com"
-
+          
+          echo ""
+          echo "=== reapack-index 执行成功 ==="
+          rm -f reapack-output.log
+      
       - name: Check for changes
-        id: verify-changed-files
+        id: check-changes
         run: |
-          if [ -n "$(git status --porcelain Release/index.xml)" ]; then
+          cd Release
+          if [ -n "$(git status --porcelain index.xml)" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ index.xml 已更新"
-            git diff Release/index.xml | head -50
+            echo "✅ index.xml 有更新"
+            git diff index.xml | head -30
           else
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "ℹ️ index.xml 无变化"
           fi
-
-      - name: Commit and push changes
-        if: steps.verify-changed-files.outputs.changed == 'true'
+      
+      - name: Commit and push
+        if: steps.check-changes.outputs.changed == 'true'
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add Release/index.xml
+          cd Release
+          git add index.xml
           git commit -m "Auto-update ReaPack index [skip ci]"
           git push
-
-      - name: Verify index.xml
+      
+      - name: Summary
+        if: always()
         run: |
-          echo "=== 验证 index.xml ==="
-          echo "文件大小: $(wc -l < Release/index.xml) 行"
-          echo "文件数: $(grep -c '<source' Release/index.xml || echo '0')"
+          echo "=== 最终状态 ==="
+          echo "index.xml 大小: $(wc -l < Release/index.xml) 行"
+          echo "ReaPet 条目:"
+          grep -c "zyc_ReaPet" Release/index.xml || echo "0"
           echo ""
-          echo "主文件:"
-          grep 'main="main"' Release/index.xml | grep "zyc_ReaPet" || echo "未找到主文件"
-          echo ""
-          echo "皮肤数量检查:"
-          grep -o "character skins" Release/index.xml | wc -l || echo "0"
-
+          echo "✅ 工作流完成"
