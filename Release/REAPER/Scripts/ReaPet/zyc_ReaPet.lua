@@ -2,9 +2,18 @@
 @version 1.0.0
 @author Yicheng Zhu (Ethan)
 @description REAPER companion app with stats tracking, pomodoro timer, treasure box system, and multiple character skins
+@provides [main=main] zyc_ReaPet.lua
 @about
   ReaPet - 主控制器 (Final Polish - Optimized)
   集成优化后的 Pomodoro UI 和 Logic
+  
+  功能特性:
+  - 操作统计（全局和项目级别）
+  - 番茄钟定时器
+  - 宝箱系统（插件推荐）
+  - 金币系统和商店
+  - 9 个角色皮肤（cat, dog, bear, rabbit, koala, lion, onion, chick, panda）
+  - 多项目支持，自动数据切换
   
   优化记录:
   1. [Core] Tracker 节流 (0.2s)。
@@ -12,6 +21,9 @@
   3. [CPU] 字符串缓存，仅在时间变化时格式化字符串。
   4. [Lua] API 本地化 (Localizing Globals) 提升访问速度。
   5. [Fix] 修正 ImGui API 调用方式，解决 "attempt to index a nil value" 报错。
+  
+  注意: reapack-index 会自动检测并包含所有相关文件（Lua 模块、PNG 图片等），
+  无需在 @provides 中手动列出所有文件。
 --]]
 
 local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
