@@ -2,7 +2,45 @@
 @version 1.0.0
 @author Yicheng Zhu (Ethan)
 @description REAPER companion app with stats tracking, pomodoro timer, treasure box system, and multiple character skins
-@provides [main=main] zyc_ReaPet.lua
+@provides
+  [main=main] zyc_ReaPet.lua
+  config.lua
+  core/tracker.lua
+  core/pomodoro.lua
+  core/pomodoro_presets.lua
+  core/treasure.lua
+  core/fx_scanner.lua
+  core/coin_system.lua
+  core/shop_system.lua
+  utils/json.lua
+  utils/debug.lua
+  utils/font_manager.lua
+  utils/imgui_utils.lua
+  utils/object_pool.lua
+  utils/scale_manager.lua
+  ui/window.lua
+  ui/stats_box.lua
+  ui/menu_button.lua
+  ui/pomodoro_timer.lua
+  ui/treasure_box.lua
+  ui/transformation_effect.lua
+  ui/skins/skin_manager.lua
+  ui/skins/cat_base.lua
+  ui/skins/dog_base.lua
+  ui/skins/bear_base.lua
+  ui/skins/rabbit_base.lua
+  ui/skins/chick_base.lua
+  ui/skins/koala_base.lua
+  ui/skins/lion_base.lua
+  ui/skins/onion_base.lua
+  ui/skins/panda_base.lua
+  ui/utils/coin_effect.lua
+  ui/utils/particles.lua
+  ui/utils/treasure_chest.lua
+  ui/windows/settings.lua
+  ui/windows/shop.lua
+  ui/windows/pomodoro_settings.lua
+  ui/windows/dev_panel.lua
 @about
   ReaPet - 主控制器 (Final Polish - Optimized)
   集成优化后的 Pomodoro UI 和 Logic
@@ -22,8 +60,8 @@
   4. [Lua] API 本地化 (Localizing Globals) 提升访问速度。
   5. [Fix] 修正 ImGui API 调用方式，解决 "attempt to index a nil value" 报错。
   
-  注意: reapack-index 会自动检测并包含所有相关文件（Lua 模块、PNG 图片等），
-  无需在 @provides 中手动列出所有文件。
+  注意: @provides 中列出了所有关键 Lua 文件。reapack-index 会自动检测并包含
+  所有相关文件（包括 PNG 图片等资源文件），路径是相对于本文件的。
 --]]
 
 local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
