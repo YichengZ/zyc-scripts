@@ -57,8 +57,8 @@ jobs:
           echo "=== 开始运行 reapack-index ==="
           echo "当前目录: $(pwd)"
           
-          # 使用 yes 自动确认，并捕获输出
-          yes | reapack-index --rebuild 2>&1 | tee reapack-output.log || {
+          # 使用 --commit 参数自动提交，无需交互确认
+          reapack-index --rebuild --commit 2>&1 | tee reapack-output.log || {
             echo ""
             echo "=== reapack-index 执行失败 ==="
             echo "退出码: $?"
