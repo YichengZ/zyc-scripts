@@ -29,9 +29,16 @@ jobs:
       - name: Run reapack-index
         run: |
           cd Release
-          reapack-index --rebuild
+          echo "y" | reapack-index --rebuild || {
+            echo "=== reapack-index 失败，显示详细信息 ==="
+            echo "当前目录: $(pwd)"
+            echo "文件列表:"
+            ls -la
+            echo "Git 状态:"
+            git status
+            exit 1
+          }
         env:
-          REAPACK_INDEX_NO_PROMPT: 1
           GIT_AUTHOR_NAME: "GitHub Actions"
           GIT_AUTHOR_EMAIL: "actions@github.com"
 
