@@ -1,6 +1,6 @@
 -- @description REAPER companion app with stats tracking, pomodoro timer, treasure box system, and multiple character skins
 -- @author Yicheng Zhu (Ethan)
--- @version 1.0.0
+-- @version 1.0.1
 -- @provides
 --   [main=main] zyc_ReaPet.lua
 --   config.lua
