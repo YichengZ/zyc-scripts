@@ -1,0 +1,11 @@
+# ReaPack Index Configuration
+# This file tells reapack-index how to structure the index
+
+# Repository metadata
+name: "Zyc Scripts"
+description: "Professional REAPER scripts by EthanZhu"
+website: "https://github.com/YichengZ/zyc-scripts"
+
+# URL template for source files
+url_template: "https://github.com/YichengZ/zyc-scripts/raw/main/Release/%file%"
+
