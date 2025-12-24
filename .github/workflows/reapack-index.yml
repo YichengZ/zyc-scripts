@@ -1,0 +1,38 @@
+name: ReaPack Indexer
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Release/**'
+      - '.github/workflows/reapack-index.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+      
+      - name: Install reapack-index
+        run: gem install reapack-index
+      
+      - name: Run reapack-index
+        working-directory: Release
+        run: reapack-index --scan --commit
+      
+      - name: Push changes
+        run: |
+          git push origin main || echo "No changes to push"
