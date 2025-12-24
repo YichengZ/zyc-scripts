@@ -1,6 +1,6 @@
 desc:zyc_LFO (FX Parameter Modulator)
-//author: EthanZhu @yichengzhu316@outlook.com
-//version: v1.0
+// @author EthanZhu
+// @version 1.0
 //changelog:
 //v1.0 - Lite version release
 //  - Removed all extra outputs functionality

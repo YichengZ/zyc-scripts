@@ -1,6 +1,6 @@
 desc:zyc_EnvFollower (Envelope Follower)
-//author: EthanZhu @yichengzhu316@outlook.com
-//version: v1.0
+// @author EthanZhu
+// @version 1.0
 //changelog:
 //v1.0 - Initial release
 //  - Professional envelope follower with Peak/RMS detection
