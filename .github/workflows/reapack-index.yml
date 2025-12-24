@@ -81,12 +81,14 @@ jobs:
       - name: Check for new commits
         id: check-commits
         run: |
-          cd Release
-          # reapack-index --commit 会创建提交，检查是否有新提交需要推送
+          # 在仓库根目录检查提交（不要 cd Release）
           if [ -n "$(git log origin/main..HEAD --oneline)" ]; then
             echo "has_commits=true" >> $GITHUB_OUTPUT
             echo "✅ 有新的 index 提交需要推送"
             git log origin/main..HEAD --oneline
+            echo ""
+            echo "修改的文件："
+            git diff --name-only origin/main HEAD
           else
             echo "has_commits=false" >> $GITHUB_OUTPUT
             echo "ℹ️ 无新提交"
@@ -95,7 +97,7 @@ jobs:
       - name: Push index updates
         if: steps.check-commits.outputs.has_commits == 'true'
         run: |
-          cd Release
+          # 在仓库根目录推送
           git push
       
       - name: Summary
