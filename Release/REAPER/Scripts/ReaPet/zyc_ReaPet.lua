@@ -5,10 +5,10 @@
 @provides
   [main=main] zyc_ReaPet.lua
   config.lua
-  core/
-  ui/
-  utils/
-  assets/
+  core/*.lua
+  utils/*.lua
+  ui/**/*.lua
+  assets/**/*.png
 @about
   ReaPet - 主控制器 (Final Polish - Optimized)
   集成优化后的 Pomodoro UI 和 Logic
