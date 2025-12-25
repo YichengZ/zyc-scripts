@@ -1,111 +1,20 @@
 desc:zyc_EnvFollower (Envelope Follower)
-// @author EthanZhu
-// @version 1.0
-//changelog:
-//v1.0 - Initial release
-//  - Professional envelope follower with Peak/RMS detection
-//  - Filter preprocessing with HPF/LPF
-//  - Smooth processing and real-time oscilloscope display
-//  - Complete debugging functionality
-//v3.3 - Set RMS Smooth default to 15% for optimal balance
-//  - RMS Smooth slider now defaults to 15% for good balance
-//  - Provides moderate smoothing with reasonable response speed
-//  - Users can still adjust from 0-100% as needed
-//v3.2 - Added RMS Smooth control to eliminate step-like changes
-//  - Added RMS Smooth slider (0-100%) for user control
-//  - Implemented zyc_LFO style exponential smoothing for RMS values
-//  - Eliminated step-like RMS changes with smooth transitions
-//  - RMS mode now uses smooth RMS value for envelope processing
-//  - Debug slider shows smooth RMS value for consistency
-//  - Peak mode remains fast and accurate without smoothing
-//v3.1 - Fixed Y-coordinate alignment for oscilloscope display
-//  - Restored bottom-aligned Y coordinate calculation
-//  - Fixed 0 value position to display at bottom instead of middle
-//  - Maintained smooth drawing improvements while fixing alignment
-//  - Oscilloscope now correctly shows 0 at bottom like before
-//v3.0 - Optimized Peak response and smooth drawing
-//  - Restored Peak mode to use raw peak_val for fast, accurate response
-//  - RMS mode continues to use smoothed th_rms for smooth display
-//  - Implemented zyc_LFO style smooth drawing with connected lines
-//  - Optimized drawing algorithm with proper point-to-point connections
-//  - Enhanced visual smoothness while maintaining Peak accuracy
-//  - Debug sliders now show appropriate values (raw Peak, smoothed RMS)
-//v2.9 - Implemented Cockos style smooth display
-//  - Added th_peak variable for smoothed Peak display
-//  - Both Peak and RMS now use time-based smoothing (75ms time constant)
-//  - Eliminated "grid-like" display jumps for professional-grade smoothness
-//  - Debug sliders now show smoothed values for consistent display
-//  - Peak mode now uses smoothed peak values for better visual experience
-//v2.8 - Fixed RMS detection mode
-//  - Fixed RMS mode to use smoothed RMS value (th_rms) instead of raw RMS
-//  - Main Output now properly follows smoothed RMS in RMS mode
-//  - Debug sliders now show consistent values between slider10 and slider11
-//  - Peak mode continues to use raw peak values for instant response
-//v2.7 - Added Cockos style time-based smoothing
-//  - Implemented time_precise() based smoothing for RMS display
-//  - Added LOUD_METER_SPEED constant for smooth transitions
-//  - RMS debug slider now shows smooth, professional-grade values
-//  - Eliminates RMS value jumping for better visual experience
-//v2.6 - Implemented Cockos style RMS calculation
-//  - Replaced complex buffer system with simple window-based RMS
-//  - Implemented per-sample accumulation and window-based calculation
-//  - Simplified RMS logic following Cockos Loudness Meter approach
-//  - Should provide more reliable RMS values
-//v2.5 - Fixed RMS buffer allocation
-//  - Fixed RMS buffer memory allocation issue
-//  - Removed invalid rms_buf = 0 assignment
-//  - Cleaned up duplicate buffer initialization
-//  - RMS debug slider should now work properly
-//v2.4 - Implemented simple sliding window RMS
-//  - Redesigned RMS buffer system
-//  - Fixed RMS calculation with proper sliding window
-//  - Simplified buffer management
-//  - Corrected RMS debug values
-//v2.3 - Fixed RMS debug display
-//  - Fixed debug slider conflicts
-//  - Fixed RMS calculation logic
-//  - Corrected debug output values
-//  - Improved debug slider labels
-//v2.2 - Removed delay functionality
-//  - Removed delay buffer and related code
-//  - Simplified envelope processing
-//  - Restored original envelope response
-//v2.0 - Bug fixes and simplified
-//  - Fixed RMS buffer index bug
-//  - Fixed RMS buffer initialization
-//  - Fixed RMS window reset logic
-//  - Fixed oscilloscope bounds checking
-//  - Fixed debug slider types
-//  - Removed extra outputs functionality
-//  - Simplified UI
-//v1.0 - Initial release
-//  - Added main output control
-//  - Added filter preprocessing
-//  - Added audition functionality
-//  - Added volume detection with Peak/RMS modes
-
-// Main Output control
-slider1:0<0,100,0.01>Main Output
-
-// Filter controls
-slider2:0<-30,30,0.1>Input Gain (dB)
-slider3:0<0,1,0.001>High Pass Filter (Hz)
-slider4:1<0,1,0.001>Low Pass Filter (Hz)
-slider5:0<0,1,1{Off,On}>Audition
-
-// Volume Detection
-slider6:0<0,1,1{Peak,RMS}>Detection Mode
-slider7:10<1,1000,1>RMS Window (ms)
-slider8:0<-48,0,0.1>Input Signal (dB) [Debug]
-slider9:0<-48,0,0.1>Peak (dB) [Debug]
-slider10:0<-48,0,0.1>RMS (dB) [Debug]
-slider11:0<-48,0,0.1>Detected (dB) [Debug]
-
-// Envelope Processing
-slider21:0<0,1,0.001>Attack (s) [Exp]
-slider22:0<0,1,0.001>Release (s) [Exp]
-slider23:15<0,100,0.01>RMS Smooth (%)
-slider24:0<-48,0,0.1>Envelope (dB) [Debug]
+// @description Zyc EnvFollower - Professional Envelope Follower
+// @author Yicheng Zhu (Ethan)
+// @version 3.3
+// @about
+//   A professional grade envelope follower with Peak/RMS detection.
+//
+//   ### Features
+//   * **Dual Detection**: Switch between Peak (fast) and RMS (smooth) modes.
+//   * **Filter Pre-processing**: Built-in HPF and LPF to target specific frequency ranges.
+//   * **Visual Feedback**: Real-time oscilloscope with Cockos-style smooth rendering.
+//   * **Output Control**: Generates 0-100 parameter modulation signal.
+// @changelog
+//   + v3.3: Set RMS Smooth default to 15% for optimal balance
+//   + v3.2: Added RMS Smooth control to eliminate step-like changes
+//   + v3.1: Fixed Y-coordinate alignment for oscilloscope display
+//   + v3.0: Optimized Peak response and smooth drawing
 
 @init
 // Basic variable initialization
