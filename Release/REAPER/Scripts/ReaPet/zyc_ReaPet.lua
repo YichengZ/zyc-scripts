@@ -15,6 +15,7 @@
 --
 --   Stay motivated and make your mixing sessions more fun!
 -- @provides
+--   [main=main] zyc_ReaPet.lua
 --   config.lua
 --   core/*.lua
 --   utils/*.lua
