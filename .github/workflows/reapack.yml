@@ -16,12 +16,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run reapack-index
-        uses: cfillion/reapack-index@master  # <--- 改为 master
-        with:
-          version: latest
-          name: "Zyc Scripts"
-          output: "index.xml"
+      # --- 关键修改开始 ---
+      # 既然它不是一个 Action，我们就直接下载它的可执行文件来跑
+      - name: Install and Run reapack-index
+        run: |
+          # 1. 下载最新版 reapack-index (Linux版)
+          wget -O reapack-index https://github.com/cfillion/reapack-index/releases/download/v1.2.6/reapack-index-linux-amd64
+          
+          # 2. 赋予执行权限
+          chmod +x reapack-index
+          
+          # 3. 运行工具生成 index.xml
+          # --name 后面是你在 ReaPack 中显示的名字
+          # . 代表扫描当前根目录
+          ./reapack-index --name "Zyc Scripts" .
+      # --- 关键修改结束 ---
 
       - name: Commit index.xml
         uses: stefanzweifel/git-auto-commit-action@v5
