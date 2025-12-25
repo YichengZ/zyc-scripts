@@ -59,18 +59,17 @@ local function filter_third_party_plugins(plugin_info_list)
 end
 
 local function scan_all_plugins()
-  reaper.ShowConsoleMsg("scan_all_plugins() 开始\n")
+  Debug.log("scan_all_plugins() 开始\n")
   local plugin_list, plugin_info_list = generate_fx_list()
   local new_plugins_found = 0
   
-  reaper.ShowConsoleMsg("插件扫描：已扫描 " .. #plugin_list .. " 个插件\n")
-  print("插件扫描：已扫描 " .. #plugin_list .. " 个插件")
+  Debug.logf("插件扫描：已扫描 %d 个插件\n", #plugin_list)
   
   local third_party_plugins = filter_third_party_plugins(plugin_info_list)
   
-  print("插件扫描：过滤后保留 " .. #third_party_plugins .. " 个第三方插件")
+  Debug.logf("插件扫描：过滤后保留 %d 个第三方插件\n", #third_party_plugins)
   for i = 1, math.min(3, #third_party_plugins) do
-    print("  过滤后插件 " .. i .. ": " .. third_party_plugins[i].name)
+    Debug.logf("  过滤后插件 %d: %s\n", i, third_party_plugins[i].name)
   end
   
   return third_party_plugins, new_plugins_found

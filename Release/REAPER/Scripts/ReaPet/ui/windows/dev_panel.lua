@@ -14,8 +14,9 @@ local state = {
 }
 
 -- ========= 绘制函数 =========
-function DevPanel.draw(ctx, open)
+function DevPanel.draw(ctx, open, data)
   if not open then return end
+  data = data or {}  -- 确保 data 不为 nil
   
   local r = reaper
   
@@ -449,6 +450,64 @@ function DevPanel.draw(ctx, open)
       if r.ImGui_Button(ctx, "Force Unlock Box", 200, 30) then
          if Treasure.show then Treasure.show() end
       end
+    end
+    
+    r.ImGui_Separator(ctx)
+    
+    -- ========= Welcome Window Control =========
+    if r.ImGui_CollapsingHeader(ctx, "Welcome Window Control") then
+      r.ImGui_TextColored(ctx, 0xFFD700FF, "Control Welcome Window Display")
+      r.ImGui_Spacing(ctx)
+      
+      -- 显示当前状态
+      if data and data.welcome_open ~= nil then
+        r.ImGui_Text(ctx, "Current State: " .. (data.welcome_open and "Open" or "Closed"))
+      end
+      
+      r.ImGui_Spacing(ctx)
+      
+      -- 控制按钮
+      if r.ImGui_Button(ctx, "Show Welcome Window", 200, 30) then
+        if data then
+          data.welcome_open = true
+          data.force_show_welcome = true  -- 标记强制显示
+        end
+      end
+      
+      r.ImGui_SameLine(ctx)
+      if r.ImGui_Button(ctx, "Hide Welcome Window", 200, 30) then
+        if data then
+          data.welcome_open = false
+        end
+      end
+      
+      r.ImGui_Spacing(ctx)
+      
+      -- 重置欢迎窗口标志（允许再次显示）
+      if r.ImGui_Button(ctx, "Reset Welcome Flag", 200, 30) then
+        if data and data.tracker then
+          local global_stats = data.tracker:get_global_stats()
+          if not global_stats.ui_settings then
+            global_stats.ui_settings = {}
+          end
+          global_stats.ui_settings.show_welcome = nil  -- 清除标志，允许再次显示
+          
+          -- 立即保存数据
+          if data.save_data then
+            data.save_data()
+          end
+          
+          -- 立即更新 welcome_open 状态
+          if data.welcome_open ~= nil then
+            data.welcome_open = true  -- 立即显示欢迎窗口
+          end
+          
+          r.ImGui_TextColored(ctx, 0xFF66CC66, "Welcome flag reset! Window will show now.")
+        end
+      end
+      
+      r.ImGui_Spacing(ctx)
+      r.ImGui_TextColored(ctx, 0xCCCCCCFF, "Note: Reset flag to see welcome window on next script run")
     end
   
   r.ImGui_End(ctx)

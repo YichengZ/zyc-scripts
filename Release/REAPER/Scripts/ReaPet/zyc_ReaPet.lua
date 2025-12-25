@@ -41,6 +41,7 @@ local Settings = require('ui.windows.settings')
 local DevPanel = require('ui.windows.dev_panel')
 local Shop = require('ui.windows.shop')
 local PomodoroSettings = require('ui.windows.pomodoro_settings')
+local Welcome = require('ui.windows.welcome')
 local TreasureBox = require('ui.treasure_box')
 local PomodoroTimer = require('ui.pomodoro_timer')
 local FontManager = require('utils.font_manager')
@@ -70,6 +71,18 @@ if not check_imgui_compatibility() then return end
 local ctx = r.ImGui_CreateContext('ReaPet')
 local tracker = Tracker:new()
 Config.load_from_data(tracker:get_global_stats())
+
+-- 检测首次运行（检查是否已经显示过欢迎窗口）
+local function is_first_run()
+  local global_stats = tracker:get_global_stats()
+  if global_stats and global_stats.ui_settings then
+    local show_welcome = global_stats.ui_settings.show_welcome
+    if show_welcome == false then
+      return false  -- 已经显示过，不再显示
+    end
+  end
+  return true  -- 默认显示（首次运行或未设置标志）
+end
 
 FontManager.init(ctx)
 Pomodoro.init()
@@ -101,6 +114,8 @@ local settings_open = false
 local dev_panel_open = false
 local pomo_settings_open = false
 local skin_picker_open = false
+local welcome_open = false  -- 将在初始化后设置
+local welcome_initialized = false  -- 标记是否已经初始化过欢迎窗口
 local last_p_state = "idle"
 local treasure_cache_initialized = false
 local main_window_x, main_window_y, main_window_w, main_window_h = 0, 0, 0, 0
@@ -135,7 +150,8 @@ local function SaveAllDataAtomic()
   local DATA_FILE = Config.DATA_FILE
   
   if not DATA_FILE then
-    r.ShowConsoleMsg("SaveAllDataAtomic: DATA_FILE is nil\n")
+    local Debug = require('utils.debug')
+    Debug.log("SaveAllDataAtomic: DATA_FILE is nil\n")
     return
   end
   
@@ -219,6 +235,16 @@ local function Loop()
   last_frame_time = now
   if dt > 0.1 then dt = 0.1 end
   if dt < 0.001 then dt = 0.001 end
+
+  -- 首次运行检查：只在第一次循环时检查
+  if not welcome_initialized then
+    welcome_initialized = true
+    welcome_open = is_first_run()
+    if welcome_open then
+      -- 确保 tracker 被传递给欢迎窗口上下文
+      -- 这个会在后面设置
+    end
+  end
 
   -- [Tracker 节流]
   local operation_triggered = false
@@ -488,11 +514,19 @@ local function Loop()
         dev_panel_open = true 
       end
       if result.open_skin_picker then skin_picker_open = true end
+      if result.show_welcome then
+        -- 从设置页面请求显示欢迎窗口
+        welcome_open = true
+      end
       if result.close_program then
         -- 关闭程序：保存数据并退出循环
         SaveAllData()
         tracker:on_exit()
         open = false  -- 退出主循环
+      end
+      -- 检查是否需要保存配置
+      if result.needs_save and result.needs_save.config then
+        is_data_dirty = true
       end
     elseif type(result) == "boolean" then
       settings_open = result
@@ -514,7 +548,34 @@ local function Loop()
 
   -- Dev Panel 只在开发者模式显示
   if dev_panel_open and Config.DEVELOPER_MODE then 
-    DevPanel.draw(ctx, dev_panel_open) 
+    local dev_panel_data = {
+      welcome_open = welcome_open,
+      tracker = tracker,
+      save_data = function()
+        -- 保存数据的函数
+        SaveAllData()
+        is_data_dirty = false  -- 标记已保存
+      end
+    }
+    DevPanel.draw(ctx, dev_panel_open, dev_panel_data)
+    
+    -- 检查 dev panel 是否修改了 welcome_open
+    if dev_panel_data.welcome_open ~= nil then
+      welcome_open = dev_panel_data.welcome_open
+    end
+    
+    -- 如果强制显示，重置标志并立即显示
+    if dev_panel_data.force_show_welcome then
+      local global_stats = tracker:get_global_stats()
+      if not global_stats.ui_settings then
+        global_stats.ui_settings = {}
+      end
+      global_stats.ui_settings.show_welcome = nil  -- 清除标志，允许下次启动时显示
+      welcome_open = true  -- 立即显示欢迎窗口
+      SaveAllData()  -- 立即保存
+      is_data_dirty = false
+      dev_panel_data.force_show_welcome = false
+    end
   elseif dev_panel_open and not Config.DEVELOPER_MODE then
     dev_panel_open = false  -- 如果开发者模式关闭，自动关闭 dev panel
   end
@@ -530,6 +591,28 @@ local function Loop()
     pomo_settings_ctx.main_window_h = main_window_h
     
     pomo_settings_open = PomodoroSettings.draw(ctx, pomo_settings_open, pomo_settings_ctx)
+  end
+  
+  if welcome_open then
+    local welcome_ctx = {
+      main_x = main_window_x,
+      main_y = main_window_y,
+      main_w = main_window_w,
+      main_h = main_window_h,
+      tracker = tracker -- 传递 tracker 以便保存状态
+    }
+    welcome_open = Welcome.draw(ctx, welcome_open, welcome_ctx)
+    
+    -- 如果用户关闭了欢迎窗口，保存标志
+    if not welcome_open then
+      local global_stats = tracker:get_global_stats()
+      if not global_stats.ui_settings then
+        global_stats.ui_settings = {}
+      end
+      global_stats.ui_settings.show_welcome = false
+      is_data_dirty = true  -- 标记数据需要保存
+      SaveAllData() -- 立即保存，确保标志被持久化
+    end
   end
   
   if is_data_dirty and (now - last_save_time > SAVE_INTERVAL) then

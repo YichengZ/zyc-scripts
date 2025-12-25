@@ -33,7 +33,8 @@ local COL = {
 local state = {
   skin_picker_requested = false,
   dev_panel_requested = false,
-  close_requested = false
+  close_requested = false,
+  show_welcome_requested = false
 }
 
 -- 辅助函数：格式化时间
@@ -186,23 +187,23 @@ function Settings.draw(ctx, open, data)
           
           -- Text Offset (数字偏移)
           r.ImGui_Text(ctx, "Text Offset X")
-          local old_text_off_x = Config.STATS_BOX_TEXT_OFFSET_X or -0.004
+          local old_text_off_x = Config.STATS_BOX_TEXT_OFFSET_X or 0.01
           local _, new_text_off_x = r.ImGui_SliderDouble(ctx, "##sb_text_off_x", old_text_off_x, -0.5, 0.5, "%.3f")
           
           -- Right-click reset
           if r.ImGui_IsItemHovered(ctx) and r.ImGui_IsMouseClicked(ctx, 1) then
-             new_text_off_x = -0.004
+             new_text_off_x = 0.01
           end
           if new_text_off_x ~= old_text_off_x then Config.STATS_BOX_TEXT_OFFSET_X = new_text_off_x end
           if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
           
           r.ImGui_Text(ctx, "Text Offset Y")
-          local old_text_off_y = Config.STATS_BOX_TEXT_OFFSET_Y or -0.053
+          local old_text_off_y = Config.STATS_BOX_TEXT_OFFSET_Y or -0.12
           local _, new_text_off_y = r.ImGui_SliderDouble(ctx, "##sb_text_off_y", old_text_off_y, -0.5, 0.5, "%.3f")
           
           -- Right-click reset
           if r.ImGui_IsItemHovered(ctx) and r.ImGui_IsMouseClicked(ctx, 1) then
-             new_text_off_y = -0.053
+             new_text_off_y = -0.12
           end
           if new_text_off_y ~= old_text_off_y then Config.STATS_BOX_TEXT_OFFSET_Y = new_text_off_y end
           if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
@@ -212,8 +213,8 @@ function Settings.draw(ctx, open, data)
              Config.STATS_BOX_SCALE = 1.0
              Config.STATS_BOX_OFFSET_X = 0
              Config.STATS_BOX_OFFSET_Y = 100
-             Config.STATS_BOX_TEXT_OFFSET_X = -0.004
-             Config.STATS_BOX_TEXT_OFFSET_Y = -0.053
+             Config.STATS_BOX_TEXT_OFFSET_X = 0.01
+             Config.STATS_BOX_TEXT_OFFSET_Y = -0.12
           end
           
           r.ImGui_Unindent(ctx, 20)
@@ -320,11 +321,42 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         r.ImGui_Text(ctx, "ReaPet")
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "Version 1.0.0")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "Version 1.0.2")
         
-        -- Developer Mode UI removed for release
-        -- Developer features are still available via config file (data/companion_data.json)
-        -- See docs/DEVELOPER_MODE_GUIDE.md for details
+        r.ImGui_Dummy(ctx, 0, 15)
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Instructions")
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        -- Show Welcome Instructions Button
+        if r.ImGui_Button(ctx, "Show Instructions", 200, 32) then
+          state.show_welcome_requested = true
+        end
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  View instructions again")
+        
+        -- Developer section hidden for release
+        -- r.ImGui_Dummy(ctx, 0, 15)
+        -- r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Developer")
+        -- r.ImGui_Separator(ctx)
+        -- r.ImGui_Dummy(ctx, 0, 5)
+        -- 
+        -- -- Developer Mode Toggle
+        -- local dev_mode = Config.DEVELOPER_MODE
+        -- if r.ImGui_Checkbox(ctx, "Developer Mode", dev_mode) then
+        --   Config.DEVELOPER_MODE = not dev_mode
+        --   -- 标记需要保存（通过返回结果）
+        --   if not data.needs_save then data.needs_save = {} end
+        --   data.needs_save.config = true
+        -- end
+        -- r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Enable developer features")
+        -- 
+        -- -- Open Dev Panel Button (only if developer mode is enabled)
+        -- if Config.DEVELOPER_MODE then
+        --   r.ImGui_Dummy(ctx, 0, 5)
+        --   if r.ImGui_Button(ctx, "Open Developer Panel", 200, 32) then
+        --     state.dev_panel_requested = true
+        --   end
+        -- end
         
         r.ImGui_Dummy(ctx, 0, 20)
         r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Exit")
@@ -372,7 +404,17 @@ function Settings.draw(ctx, open, data)
     result.close_program = true
   end
   
-  if result.open_dev_panel or result.open_skin_picker or result.close_program then
+  if state.show_welcome_requested then
+    state.show_welcome_requested = false
+    result.show_welcome = true
+  end
+  
+  -- 传递需要保存的标志
+  if data and data.needs_save then
+    result.needs_save = data.needs_save
+  end
+  
+  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.needs_save then
     return result
   end
   
