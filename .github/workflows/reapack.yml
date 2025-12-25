@@ -15,10 +15,13 @@ jobs:
       - name: Fetch repository
         uses: actions/checkout@v4
         with:
-          # 【这是成败的关键】
-          # 改为 1。意思是：只下载最新版代码，绝对不看旧历史。
-          # 这样就能完美避开你历史记录里的那个 fatal error。
           fetch-depth: 1
+
+      # 1. 配置 Git 身份 (必须做，否则无法提交)
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
       - name: Install Pandoc
         run: sudo apt-get install -yy pandoc
@@ -31,14 +34,10 @@ jobs:
       - name: Install reapack-index
         run: gem install reapack-index
 
+      # 2. 运行工具 (加上 --commit 参数，禁止弹出询问框)
       - name: Run reapack-index
-        # 加上 --verbose 可以看到更多错误信息（如果有的话）
-        # 只要最新版 Header 没写错，这步这次一定能过
-        run: reapack-index --name "Zyc Scripts" . --verbose
+        run: reapack-index --name "Zyc Scripts" --commit .
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: index.xml
-          commit_message: "Update ReaPack index [skip ci]"
-          branch: main
+      # 3. 推送到仓库
+      - name: Push changes
+        run: git push
