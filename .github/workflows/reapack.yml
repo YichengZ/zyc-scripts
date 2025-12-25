@@ -1,17 +1,14 @@
 name: ReaPack Indexer
 
 on:
-  # 方案 A: 每次推送到 main 分支时触发
   push:
     branches: [main]
-  # 允许你在 GitHub 网页上手动点击按钮触发（用于测试）
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
-    # 这一步非常重要：赋予 Action 写入仓库的权限
     permissions:
       contents: write
 
@@ -20,11 +17,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run reapack-index
-        uses: cfillion/reapack-index@v1
+        uses: cfillion/reapack-index@v1.2.6   # <--- 修改了这里
         with:
           version: latest
-          name: "Zyc Scripts"      # 你的仓库显示名称
-          output: "index.xml"      # 指定生成在根目录
+          name: "Zyc Scripts"
+          output: "index.xml"
 
       - name: Commit index.xml
         uses: stefanzweifel/git-auto-commit-action@v5
