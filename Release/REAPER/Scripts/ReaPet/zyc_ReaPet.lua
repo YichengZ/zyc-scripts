@@ -4,8 +4,7 @@
 -- @about
 --   # Zyc ReaPet
 --
---   Turn your music production into a game! Zyc ReaPet is a gamified productivity
---   companion designed specifically for REAPER users.
+--   ReaPet is a gamified productivity companion designed for REAPER users.
 --
 --   ### Key Features
 --   * **Stats Tracking**: Monitor your daily active usage and working habits.
@@ -13,7 +12,7 @@
 --   * **Pet System**: Level up your companion by being productive.
 --   * **Shop & Skins**: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.
 --
---   Stay motivated and make your mixing sessions more fun!
+--   Stay motivated and make your work sessions more fun!
 -- @provides
 --   [main=main] zyc_ReaPet.lua
 --   config.lua
