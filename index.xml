@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Zyc Scripts" commit="132d8e812668c3f55723bda31043b197e66eb0a3">
+<index version="1" name="Zyc Scripts" commit="e1a3ce0f1fd29eac505f056d8d86cb6e718c3f9c">
   <category name="Release/REAPER/Effects">
     <reapack name="zyc_EnvFollower.jsfx" type="effect" desc="zyc_EnvFollower (Envelope Follower)">
       <metadata>
@@ -55,13 +55,13 @@
 \widowctrl\hyphauto
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc ReaPet\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Turn your music production into a game! Zyc ReaPet is a gamified productivity companion designed specifically for REAPER users.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 ReaPet is a gamified productivity companion designed for REAPER users.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Key Features\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Stats Tracking}: Monitor your daily active usage and working habits.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pomodoro Timer}: Stay focused with a built-in work/break timer system.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pet System}: Level up your companion by being productive.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Shop & Skins}: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Stay motivated and make your mixing sessions more fun!\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Stay motivated and make your work sessions more fun!\par}
 }
 ]]></description>
       </metadata>
