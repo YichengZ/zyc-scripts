@@ -2,37 +2,41 @@ name: ReaPack Indexer
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # 这里是你的主分支
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
+    # 这一步依然非常关键，保证有权限推送代码
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repository
+      - name: Fetch repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 必须设为0，这样工具才能读取 git 历史来生成更新日志
 
-      # --- 关键修改开始 ---
-      # 既然它不是一个 Action，我们就直接下载它的可执行文件来跑
-      - name: Install and Run reapack-index
-        run: |
-          # 1. 下载最新版 reapack-index (Linux版)
-          wget -O reapack-index https://github.com/cfillion/reapack-index/releases/download/v1.2.6/reapack-index-linux-amd64
-          
-          # 2. 赋予执行权限
-          chmod +x reapack-index
-          
-          # 3. 运行工具生成 index.xml
-          # --name 后面是你在 ReaPack 中显示的名字
-          # . 代表扫描当前根目录
-          ./reapack-index --name "Zyc Scripts" .
-      # --- 关键修改结束 ---
+      - name: Install Pandoc
+        run: sudo apt-get install -yy pandoc
+        # reapack-index 需要 Pandoc 来处理文档格式
 
-      - name: Commit index.xml
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+
+      - name: Install reapack-index
+        run: gem install reapack-index
+        # 这就是你参考方案的核心：通过 Ruby 官方源安装，最稳
+
+      - name: Run reapack-index
+        run: reapack-index --name "Zyc Scripts" --index index.xml .
+        # 生成 index.xml，但不在这里提交
+
+      - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           file_pattern: index.xml
