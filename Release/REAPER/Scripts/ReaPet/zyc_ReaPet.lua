@@ -1,13 +1,28 @@
--- @description REAPER companion app with stats tracking, pomodoro timer, treasure box system, and multiple character skins
--- @author Yicheng Zhu (Ethan)
+-- @description Zyc ReaPet - Productivity Companion
 -- @version 1.0.1
+-- @author Yicheng Zhu (Ethan)
+-- @about
+--   # Zyc ReaPet
+--
+--   Turn your music production into a game! Zyc ReaPet is a gamified productivity
+--   companion designed specifically for REAPER users.
+--
+--   ### Key Features
+--   * **Stats Tracking**: Monitor your daily active usage and working habits.
+--   * **Pomodoro Timer**: Stay focused with a built-in work/break timer system.
+--   * **Pet System**: Level up your companion by being productive.
+--   * **Shop & Skins**: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.
+--
+--   Stay motivated and make your mixing sessions more fun!
 -- @provides
---   [main=main] zyc_ReaPet.lua
 --   config.lua
 --   core/*.lua
 --   utils/*.lua
 --   ui/**/*.lua
 --   assets/**/*.png
+-- @changelog
+--   + Initial public release
+--   + Added basic pet system and shop
 
 local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
 package.path = script_path .. "?.lua;" .. script_path .. "?/init.lua;" .. package.path
