@@ -1,4 +1,4 @@
--- @description Zyc ReaPet - Productivity Companion
+-- @description ReaPet
 -- @version 1.0.2
 -- @author Yicheng Zhu (Ethan)
 -- @about
