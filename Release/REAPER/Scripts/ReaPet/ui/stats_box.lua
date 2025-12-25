@@ -10,6 +10,7 @@
 
 local StatsBox = {}
 local r = reaper -- 本地化 API
+local Config = require('config')
 
 -- ========= 内部状态 =========
 local state = {
@@ -166,9 +167,9 @@ function StatsBox.draw(ctx, dl, x, y, w, h, tracker, scale, skin_rect, extra_sca
   r.ImGui_DrawList_AddRectFilled(dl, box_x, box_y, box_x + box_width, box_y + box_height, box_bg, corner_radius, 0)
   r.ImGui_DrawList_AddRect(dl, box_x, box_y, box_x + box_width, box_y + box_height, config.border_color, corner_radius, 0, border_width)
   
-  local text_horizontal_offset = (config.text_horizontal_offset or 0.0) * box_width
+  local text_horizontal_offset = (Config.STATS_BOX_TEXT_OFFSET_X or 0.0) * box_width
   local text_x = box_x + (box_width - text_width) * 0.5 + text_horizontal_offset
-  local text_vertical_offset = (config.text_vertical_offset or 0.0) * box_height
+  local text_vertical_offset = (Config.STATS_BOX_TEXT_OFFSET_Y or 0.0) * box_height
   local baseline_offset = text_height * 0.03
   local text_y = box_y + (box_height - text_height) * 0.5 + baseline_offset + text_vertical_offset
   
