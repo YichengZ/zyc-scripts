@@ -42,7 +42,7 @@ zyc-scripts/
 2. **Add repository**
    - In REAPER: `Extensions` > `ReaPack` > `Manage repositories...`
    - Click `Import a repository`
-   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
+   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
    - Click `OK` then `Apply`
 
 3. **Install scripts**
