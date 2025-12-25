@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'Release/**'
-      - '.github/workflows/reapack-index.yml'
-  workflow_dispatch:
+      - 'Release/**'                  # 监听 Release 文件夹内的变动
+      - '.github/workflows/**'        # 监听 workflow 文件的变动
+  workflow_dispatch:                  # 允许手动在 GitHub 网页点击运行
 
 permissions:
-  contents: write
+  contents: write                     # 赋予写权限，允许 push 回仓库
 
 jobs:
   update-index:
@@ -19,8 +19,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0              # 获取完整历史，这对生成 changelog 很重要
       
+      # [新增] 配置 Git 身份，否则脚本生成的 commit 可能无法认领或失败
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -29,9 +35,10 @@ jobs:
       - name: Install reapack-index
         run: gem install reapack-index
       
+      # [修正] 在根目录运行，扫描 Release 文件夹
+      # 这样 index.xml 会生成在根目录，且只会扫描 Release 里的内容
       - name: Run reapack-index
-        working-directory: Release
-        run: reapack-index --scan --commit
+        run: reapack-index --scan Release --commit
       
       - name: Push changes
         run: |
