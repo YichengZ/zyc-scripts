@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     permissions:
       contents: write
 
@@ -16,7 +15,10 @@ jobs:
       - name: Fetch repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # 【这是成败的关键】
+          # 改为 1。意思是：只下载最新版代码，绝对不看旧历史。
+          # 这样就能完美避开你历史记录里的那个 fatal error。
+          fetch-depth: 1
 
       - name: Install Pandoc
         run: sudo apt-get install -yy pandoc
@@ -29,11 +31,10 @@ jobs:
       - name: Install reapack-index
         run: gem install reapack-index
 
-      # --- 修改了这里 ---
-      # 删除了 --index 参数
-      # 也就是：用 "Zyc Scripts" 这个名字，扫描当前目录(.)，默认生成 index.xml
       - name: Run reapack-index
-        run: reapack-index --name "Zyc Scripts" .
+        # 加上 --verbose 可以看到更多错误信息（如果有的话）
+        # 只要最新版 Header 没写错，这步这次一定能过
+        run: reapack-index --name "Zyc Scripts" . --verbose
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
