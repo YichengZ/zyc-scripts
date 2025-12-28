@@ -14,7 +14,6 @@ local Config = require('config')
 local SkinManager = require('ui.skins.skin_manager')
 local CoinSystem = require('core.coin_system')
 local I18n = require('utils.i18n')
-local AutoStart = require('utils.auto_start')
 
 -- 颜色定义 (参考 UI_DESIGN_STANDARDS.md)
 local COL = {
@@ -403,22 +402,7 @@ function Settings.draw(ctx, open, data)
         end
         r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.view_instructions_again"))
         
-        -- Auto-start on REAPER launch
-        r.ImGui_Dummy(ctx, 0, 15)
-        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.auto_start"))
-        r.ImGui_Separator(ctx)
-        r.ImGui_Dummy(ctx, 0, 5)
-        
-        local auto_start = Config.AUTO_START_ON_LAUNCH or false
-        if r.ImGui_Checkbox(ctx, I18n.get("settings.system.auto_start_on_launch"), auto_start) then
-          Config.AUTO_START_ON_LAUNCH = not auto_start
-          if not data.needs_save then data.needs_save = {} end
-          data.needs_save.config = true
-          data.needs_save.auto_start = true  -- 标记需要更新启动脚本
-        end
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.auto_start_description"))
-        
-        -- Startup Actions
+        -- Startup Actions (Auto-start Manager)
         r.ImGui_Dummy(ctx, 0, 10)
         r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.startup_actions"))
         r.ImGui_Separator(ctx)
@@ -623,14 +607,9 @@ function Settings.draw(ctx, open, data)
   if data and data.needs_save then
     result.needs_save = data.needs_save
     
-    -- 如果启用了自动启动，更新启动脚本
-    if data.needs_save.auto_start then
-      result.update_auto_start = true
-      result.auto_start_enabled = Config.AUTO_START_ON_LAUNCH
-    end
   end
   
-  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.reset_preferences or result.factory_reset or result.update_auto_start or result.needs_save then
+  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.reset_preferences or result.factory_reset or result.needs_save then
     return result
   end
   

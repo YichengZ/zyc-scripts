@@ -43,10 +43,29 @@ jobs:
       - name: Run reapack-index
         run: reapack-index --scan Release --commit
       
-      # 4. 推送更改 (增加 rebase 以解决 rejected 报错)
+      # 4. 推送更改 (处理并发更新的情况)
       - name: Push changes
         run: |
-          # 这一步至关重要：先拉取服务器上的最新状态并合并
-          git pull --rebase origin main
-          # 然后再推送
-          git push origin main || echo "No changes to push"
+          # 先获取最新状态（不合并）
+          git fetch origin main
+          
+          # 检查远程是否有新的提交（相对于当前 HEAD）
+          if git merge-base --is-ancestor HEAD origin/main; then
+            echo "Remote has new commits, updating local branch..."
+            # 远程有新的提交，需要先合并
+            # 尝试 rebase，如果失败则使用 merge
+            if ! git pull --rebase origin main; then
+              echo "Rebase failed, trying merge..."
+              git pull --no-rebase origin main
+            fi
+          else
+            echo "Local is up to date or ahead, proceeding with push"
+          fi
+          
+          # 检查是否有需要推送的更改
+          if git diff --quiet HEAD origin/main; then
+            echo "No changes to push (index.xml already up to date)"
+          else
+            echo "Pushing changes..."
+            git push origin main
+          fi

@@ -102,9 +102,6 @@ Config.ENABLE_DOCKING = false         -- 是否启用停靠功能（默认关闭
 Config.WINDOW_DOCKED = false          -- 窗口是否已停靠（运行时状态，由 REAPER 管理）
 Config.DOCK_POSITION = nil            -- 停靠位置记忆（"left", "right", "top", "bottom", nil=浮动）
 
--- ========= 自动启动配置 =========
-Config.AUTO_START_ON_LAUNCH = false   -- 是否在 REAPER 启动时自动运行（默认关闭）
-
 -- ========= 辅助函数：跨平台路径连接 =========
 local function join_path(...)
   local parts = {...}
@@ -224,9 +221,6 @@ function Config.load_from_data(global_stats)
   Config.WINDOW_DOCKED = settings.window_docked or false
   Config.DOCK_POSITION = settings.dock_position or nil
   
-  -- 加载自动启动配置
-  Config.AUTO_START_ON_LAUNCH = settings.auto_start_on_launch or false
-  
   -- 加载颜色设置
   if settings.colors then
     Config.COLORS.background = settings.colors.background or 0x1A1A1AFF
@@ -298,9 +292,6 @@ function Config.save_to_data(global_stats)
     settings.dock_position = Config.DOCK_POSITION
   end
   
-  -- 保存自动启动配置
-  settings.auto_start_on_launch = Config.AUTO_START_ON_LAUNCH
-  
   -- 保存颜色设置
   settings.colors = {
     background = Config.COLORS.background,
@@ -360,8 +351,6 @@ function Config.reset_to_defaults()
   Config.WINDOW_DOCKED = false
   Config.DOCK_POSITION = nil
   
-  -- 重置自动启动配置
-  Config.AUTO_START_ON_LAUNCH = false
 end
 
 return Config
