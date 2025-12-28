@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "Hakkında",
-      version = "Version 1.0.4.2",
+      version = "Version 1.0.4.3",
       language = "Dil",
       change_interface_language = "  Arayüz dilini değiştir",
       instructions = "Talimatlar",
