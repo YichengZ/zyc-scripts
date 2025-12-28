@@ -15,6 +15,7 @@ local ShopSystem = require('core.shop_system')
 local Config = require('config')
 local TransformationEffect = require('ui.transformation_effect')
 local Debug = require('utils.debug')
+local I18n = require('utils.i18n')
 local r = reaper
 
 -- 皮肤预览缓存
@@ -134,29 +135,29 @@ local function draw_purchase_popup(ctx, skins, tracker, main_win_info)
     
     local is_blind_box = (shop_purchase_confirm == "blind_box")
     local price = is_blind_box and ShopSystem.get_blind_box_price() or shop_purchase_confirm.price
-    local skin_name = is_blind_box and "Blind Box" or (skins and (function()
+    local skin_name = is_blind_box and I18n.get("shop.blind_box") or (skins and (function()
       for _, s in ipairs(skins) do
         if s.id == shop_purchase_confirm.skin_id then return s.name end
       end
       return "Unknown"
     end)() or "Unknown")
     
-    r.ImGui_Text(ctx, "Unlock " .. skin_name .. "?")
+    r.ImGui_Text(ctx, I18n.get("shop.unlock") .. " " .. skin_name .. "?")
     r.ImGui_Separator(ctx)
     r.ImGui_Spacing(ctx)
     
-    r.ImGui_Text(ctx, "Cost: ")
+    r.ImGui_Text(ctx, I18n.get("shop.cost") .. ": ")
     r.ImGui_SameLine(ctx)
-    r.ImGui_TextColored(ctx, Style.gold_col, format_number(price) .. " Coins")
+    r.ImGui_TextColored(ctx, Style.gold_col, format_number(price) .. " " .. I18n.get("shop.coins"))
     r.ImGui_Spacing(ctx)
     
     local current_balance = CoinSystem.get_balance()
     local btn_w, btn_h = 80, 24
     
     if current_balance < price then
-      r.ImGui_TextColored(ctx, 0xFF6666FF, "Insufficient funds")
+      r.ImGui_TextColored(ctx, 0xFF6666FF, I18n.get("shop.insufficient_funds"))
       r.ImGui_Spacing(ctx)
-      if r.ImGui_Button(ctx, "Close", btn_w, btn_h) then
+      if r.ImGui_Button(ctx, I18n.get("shop.close"), btn_w, btn_h) then
         r.ImGui_CloseCurrentPopup(ctx)
         shop_purchase_confirm = nil
       end
@@ -165,7 +166,7 @@ local function draw_purchase_popup(ctx, skins, tracker, main_win_info)
       r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), Style.btn_hover)
       r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), Style.btn_active)
       
-      if r.ImGui_Button(ctx, "Purchase", btn_w, btn_h) then
+      if r.ImGui_Button(ctx, I18n.get("shop.purchase"), btn_w, btn_h) then
         local success, result, message
         local unlocked_skin_id = nil
         
@@ -398,7 +399,7 @@ function Shop.draw(ctx, open, data)
   r.ImGui_PushStyleVar(ctx, r.ImGui_StyleVar_ItemSpacing(), ITEM_SPACING, ITEM_SPACING)
   
   local flags = r.ImGui_WindowFlags_NoCollapse() | r.ImGui_WindowFlags_NoScrollbar() | r.ImGui_WindowFlags_NoTitleBar()
-  local visible, new_open = r.ImGui_Begin(ctx, "Skin Shop", true, flags)
+  local visible, new_open = r.ImGui_Begin(ctx, I18n.get("shop.title"), true, flags)
   
   if visible then
     r.ImGui_Text(ctx, "Skin Shop")
@@ -422,13 +423,13 @@ function Shop.draw(ctx, open, data)
     local balance = CoinSystem.get_balance()
     local daily = CoinSystem.get_daily_remaining()
     
-    r.ImGui_TextColored(ctx, Style.gold_col, "Balance:")
+    r.ImGui_TextColored(ctx, Style.gold_col, I18n.get("shop.balance") .. ":")
     r.ImGui_SameLine(ctx)
     r.ImGui_TextColored(ctx, Style.gold_col, format_number(balance))
     
     r.ImGui_SameLine(ctx)
     local avail_w = r.ImGui_GetContentRegionAvail(ctx)
-    local daily_text = "Daily: " .. daily
+    local daily_text = I18n.get("shop.daily") .. ": " .. daily
     local daily_w = r.ImGui_CalcTextSize(ctx, daily_text)
     r.ImGui_SetCursorPosX(ctx, r.ImGui_GetCursorPosX(ctx) + avail_w - daily_w)
     r.ImGui_TextColored(ctx, Style.text_dim, daily_text)
@@ -440,7 +441,7 @@ function Shop.draw(ctx, open, data)
     local owned_list = {}
     local locked_list = {}
     
-    table.insert(locked_list, { id = "blind_box", name = "Blind Box", accent = 0xFFD700FF })
+    table.insert(locked_list, { id = "blind_box", name = I18n.get("shop.blind_box"), accent = 0xFFD700FF })
     
     if skins then
       for _, s in ipairs(skins) do
@@ -468,7 +469,7 @@ function Shop.draw(ctx, open, data)
     for row = 0, total_rows - 1 do
        local owned_rows = math.ceil(#owned_list / COLS)
        if row < owned_rows then
-         if row == 0 then r.ImGui_TextColored(ctx, Style.text_dim, "MY COLLECTION") end
+         if row == 0 then r.ImGui_TextColored(ctx, Style.text_dim, I18n.get("shop.my_collection")) end
          for col = 0, COLS - 1 do
            local idx = row * COLS + col + 1
            if idx <= #owned_list then
@@ -484,7 +485,7 @@ function Shop.draw(ctx, open, data)
          r.ImGui_Dummy(ctx, 0, 4)
        else
          local shop_row = row - (has_separator and (owned_rows + 1) or owned_rows)
-         if shop_row == 0 then r.ImGui_TextColored(ctx, Style.text_dim, "SHOP") end
+         if shop_row == 0 then r.ImGui_TextColored(ctx, Style.text_dim, I18n.get("shop.shop")) end
          for col = 0, COLS - 1 do
            local idx = shop_row * COLS + col + 1
            if idx <= #locked_list then

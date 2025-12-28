@@ -1,0 +1,139 @@
+--[[
+  REAPER Companion - 日本語言語パック
+--]]
+
+local translations = {
+  -- Settings Window
+  settings = {
+    title = "設定",
+    tabs = {
+      general = "一般",
+      stats = "統計",
+      system = "システム"
+    },
+    general = {
+      appearance = "外観",
+      current_skin = "現在のスキン: ",
+      none = "なし",
+      change_skin = "スキンを変更",
+      modules = "モジュール",
+      show_stats_box = "統計ボックスを表示",
+      stats_box_scale = "統計ボックスのサイズ",
+      offset_x = "Xオフセット",
+      offset_y = "Yオフセット",
+      text_offset_x = "テキストXオフセット",
+      text_offset_y = "テキストYオフセット",
+      reset_stats_box_defaults = "統計ボックスのデフォルトをリセット",
+      show_pomodoro_timer = "ポモドーロタイマーを表示",
+      timer_scale = "タイマーのサイズ",
+      reset_timer_defaults = "タイマーのデフォルトをリセット",
+      enable_treasure_box = "宝箱を有効化",
+      treasure_box_hint = "  (集中セッション完了後に報酬が表示されます)",
+      right_click_to_reset = "右クリックでリセット",
+      window_docking = "ウィンドウドッキング",
+      enable_docking = "ドッキングを有効化",
+      docking_description = "REAPERメインウィンドウにウィンドウをドッキングできます。\n有効化すると、タイトルバーが表示され、'常に最前面'が削除されます。",
+      docking_instruction = "タイトルバーを右クリックして'ドッキング'を選択するか、\nウィンドウをREAPERの端にドラッグしてドッキングします。",
+      docking_note = "注意：ドッキングされると、ウィンドウはREAPERメインウィンドウの一部になります。",
+      window_docked_status = "ウィンドウ状態: ",
+      window_docked = "ドッキング済み",
+      window_floating = "フローティング"
+    },
+    stats = {
+      lifetime_stats = "累計統計",
+      label = "ラベル",
+      value = "値",
+      total_focus = "総集中時間:",
+      total_time = "総時間:",
+      operations = "操作回数:",
+      economy = "経済",
+      balance = "残高: ",
+      today_earned = "今日獲得: ",
+      manage_data = "データ管理",
+      reset_daily_limit = "1日の上限をリセット"
+    },
+    system = {
+      about = "について",
+      version = "バージョン 1.0.3",
+      language = "言語",
+      change_interface_language = "  インターフェース言語を変更",
+      instructions = "説明",
+      show_instructions = "説明を表示",
+      view_instructions_again = "  説明を再度表示",
+      auto_start = "自動起動",
+      auto_start_on_launch = "REAPER起動時に自動実行",
+      auto_start_description = "  REAPER起動時にReaPetを自動実行",
+      exit = "終了",
+      close_companion = "コンパニオンを閉じる",
+      exit_hint = "  REAPERコンパニオンを終了"
+    }
+  },
+  -- Pomodoro Settings Window
+  pomodoro_settings = {
+    title = "タイマー設定",
+    start = "開始",
+    skip = "スキップ",
+    preset = "プリセット",
+    save = "保存",
+    confirm = "確認",
+    cancel = "キャンセル",
+    focus = "集中",
+    short_break = "短い休憩",
+    long_break = "長い休憩",
+    auto_start_breaks = "自動休憩開始",
+    auto_start_focus = "自動集中開始",
+    long_break_interval = "長い休憩の間隔",
+    focus_sessions = "集中セッション",
+    time_format = "MM:SS",
+    done = "完了"
+  },
+  -- Shop Window
+  shop = {
+    title = "スキンショップ",
+    unlock = "ロック解除",
+    cost = "価格",
+    coins = "コイン",
+    insufficient_funds = "残高不足",
+    close = "閉じる",
+    purchase = "購入",
+    cancel = "キャンセル",
+    balance = "残高",
+    daily = "今日",
+    my_collection = "マイコレクション",
+    shop = "ショップ",
+    blind_box = "ブラインドボックス"
+  },
+  -- Welcome Window
+  welcome = {
+    title = "🎉 ReaPetへようこそ！",
+    subtitle = "REAPERで一緒に過ごす動物の友達 ～",
+    quick_guide = "📚 クイックガイド",
+    stats_title = "📊 統計数字",
+    stats_1 = "   • 現在のプロジェクトでの操作数を記録します",
+    stats_2 = "   • クリックするとアクティブ時間に切り替わります",
+    timer_title = "🍅 タイマー",
+    timer_1 = "   • クリックして集中セッションを開始しましょう",
+    timer_2 = "   • 右クリックでタイマーの設定を調整できます",
+    treasure_title = "🎁 宝箱",
+    treasure_1 = "   • 集中セッションを完了すると現れます",
+    treasure_2 = "   • クリックするとコインがもらえます！",
+    coins_title = "💰 コイン",
+    coins_1 = "   • 集中セッションを完了するとコインがもらえます",
+    coins_2 = "   • 1分の集中 = 1コイン",
+    coins_3 = "   • 1日に最大600コインまで獲得できます",
+    coins_4 = "   • 1日の上限に達したら、設定でリセットできます（休憩を取ってください！）",
+    shop_title = "🛒 ショップ",
+    shop_1 = "   • 机の右側のボタンをクリックしてください",
+    shop_2 = "   • コインで新しいペットスキンを手に入れられます",
+    shop_3 = "   • 直接購入するか、ブラインドボックスを試してみてください",
+    settings_title = "⚙️ 設定",
+    settings_1 = "   • ペットを右クリックすると設定が開きます",
+    settings_2 = "   • 外観や機能を調整できます",
+    bonus_title = "🎁 ウェルカムギフト: 500コイン！",
+    bonus_subtitle = "今すぐ最初の動物の友達を抽選できます！～",
+    button = "わかりました！始めましょう"
+  }
+}
+
+return translations
+

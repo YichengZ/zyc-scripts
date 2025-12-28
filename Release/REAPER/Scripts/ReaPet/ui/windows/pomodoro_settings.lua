@@ -8,6 +8,7 @@ local PomodoroSettings = {}
 
 local Pomodoro = require('core.pomodoro')
 local PomodoroPresets = require('core.pomodoro_presets')
+local I18n = require('utils.i18n')
 
 -- 模块状态
 local state = {
@@ -117,7 +118,7 @@ local function handle_time_input(ctx, label, id, buffer_key, current_min, curren
   end
   
   reaper.ImGui_SameLine(ctx)
-  reaper.ImGui_Text(ctx, "MM:SS")
+  reaper.ImGui_Text(ctx, I18n.get("pomodoro_settings.time_format"))
   reaper.ImGui_Spacing(ctx)
 end
 
@@ -209,7 +210,7 @@ function PomodoroSettings.draw(ctx, open, data)
     end
     
     -- 标题栏
-    reaper.ImGui_Text(ctx, "Timer Settings")
+    reaper.ImGui_Text(ctx, I18n.get("pomodoro_settings.title"))
     
     local window_width = reaper.ImGui_GetWindowWidth(ctx)
     local button_size = 24
@@ -234,11 +235,11 @@ function PomodoroSettings.draw(ctx, open, data)
     reaper.ImGui_SetCursorPosX(ctx, (window_width - control_button_width) * 0.5)
     
     if current_p_state == "idle" then
-      if reaper.ImGui_Button(ctx, "Start", control_button_width, control_button_height) then
+      if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.start"), control_button_width, control_button_height) then
         Pomodoro.start_focus()
       end
     else
-      if reaper.ImGui_Button(ctx, "Skip", control_button_width, control_button_height) then
+      if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.skip"), control_button_width, control_button_height) then
         Pomodoro.skip_phase()
       end
     end
@@ -248,7 +249,7 @@ function PomodoroSettings.draw(ctx, open, data)
     reaper.ImGui_Spacing(ctx)
     
     -- 预设选择
-    reaper.ImGui_Text(ctx, "Preset:")
+    reaper.ImGui_Text(ctx, I18n.get("pomodoro_settings.preset") .. ":")
     reaper.ImGui_SetNextItemWidth(ctx, 200)
     
     local preset_names, preset_keys = PomodoroPresets.build_preset_list()
@@ -278,7 +279,7 @@ function PomodoroSettings.draw(ctx, open, data)
     end
     
     reaper.ImGui_SameLine(ctx, 220)
-    if reaper.ImGui_Button(ctx, "Save", 60, 0) then
+    if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.save"), 60, 0) then
       state.save_preset_name = ""
     end
     
@@ -293,7 +294,7 @@ function PomodoroSettings.draw(ctx, open, data)
       end
       
       reaper.ImGui_SameLine(ctx)
-      if reaper.ImGui_Button(ctx, "Confirm", 80, 0) then
+      if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.confirm"), 80, 0) then
         if state.save_preset_name and state.save_preset_name ~= "" then
           local global_stats = tracker:get_global_stats()
           PomodoroPresets.save_preset(state.save_preset_name, {
@@ -313,7 +314,7 @@ function PomodoroSettings.draw(ctx, open, data)
       end
       
       reaper.ImGui_SameLine(ctx)
-      if reaper.ImGui_Button(ctx, "Cancel", 60, 0) then
+      if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.cancel"), 60, 0) then
         state.save_preset_name = nil
       end
     end
@@ -323,7 +324,7 @@ function PomodoroSettings.draw(ctx, open, data)
     reaper.ImGui_Spacing(ctx)
     
     -- 时长输入
-    handle_time_input(ctx, "Pomodoro:", "##focus_time", "focus",
+    handle_time_input(ctx, I18n.get("pomodoro_settings.focus") .. ":", "##focus_time", "focus",
       state.custom_focus_min, state.custom_focus_sec,
       function(min, sec)
         state.custom_focus_min = min
@@ -334,7 +335,7 @@ function PomodoroSettings.draw(ctx, open, data)
         end
       end)
     
-    handle_time_input(ctx, "Short Break:", "##short_break_time", "short_break",
+    handle_time_input(ctx, I18n.get("pomodoro_settings.short_break") .. ":", "##short_break_time", "short_break",
       state.custom_short_break_min, state.custom_short_break_sec,
       function(min, sec)
         state.custom_short_break_min = min
@@ -345,7 +346,7 @@ function PomodoroSettings.draw(ctx, open, data)
         end
       end)
     
-    handle_time_input(ctx, "Long Break:", "##long_break_time", "long_break",
+    handle_time_input(ctx, I18n.get("pomodoro_settings.long_break") .. ":", "##long_break_time", "long_break",
       state.custom_long_break_min, state.custom_long_break_sec,
       function(min, sec)
         state.custom_long_break_min = min
@@ -363,7 +364,7 @@ function PomodoroSettings.draw(ctx, open, data)
     
     -- Auto Start 选项
     local auto_start_breaks = Pomodoro.get_auto_start_breaks()
-    local changed_auto_breaks, new_auto_breaks = reaper.ImGui_Checkbox(ctx, "Auto Start Breaks", auto_start_breaks)
+    local changed_auto_breaks, new_auto_breaks = reaper.ImGui_Checkbox(ctx, I18n.get("pomodoro_settings.auto_start_breaks"), auto_start_breaks)
     if changed_auto_breaks then
       Pomodoro.set_auto_start_breaks(new_auto_breaks)
     end
@@ -371,7 +372,7 @@ function PomodoroSettings.draw(ctx, open, data)
     reaper.ImGui_Spacing(ctx)
     
     local auto_start_pomodoros = Pomodoro.get_auto_start_pomodoros()
-    local changed_auto_pomodoros, new_auto_pomodoros = reaper.ImGui_Checkbox(ctx, "Auto Start Pomodoros", auto_start_pomodoros)
+    local changed_auto_pomodoros, new_auto_pomodoros = reaper.ImGui_Checkbox(ctx, I18n.get("pomodoro_settings.auto_start_focus"), auto_start_pomodoros)
     if changed_auto_pomodoros then
       Pomodoro.set_auto_start_pomodoros(new_auto_pomodoros)
     end
@@ -381,7 +382,7 @@ function PomodoroSettings.draw(ctx, open, data)
     reaper.ImGui_Spacing(ctx)
     
     -- Long Break Interval
-    reaper.ImGui_Text(ctx, "Long Break Interval:")
+    reaper.ImGui_Text(ctx, I18n.get("pomodoro_settings.long_break_interval") .. ":")
     local current_interval = Pomodoro.get_long_break_interval()
     reaper.ImGui_SetNextItemWidth(ctx, 100)
     local changed_interval, new_interval = reaper.ImGui_InputInt(ctx, "##long_break_interval", current_interval, 1, 1, reaper.ImGui_InputTextFlags_None())
@@ -389,7 +390,7 @@ function PomodoroSettings.draw(ctx, open, data)
       Pomodoro.set_long_break_interval(math.max(1, math.min(20, new_interval)))
     end
     reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_Text(ctx, "pomodoros")
+    reaper.ImGui_Text(ctx, I18n.get("pomodoro_settings.focus_sessions"))
     
     reaper.ImGui_Spacing(ctx)
     reaper.ImGui_Separator(ctx)
@@ -398,7 +399,7 @@ function PomodoroSettings.draw(ctx, open, data)
     -- Done 按钮
     local button_width = 120
     reaper.ImGui_SetCursorPosX(ctx, (window_width - button_width) * 0.5)
-    if reaper.ImGui_Button(ctx, "Done", button_width, 32) then
+    if reaper.ImGui_Button(ctx, I18n.get("pomodoro_settings.done"), button_width, 32) then
       done_button_clicked = true
     end
     

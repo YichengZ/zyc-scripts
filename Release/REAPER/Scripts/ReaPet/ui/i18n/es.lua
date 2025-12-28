@@ -1,0 +1,139 @@
+--[[
+  REAPER Companion - Spanish Language Pack
+--]]
+
+local translations = {
+  -- Settings Window
+  settings = {
+    title = "Configuración",
+    tabs = {
+      general = "General",
+      stats = "Estadísticas",
+      system = "Sistema"
+    },
+    general = {
+      appearance = "Apariencia",
+      current_skin = "Piel actual: ",
+      none = "Ninguna",
+      change_skin = "Cambiar piel",
+      modules = "Módulos",
+      show_stats_box = "Mostrar caja de estadísticas",
+      stats_box_scale = "Escala de caja de estadísticas",
+      offset_x = "Desplazamiento X",
+      offset_y = "Desplazamiento Y",
+      text_offset_x = "Desplazamiento de texto X",
+      text_offset_y = "Desplazamiento de texto Y",
+      reset_stats_box_defaults = "Restablecer valores predeterminados",
+      show_pomodoro_timer = "Mostrar temporizador",
+      timer_scale = "Escala del temporizador",
+      reset_timer_defaults = "Restablecer temporizador",
+      enable_treasure_box = "Habilitar caja del tesoro",
+      treasure_box_hint = "  (Las recompensas aparecen después de las sesiones de enfoque)",
+      right_click_to_reset = "Clic derecho para restablecer",
+      window_docking = "Acoplamiento de ventana",
+      enable_docking = "Habilitar acoplamiento",
+      docking_description = "Permitir que la ventana se acople a la ventana principal de REAPER.\nCuando está habilitado, aparece la barra de título y se elimina 'Siempre encima'.",
+      docking_instruction = "Clic derecho en la barra de título y seleccione 'Acoplar',\no arrastre la ventana a los bordes de REAPER para acoplar.",
+      docking_note = "Nota: Cuando está acoplada, la ventana se convierte en parte de la ventana principal de REAPER.",
+      window_docked_status = "Estado de la ventana: ",
+      window_docked = "Acoplada",
+      window_floating = "Flotante"
+    },
+    stats = {
+      lifetime_stats = "Estadísticas de por vida",
+      label = "Etiqueta",
+      value = "Valor",
+      total_focus = "Enfoque total:",
+      total_time = "Tiempo total:",
+      operations = "Operaciones:",
+      economy = "Economía",
+      balance = "Saldo: ",
+      today_earned = "Ganado hoy: ",
+      manage_data = "Gestionar datos",
+      reset_daily_limit = "Restablecer límite diario"
+    },
+    system = {
+      about = "Acerca de",
+      version = "Versión 1.0.3",
+      language = "Idioma",
+      change_interface_language = "  Cambiar idioma de la interfaz",
+      instructions = "Instrucciones",
+      show_instructions = "Mostrar instrucciones",
+      view_instructions_again = "  Ver instrucciones nuevamente",
+      auto_start = "Inicio automático",
+      auto_start_on_launch = "Ejecutar automáticamente al iniciar REAPER",
+      auto_start_description = "  Ejecutar ReaPet automáticamente al iniciar REAPER",
+      exit = "Salir",
+      close_companion = "Cerrar compañero",
+      exit_hint = "  Salir del compañero REAPER"
+    }
+  },
+  -- Pomodoro Settings Window
+  pomodoro_settings = {
+    title = "Configuración del temporizador",
+    start = "Iniciar",
+    skip = "Omitir",
+    preset = "Preestablecido",
+    save = "Guardar",
+    confirm = "Confirmar",
+    cancel = "Cancelar",
+    focus = "Enfoque",
+    short_break = "Descanso corto",
+    long_break = "Descanso largo",
+    auto_start_breaks = "Iniciar descansos automáticamente",
+    auto_start_focus = "Iniciar enfoque automáticamente",
+    long_break_interval = "Intervalo de descanso largo",
+    focus_sessions = "sesiones de enfoque",
+    time_format = "MM:SS",
+    done = "Hecho"
+  },
+  -- Shop Window
+  shop = {
+    title = "Tienda de pieles",
+    unlock = "Desbloquear",
+    cost = "Costo",
+    coins = "Monedas",
+    insufficient_funds = "Fondos insuficientes",
+    close = "Cerrar",
+    purchase = "Comprar",
+    cancel = "Cancelar",
+    balance = "Saldo",
+    daily = "Diario",
+    my_collection = "MI COLECCIÓN",
+    shop = "TIENDA",
+    blind_box = "Caja sorpresa"
+  },
+  -- Welcome Window
+  welcome = {
+    title = "🎉 ¡Bienvenido a ReaPet!",
+    subtitle = "Tu pequeño compañero en REAPER ～",
+    quick_guide = "📚 Guía rápida",
+    stats_title = "📊 Caja de estadísticas",
+    stats_1 = "   • Rastrea tus operaciones en este proyecto",
+    stats_2 = "   • Haz clic para ver tu tiempo activo",
+    timer_title = "🍅 Temporizador",
+    timer_1 = "   • Haz clic para iniciar una sesión de enfoque",
+    timer_2 = "   • Clic derecho para ajustar la configuración",
+    treasure_title = "🎁 Caja del tesoro",
+    treasure_1 = "   • Aparece después de completar una sesión",
+    treasure_2 = "   • ¡Haz clic para recoger tus monedas!",
+    coins_title = "💰 Monedas",
+    coins_1 = "   • Gana monedas completando sesiones",
+    coins_2 = "   • 1 minuto de enfoque = 1 moneda",
+    coins_3 = "   • Puedes ganar hasta 600 monedas por día",
+    coins_4 = "   • Si alcanzas el límite diario, puedes restablecerlo en Configuración (¡Descansa!)",
+    shop_title = "🛒 Tienda",
+    shop_1 = "   • Haz clic en el botón del lado derecho del escritorio",
+    shop_2 = "   • Usa tus monedas para obtener nuevas pieles",
+    shop_3 = "   • Elige compra directa o prueba la caja sorpresa",
+    settings_title = "⚙️ Configuración",
+    settings_1 = "   • Clic derecho en tu mascota para abrir configuración",
+    settings_2 = "   • Ajusta cómo se ven y funcionan las cosas",
+    bonus_title = "🎁 Regalo de bienvenida: ¡500 monedas!",
+    bonus_subtitle = "¡Puedes obtener tu primer amigo animal ahora mismo! ～",
+    button = "¡Entendido! Empecemos"
+  }
+}
+
+return translations
+

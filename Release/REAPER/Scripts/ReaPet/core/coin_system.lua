@@ -286,5 +286,13 @@ function CoinSystem.get_state()
   }
 end
 
+-- ========= 重置每日限制 =========
+function CoinSystem.reset_daily_limit()
+  state.daily_coins_earned = 0
+  state.last_reset_time = get_today_start()
+  CoinSystem.save()
+  Debug.log("CoinSystem: Daily limit manually reset\n")
+end
+
 return CoinSystem
 

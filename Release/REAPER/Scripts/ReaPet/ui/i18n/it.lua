@@ -1,0 +1,138 @@
+--[[
+  REAPER Companion - Italian Language Pack
+--]]
+
+local translations = {
+  -- Settings Window
+  settings = {
+    title = "Impostazioni",
+    tabs = {
+      general = "Generale",
+      stats = "Statistiche",
+      system = "Sistema"
+    },
+    general = {
+      appearance = "Aspetto",
+      current_skin = "Skin attuale: ",
+      none = "Nessuna",
+      change_skin = "Cambia skin",
+      modules = "Moduli",
+      show_stats_box = "Mostra box statistiche",
+      stats_box_scale = "Scala box statistiche",
+      offset_x = "Offset X",
+      offset_y = "Offset Y",
+      text_offset_x = "Offset testo X",
+      text_offset_y = "Offset testo Y",
+      reset_stats_box_defaults = "Ripristina valori predefiniti",
+      show_pomodoro_timer = "Mostra timer",
+      timer_scale = "Scala timer",
+      reset_timer_defaults = "Ripristina timer",
+      enable_treasure_box = "Abilita scrigno del tesoro",
+      treasure_box_hint = "  (Le ricompense appaiono dopo le sessioni di concentrazione)",
+      right_click_to_reset = "Tasto destro per ripristinare",
+      window_docking = "Ancoraggio finestra",
+      enable_docking = "Abilita ancoraggio",
+      docking_description = "Consenti alla finestra di ancorarsi alla finestra principale di REAPER.\nQuando abilitato, appare la barra del titolo e 'Sempre in primo piano' viene rimosso.",
+      docking_instruction = "Tasto destro sulla barra del titolo e seleziona 'Ancora',\no trascina la finestra ai bordi di REAPER per ancorare.",
+      docking_note = "Nota: Quando ancorata, la finestra diventa parte della finestra principale di REAPER.",
+      window_docked_status = "Stato finestra: ",
+      window_docked = "Ancorata",
+      window_floating = "Fluttuante"
+    },
+    stats = {
+      lifetime_stats = "Statistiche totali",
+      label = "Etichetta",
+      value = "Valore",
+      total_focus = "Concentrazione totale:",
+      total_time = "Tempo totale:",
+      operations = "Operazioni:",
+      economy = "Economia",
+      balance = "Saldo: ",
+      today_earned = "Guadagnato oggi: ",
+      manage_data = "Gestisci dati",
+      reset_daily_limit = "Ripristina limite giornaliero"
+    },
+    system = {
+      about = "Informazioni",
+      version = "Versione 1.0.3",
+      language = "Lingua",
+      change_interface_language = "  Cambia lingua dell'interfaccia",
+      instructions = "Istruzioni",
+      show_instructions = "Mostra istruzioni",
+      view_instructions_again = "  Visualizza istruzioni di nuovo",
+      auto_start = "Avvio automatico",
+      auto_start_on_launch = "Esegui automaticamente all'avvio di REAPER",
+      auto_start_description = "  Esegui ReaPet automaticamente all'avvio di REAPER",
+      exit = "Esci",
+      close_companion = "Chiudi compagno",
+      exit_hint = "  Esci dal compagno REAPER"
+    }
+  },
+  -- Pomodoro Settings Window
+  pomodoro_settings = {
+    title = "Impostazioni timer",
+    start = "Avvia",
+    skip = "Salta",
+    preset = "Preimpostazione",
+    save = "Salva",
+    confirm = "Conferma",
+    cancel = "Annulla",
+    focus = "Concentrazione",
+    short_break = "Pausa breve",
+    long_break = "Pausa lunga",
+    auto_start_breaks = "Avvia pause automaticamente",
+    auto_start_focus = "Avvia concentrazione automaticamente",
+    long_break_interval = "Intervallo pausa lunga",
+    focus_sessions = "sessioni di concentrazione",
+    time_format = "MM:SS",
+    done = "Fatto"
+  },
+  -- Shop Window
+  shop = {
+    title = "Negozio skin",
+    unlock = "Sblocca",
+    cost = "Costo",
+    coins = "Monete",
+    insufficient_funds = "Fondi insufficienti",
+    close = "Chiudi",
+    purchase = "Acquista",
+    cancel = "Annulla",
+    balance = "Saldo",
+    daily = "Giornaliero",
+    my_collection = "LA MIA COLLEZIONE",
+    shop = "NEGOZIO",
+    blind_box = "Scatola a sorpresa"
+  },
+  -- Welcome Window
+  welcome = {
+    title = "🎉 Benvenuto in ReaPet!",
+    subtitle = "Il tuo piccolo compagno in REAPER ～",
+    quick_guide = "📚 Guida rapida",
+    stats_title = "📊 Box statistiche",
+    stats_1 = "   • Traccia le tue operazioni in questo progetto",
+    stats_2 = "   • Clicca per vedere il tuo tempo attivo",
+    timer_title = "🍅 Timer",
+    timer_1 = "   • Clicca per avviare una sessione di concentrazione",
+    timer_2 = "   • Tasto destro per regolare le impostazioni",
+    treasure_title = "🎁 Scrigno del tesoro",
+    treasure_1 = "   • Appare dopo aver completato una sessione",
+    treasure_2 = "   • Clicca per raccogliere le tue monete!",
+    coins_title = "💰 Monete",
+    coins_1 = "   • Guadagna monete completando sessioni",
+    coins_2 = "   • 1 minuto di concentrazione = 1 moneta",
+    coins_3 = "   • Puoi guadagnare fino a 600 monete al giorno",
+    coins_4 = "   • Se raggiungi il limite giornaliero, puoi resettarlo nelle Impostazioni (Riposati!)",
+    shop_title = "🛒 Negozio",
+    shop_1 = "   • Clicca il pulsante sul lato destro della scrivania",
+    shop_2 = "   • Usa le tue monete per ottenere nuove skin",
+    shop_3 = "   • Scegli acquisto diretto o prova la scatola a sorpresa",
+    settings_title = "⚙️ Impostazioni",
+    settings_1 = "   • Tasto destro sul tuo animale per aprire le impostazioni",
+    settings_2 = "   • Regola aspetto e funzionamento",
+    bonus_title = "🎁 Regalo di benvenuto: 500 monete!",
+    bonus_subtitle = "Puoi ottenere subito il tuo primo amico animale! ～",
+    button = "Capito! Iniziamo"
+  }
+}
+
+return translations

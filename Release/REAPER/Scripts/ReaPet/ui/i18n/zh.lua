@@ -1,0 +1,147 @@
+--[[
+  REAPER Companion - 中文语言包
+--]]
+
+local translations = {
+  -- Settings Window
+  settings = {
+    title = "设置",
+    tabs = {
+      general = "常规",
+      stats = "统计",
+      system = "系统"
+    },
+    general = {
+      appearance = "外观",
+      current_skin = "当前皮肤: ",
+      none = "无",
+      change_skin = "更换皮肤",
+      modules = "模块",
+      show_stats_box = "显示统计框",
+      stats_box_scale = "统计框缩放",
+      offset_x = "水平偏移",
+      offset_y = "垂直偏移",
+      text_offset_x = "文字水平偏移",
+      text_offset_y = "文字垂直偏移",
+      reset_stats_box_defaults = "重置统计框默认值",
+      show_pomodoro_timer = "显示专注计时器",
+      timer_scale = "计时器缩放",
+      reset_timer_defaults = "重置计时器默认值",
+      enable_treasure_box = "启用宝箱",
+      treasure_box_hint = "  (完成专注时间后会出现奖励)",
+      right_click_to_reset = "右键点击重置",
+      window_docking = "窗口停靠",
+      enable_docking = "启用停靠",
+      docking_description = "允许窗口停靠到 REAPER 主窗口。\n启用后，将显示标题栏并移除'始终置顶'。",
+      docking_instruction = "右键点击标题栏选择'停靠'，\n或拖拽窗口到 REAPER 边缘来停靠。",
+      docking_note = "注意：停靠后，窗口成为 REAPER 主窗口的一部分。",
+      window_docked_status = "窗口状态：",
+      window_docked = "已停靠",
+      window_floating = "浮动"
+    },
+    stats = {
+      lifetime_stats = "累计统计",
+      label = "标签",
+      value = "数值",
+      total_focus = "总专注时间:",
+      total_time = "总时间:",
+      operations = "操作次数:",
+      economy = "经济",
+      balance = "余额: ",
+      today_earned = "今日获得: ",
+      manage_data = "数据管理",
+      reset_daily_limit = "重置每日限制"
+    },
+    system = {
+      about = "关于",
+      version = "版本 1.0.3",
+      language = "语言",
+      change_interface_language = "  更改界面语言",
+      instructions = "说明",
+      show_instructions = "显示说明",
+      view_instructions_again = "  再次查看说明",
+      auto_start = "自动启动",
+      auto_start_on_launch = "REAPER 启动时自动运行",
+      auto_start_description = "  在 REAPER 启动时自动运行 ReaPet",
+      startup_actions = "启动动作",
+      open_startup_actions = "打开启动动作设置",
+      startup_actions_description = "  管理启动动作，设置 REAPER 启动时运行 ReaPet",
+      exit = "退出",
+      close_companion = "关闭伴侣",
+      exit_hint = "  退出 REAPER 伴侣"
+    }
+  },
+  -- Pomodoro Settings Window
+  pomodoro_settings = {
+    title = "计时器设置",
+    start = "开始",
+    skip = "跳过",
+    preset = "预设",
+    save = "保存",
+    confirm = "确认",
+    cancel = "取消",
+    focus = "专注",
+    short_break = "短休息",
+    long_break = "长休息",
+    auto_start_breaks = "自动开始休息",
+    auto_start_focus = "自动开始专注",
+    long_break_interval = "长休息间隔",
+    focus_sessions = "专注次数",
+    time_format = "MM:SS",
+    done = "完成"
+  },
+  -- Shop Window
+  shop = {
+    title = "皮肤商店",
+    unlock = "解锁",
+    cost = "价格",
+    coins = "金币",
+    insufficient_funds = "余额不足",
+    close = "关闭",
+    purchase = "购买",
+    cancel = "取消",
+    balance = "余额",
+    daily = "今日",
+    my_collection = "我的收藏",
+    shop = "商店",
+    blind_box = "盲盒"
+  },
+  -- Welcome Window
+  welcome = {
+    title = "🎉 欢迎使用 ReaPet!",
+    subtitle = "在 REAPER 中感受动物小伙伴的陪伴 ～",
+    quick_guide = "📚 快速指南",
+    stats_title = "📊 计数窗口",
+    stats_1 = "   • 会记录你在当前项目中的操作次数",
+    stats_2 = "   • 点击可以切换到显示活跃时间",
+    timer_title = "🍅 计时器",
+    timer_1 = "   • 点击开始专注时间",
+    timer_2 = "   • 右键可以调整计时器设置",
+    treasure_title = "🎁 宝箱",
+    treasure_1 = "   • 完成专注时间后就会出现",
+    treasure_2 = "   • 点击就能领取金币！",
+    coins_title = "💰 金币",
+    coins_1 = "   • 完成专注时间就能获得金币",
+    coins_2 = "   • 专注 1 分钟 = 1 金币",
+    coins_3 = "   • 每天最多能获得 600 金币",
+    coins_4 = "   • 如果到了每日限制，可以在设置中重置每日限制（注意休息！）",
+    shop_title = "🛒 商店",
+    shop_1 = "   • 点击桌子右边的按钮",
+    shop_2 = "   • 用金币解锁新的宠物皮肤",
+    shop_3 = "   • 可以直接购买，也可以试试盲盒",
+    settings_title = "⚙️ 设置",
+    settings_1 = "   • 右键点击宠物打开设置",
+    settings_2 = "   • 可以调整外观和各项功能",
+    startup_actions_title = "🚀 启动动作",
+    startup_actions_1 = "   • 在 REAPER 启动时自动运行 ReaPet",
+    startup_actions_2 = "   • 统一管理启动动作",
+    startup_actions_3 = "   • 点击下方按钮进行设置",
+    startup_actions_button = "打开启动动作设置",
+    bonus_title = "🎁 欢迎礼物: 500 金币!",
+    bonus_subtitle = "现在就可以抽第一个动物朋友啦！～",
+    button = "知道啦，开始吧！"
+  }
+}
+
+return translations
+

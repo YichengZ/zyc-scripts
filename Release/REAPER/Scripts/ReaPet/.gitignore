@@ -52,3 +52,15 @@ CLEANUP_PLAN.md
 # ui/utils/
 data/companion_data.json
 data/companion_data.json
+
+# 私有开发文档（不提交到 GitHub）
+docs/private/
+docs/internal/
+docs/*_private.md
+docs/*_internal.md
+docs/REFERENCE_*.md
+docs/DESIGN_*.md
+docs/NOTES_*.md
+docs/*_reference.md
+docs/*_design.md
+docs/*_notes.md

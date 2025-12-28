@@ -17,6 +17,7 @@ Config.SHOW_DEBUG_CONSOLE = false  -- Debug Console 输出开关（默认关闭�
 Config.DEVELOPER_MODE = false      -- 开发者模式开关（默认关闭，可通过配置文件启用）
 Config.DEBUG_TREASURE_ON_SKIP = false  -- Debug: 跳过focus也显示宝箱（默认关闭，开发者功能）
 Config.CURRENT_SKIN_ID = "cat_base"  -- 默认使用 PNG 皮肤（cat_base）
+Config.LANGUAGE = "en"             -- 界面语言（en, zh, ko, ja）
 
 -- ========= UI 设置 =========
 -- 字体设置
@@ -87,6 +88,23 @@ Config.DATA_FILE = nil  -- 将在初始化时设置
 Config.PROJ_KEY = "ReaperCompanion_stats"
 Config.PROJ_ID_KEY = "project_id"
 
+-- ========= 主窗口位置记忆 =========
+Config.MAIN_WINDOW_POS = {
+  x = nil,      -- 窗口X坐标
+  y = nil,      -- 窗口Y坐标
+  w = nil,      -- 窗口宽度
+  h = nil,      -- 窗口高度
+  scale = nil   -- 窗口缩放（ScaleManager的缩放值）
+}
+
+-- ========= 窗口停靠配置 =========
+Config.ENABLE_DOCKING = false         -- 是否启用停靠功能（默认关闭，用户可选择启用）
+Config.WINDOW_DOCKED = false          -- 窗口是否已停靠（运行时状态，由 REAPER 管理）
+Config.DOCK_POSITION = nil            -- 停靠位置记忆（"left", "right", "top", "bottom", nil=浮动）
+
+-- ========= 自动启动配置 =========
+Config.AUTO_START_ON_LAUNCH = false   -- 是否在 REAPER 启动时自动运行（默认关闭）
+
 -- ========= 初始化函数 =========
 function Config.init(script_path)
   -- script_path 已经是脚本所在目录（如 /path/to/ReaperCompanion/）
@@ -113,6 +131,7 @@ function Config.load_from_data(global_stats)
   Config.SHOW_DEBUG_CONSOLE = settings.show_debug_console or false
   Config.DEVELOPER_MODE = settings.developer_mode or false
   Config.CURRENT_SKIN_ID = settings.current_skin_id or Config.CURRENT_SKIN_ID
+  Config.LANGUAGE = settings.language or "en"
   
   -- 加载字体设置
   Config.CUSTOM_FONT = settings.custom_font or false
@@ -133,6 +152,23 @@ function Config.load_from_data(global_stats)
   Config.MENU_BUTTON_OFFSET_Y = settings.menu_button_offset_y or 0
   Config.TIMER_SCALE = settings.timer_scale or 1.0
   Config.CHARACTER_SIZE = settings.character_size or 140
+  
+  -- 加载主窗口位置记忆
+  if settings.main_window_pos then
+    Config.MAIN_WINDOW_POS.x = settings.main_window_pos.x
+    Config.MAIN_WINDOW_POS.y = settings.main_window_pos.y
+    Config.MAIN_WINDOW_POS.w = settings.main_window_pos.w
+    Config.MAIN_WINDOW_POS.h = settings.main_window_pos.h
+    Config.MAIN_WINDOW_POS.scale = settings.main_window_pos.scale
+  end
+  
+  -- 加载窗口停靠配置
+  Config.ENABLE_DOCKING = settings.enable_docking or false
+  Config.WINDOW_DOCKED = settings.window_docked or false
+  Config.DOCK_POSITION = settings.dock_position or nil
+  
+  -- 加载自动启动配置
+  Config.AUTO_START_ON_LAUNCH = settings.auto_start_on_launch or false
   
   -- 加载颜色设置
   if settings.colors then
@@ -163,6 +199,7 @@ function Config.save_to_data(global_stats)
   settings.show_debug_console = Config.SHOW_DEBUG_CONSOLE
   settings.developer_mode = Config.DEVELOPER_MODE
   settings.current_skin_id = Config.CURRENT_SKIN_ID
+  settings.language = Config.LANGUAGE
   
   -- 保存字体设置
   settings.custom_font = Config.CUSTOM_FONT
@@ -183,6 +220,29 @@ function Config.save_to_data(global_stats)
   settings.menu_button_offset_y = Config.MENU_BUTTON_OFFSET_Y
   settings.timer_scale = Config.TIMER_SCALE
   settings.character_size = Config.CHARACTER_SIZE
+  
+  -- 保存主窗口位置记忆（确保所有值都存在）
+  if Config.MAIN_WINDOW_POS.x and Config.MAIN_WINDOW_POS.y and 
+     Config.MAIN_WINDOW_POS.w and Config.MAIN_WINDOW_POS.h and
+     Config.MAIN_WINDOW_POS.scale then
+    settings.main_window_pos = {
+      x = Config.MAIN_WINDOW_POS.x,
+      y = Config.MAIN_WINDOW_POS.y,
+      w = Config.MAIN_WINDOW_POS.w,
+      h = Config.MAIN_WINDOW_POS.h,
+      scale = Config.MAIN_WINDOW_POS.scale
+    }
+  end
+  
+  -- 保存窗口停靠配置
+  settings.enable_docking = Config.ENABLE_DOCKING
+  settings.window_docked = Config.WINDOW_DOCKED
+  if Config.DOCK_POSITION then
+    settings.dock_position = Config.DOCK_POSITION
+  end
+  
+  -- 保存自动启动配置
+  settings.auto_start_on_launch = Config.AUTO_START_ON_LAUNCH
   
   -- 保存颜色设置
   settings.colors = {
@@ -206,6 +266,7 @@ function Config.reset_to_defaults()
   Config.SHOW_DEBUG_CONSOLE = false  -- 默认关闭（开发者功能）
   Config.DEVELOPER_MODE = false      -- 默认关闭（开发者功能，可通过配置文件启用）
   Config.CURRENT_SKIN_ID = "cat_base"
+  Config.LANGUAGE = "en"             -- 默认英文
   Config.CUSTOM_FONT = false
   Config.FONT_SIZE = 16
   Config.UI_SPACING = 10
@@ -227,6 +288,23 @@ function Config.reset_to_defaults()
   Config.COLORS.button = 0x333333FF
   Config.COLORS.border = 0x666666FF
   Config.COLORS.highlight = 0x4D9FFF
+  
+  -- 重置主窗口位置记忆
+  Config.MAIN_WINDOW_POS = {
+    x = nil,
+    y = nil,
+    w = nil,
+    h = nil,
+    scale = nil
+  }
+  
+  -- 重置窗口停靠配置
+  Config.ENABLE_DOCKING = false
+  Config.WINDOW_DOCKED = false
+  Config.DOCK_POSITION = nil
+  
+  -- 重置自动启动配置
+  Config.AUTO_START_ON_LAUNCH = false
 end
 
 return Config

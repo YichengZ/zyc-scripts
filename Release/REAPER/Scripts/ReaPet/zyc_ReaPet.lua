@@ -1,10 +1,11 @@
--- @description ReaPet
+-- @description Zyc ReaPet - Productivity Companion
 -- @version 1.0.3
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
 --
---   ReaPet is a gamified productivity companion designed for REAPER users.
+--   Turn your music production into a game! Zyc ReaPet is a gamified productivity
+--   companion designed specifically for REAPER users.
 --
 --   ### Key Features
 --   * **Stats Tracking**: Monitor your daily active usage and working habits.
@@ -12,9 +13,8 @@
 --   * **Pet System**: Level up your companion by being productive.
 --   * **Shop & Skins**: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.
 --
---   Stay motivated and make your work sessions more fun!
+--   Stay motivated and make your mixing sessions more fun!
 -- @provides
---   [main=main] zyc_ReaPet.lua
 --   config.lua
 --   core/*.lua
 --   utils/*.lua
@@ -48,6 +48,8 @@ local FontManager = require('utils.font_manager')
 local TransformationEffect = require('ui.transformation_effect')
 local CoinEffect = require('ui.utils.coin_effect')
 local ScaleManager = require('utils.scale_manager')
+local I18n = require('utils.i18n')
+local WindowFlags = require('utils.window_flags')
 
 -- 本地化常用 Reaper 函数
 local r = reaper
@@ -55,6 +57,13 @@ local time_precise = r.time_precise
 
 -- ========= 初始化 =========
 Config.init(script_path)
+
+-- ========= 初始化 i18n =========
+-- 注意：需要在 Config.load_from_data 之后调用，因为语言设置从 Config 读取
+local function init_i18n()
+  local lang = Config.LANGUAGE or "en"
+  I18n.init(lang)
+end
 
 -- ========= ReaImGui Version Check =========
 local function check_imgui_compatibility()
@@ -71,6 +80,7 @@ if not check_imgui_compatibility() then return end
 local ctx = r.ImGui_CreateContext('ReaPet')
 local tracker = Tracker:new()
 Config.load_from_data(tracker:get_global_stats())
+init_i18n()  -- 初始化 i18n（需要在 Config.load_from_data 之后）
 
 -- 检测首次运行（检查是否已经显示过欢迎窗口）
 local function is_first_run()
@@ -97,6 +107,11 @@ PomodoroTimer.init()
 TransformationEffect.init()
 CoinEffect.init()
 local pending_skin_resize = true
+
+-- 窗口位置记忆相关变量
+local window_pos_save_timer = 0
+local WINDOW_POS_SAVE_INTERVAL = 1.0  -- 1秒后保存位置
+local is_first_window_restore = true  -- 首次恢复窗口位置标志
 
 Pomodoro.set_on_focus_complete(function()
   if Treasure.show then Treasure.show() end
@@ -133,10 +148,9 @@ local TRACKER_UPDATE_INTERVAL = 0.2
 local cached_time_str = "--:--"
 local last_cached_seconds = -1
 
--- 预定义 Window Flags
-local WINDOW_FLAGS = r.ImGui_WindowFlags_NoTitleBar() | 
-                     r.ImGui_WindowFlags_NoScrollbar() |
-                     r.ImGui_WindowFlags_TopMost()
+-- 窗口标志（现在使用动态生成，见 WindowFlags.get_main_window_flags()）
+-- 保留此变量用于向后兼容，但实际使用 WindowFlags.get_main_window_flags()
+local WINDOW_FLAGS = nil  -- 将在主循环中动态生成
 
 -- 预定义上下文表 (GC 优化)
 local settings_ctx = {}
@@ -169,6 +183,9 @@ local function SaveAllDataAtomic()
   
   -- 一次性更新所有数据
   local global_stats = tracker:get_global_stats()
+  
+  -- 先更新 Config 到 global_stats.ui_settings（确保窗口位置等配置被保存）
+  Config.save_to_data(global_stats)
   
   -- 更新 global_stats 字段（使用白名单机制，避免覆盖coin_system和shop_system）
   -- 注意：字段列表与 core/tracker.lua 中的 GLOBAL_STATS_FIELDS 保持一致
@@ -274,14 +291,52 @@ local function Loop()
   if SkinManager.consume_layout_dirty() then pending_skin_resize = true end
   local base_w, base_h = SkinManager.get_recommended_size()
   
-  if pending_skin_resize then
-    r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_Always())
-    pending_skin_resize = false
-  else
-    r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_FirstUseEver())
+  -- 恢复窗口位置（仅在首次）
+  local has_saved_window = false
+  if is_first_window_restore then
+    is_first_window_restore = false
+    
+    -- 如果启用停靠，让 REAPER 自动管理窗口位置（包括停靠状态）
+    -- 注意：即使 Config.WINDOW_DOCKED = true，也不要在初始化时跳过位置设置
+    -- 因为 REAPER 会在窗口真正停靠后自动恢复停靠位置
+    if Config.ENABLE_DOCKING then
+      -- 启用停靠时，不设置窗口位置，让 REAPER 自动处理
+      -- REAPER 会自动恢复停靠窗口的位置和状态
+      has_saved_window = false
+    else
+      -- 未启用停靠时，恢复浮动窗口的位置
+      local saved_pos = Config.MAIN_WINDOW_POS
+      if saved_pos and saved_pos.x and saved_pos.y then
+        -- 检查位置是否有效（在多显示器环境中，位置可能在 -10000 到 10000 之间）
+        if saved_pos.x > -10000 and saved_pos.x < 10000 and 
+           saved_pos.y > -10000 and saved_pos.y < 10000 then
+          r.ImGui_SetNextWindowPos(ctx, saved_pos.x, saved_pos.y, r.ImGui_Cond_FirstUseEver())
+          if saved_pos.w and saved_pos.h and saved_pos.w > 0 and saved_pos.h > 0 then
+            r.ImGui_SetNextWindowSize(ctx, saved_pos.w, saved_pos.h, r.ImGui_Cond_FirstUseEver())
+            has_saved_window = true  -- 标记已恢复保存的窗口大小
+          end
+        end
+      end
+    end
   end
   
-  local visible, open = r.ImGui_Begin(ctx, 'ReaPet', true, WINDOW_FLAGS)
+  -- 只有在没有恢复保存的窗口大小时，才设置默认大小
+  if not has_saved_window then
+    if pending_skin_resize then
+      r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_Always())
+      pending_skin_resize = false
+    else
+      r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_FirstUseEver())
+    end
+  else
+    -- 如果有保存的窗口大小，清除 pending_skin_resize 标志
+    pending_skin_resize = false
+  end
+  
+  -- 动态生成窗口标志（根据停靠配置）
+  local window_flags = WindowFlags.get_main_window_flags()
+  
+  local visible, open = r.ImGui_Begin(ctx, 'ReaPet', true, window_flags)
   local floor_y_absolute = nil 
 
   if visible then
@@ -294,6 +349,73 @@ local function Loop()
     
     ScaleManager.update(w, h, base_w, base_h)
     local scale = ScaleManager.get()
+    
+    -- 检测停靠状态（仅在启用停靠时检测）
+    if Config.ENABLE_DOCKING then
+      -- 使用 ImGui_GetWindowDockID 检测停靠状态
+      -- 如果返回非零值，说明窗口已停靠
+      local dock_id = 0
+      if r.ImGui_GetWindowDockID then
+        dock_id = r.ImGui_GetWindowDockID(ctx) or 0
+      end
+      local is_docked = (dock_id ~= 0)
+      
+      -- 如果停靠状态改变，更新配置并检测停靠位置
+      if is_docked ~= Config.WINDOW_DOCKED then
+        Config.WINDOW_DOCKED = is_docked
+        is_data_dirty = true
+        
+        -- 检测停靠位置（仅在刚停靠时检测）
+        if is_docked then
+          -- 简化实现：根据窗口宽高比判断停靠方向
+          -- 不依赖屏幕尺寸，只根据窗口本身的尺寸比例
+          local aspect_ratio = w / h
+          if aspect_ratio < 0.8 then
+            -- 窗口较窄（高>宽），可能是左右停靠
+            -- 根据窗口X坐标判断：如果X坐标较小，可能是左侧；否则可能是右侧
+            -- 简化：使用窗口X坐标的绝对值判断（左侧通常X较小，右侧X较大）
+            if wx < 500 then  -- 阈值：如果窗口X坐标小于500，认为是左侧
+              Config.DOCK_POSITION = "left"
+            else
+              Config.DOCK_POSITION = "right"
+            end
+          elseif aspect_ratio > 1.5 then
+            -- 窗口较宽（宽>高），可能是上下停靠
+            -- 根据窗口Y坐标判断：如果Y坐标较小，可能是顶部；否则可能是底部
+            if wy < 500 then  -- 阈值：如果窗口Y坐标小于500，认为是顶部
+              Config.DOCK_POSITION = "top"
+            else
+              Config.DOCK_POSITION = "bottom"
+            end
+          else
+            -- 宽高比接近1:1，无法确定具体方向，保持 nil
+            Config.DOCK_POSITION = nil
+          end
+          is_data_dirty = true
+        else
+          -- 取消停靠，清除位置记忆
+          Config.DOCK_POSITION = nil
+          is_data_dirty = true
+        end
+      end
+    end
+    
+    -- 保存窗口位置（仅在非停靠状态下保存）
+    if not Config.WINDOW_DOCKED then
+      window_pos_save_timer = window_pos_save_timer + dt
+      if window_pos_save_timer > WINDOW_POS_SAVE_INTERVAL then
+        -- 确保缩放值有效（ScaleManager已初始化）
+        if scale and scale > 0 then
+          Config.MAIN_WINDOW_POS.x = wx
+          Config.MAIN_WINDOW_POS.y = wy
+          Config.MAIN_WINDOW_POS.w = w
+          Config.MAIN_WINDOW_POS.h = h
+          Config.MAIN_WINDOW_POS.scale = scale
+          is_data_dirty = true  -- 标记数据需要保存
+        end
+        window_pos_save_timer = 0
+      end
+    end
     
     local mx, my = r.GetMousePosition()
     if r.ImGui_PointConvertNative then mx, my = r.ImGui_PointConvertNative(ctx, mx, my, false) end
@@ -524,9 +646,63 @@ local function Loop()
         tracker:on_exit()
         open = false  -- 退出主循环
       end
+      
+      -- 处理重置偏好设置（不包括金币和皮肤）
+      if result.reset_preferences then
+        -- 重置 Config 到默认值（不包括金币和皮肤系统）
+        Config.reset_to_defaults()
+        -- 保存配置
+        local global_stats = tracker:get_global_stats()
+        Config.save_to_data(global_stats)
+        SaveAllDataAtomic()
+        r.ShowMessageBox("Preferences reset to defaults (coins and skins preserved)", "Reset Complete", 0)
+      end
+      
+      -- 处理恢复出厂设置（包括所有内容）
+      if result.factory_reset then
+        -- 重置 Config 到默认值
+        Config.reset_to_defaults()
+        -- 重置金币系统
+        CoinSystem.reset()
+        -- 重置商店系统
+        ShopSystem.reset()
+        -- 重置皮肤为默认
+        Config.CURRENT_SKIN_ID = "cat_base"
+        -- 保存所有数据
+        local global_stats = tracker:get_global_stats()
+        Config.save_to_data(global_stats)
+        SaveAllDataAtomic()
+        r.ShowMessageBox("All settings reset to factory defaults (including coins and skins)", "Factory Reset Complete", 0)
+      end
+      
       -- 检查是否需要保存配置
       if result.needs_save and result.needs_save.config then
         is_data_dirty = true
+      end
+      
+      -- 处理自动启动脚本更新
+      if result.update_auto_start then
+        local AutoStart = require('utils.auto_start')
+        local main_script_path = script_path .. "zyc_ReaPet.lua"
+        
+        -- 验证主脚本路径
+        local test_file = io.open(main_script_path, "r")
+        if not test_file then
+          r.ShowMessageBox("无法找到主脚本文件:\n" .. main_script_path .. "\n\n请确保脚本文件存在。", "Auto-start Error", 0)
+        else
+          test_file:close()
+          
+          local success, message = AutoStart.update_startup_script(result.auto_start_enabled, main_script_path)
+          if not success then
+            r.ShowMessageBox("自动启动设置失败:\n" .. tostring(message) .. "\n\n提示: 请检查 REAPER 资源目录的写入权限。", "Auto-start Error", 0)
+          else
+            -- 显示成功消息（可选，避免每次都弹窗）
+            -- 只在启用时显示，禁用时静默处理
+            if result.auto_start_enabled then
+              r.ShowMessageBox("自动启动已启用\n\nReaPet 将在下次启动 REAPER 时自动运行。\n\n启动脚本位置:\nScripts/startup/zyc_ReaPet_auto_start.lua", "Auto-start Enabled", 0)
+            end
+          end
+        end
       end
     elseif type(result) == "boolean" then
       settings_open = result

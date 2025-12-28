@@ -13,6 +13,8 @@ local Settings = {}
 local Config = require('config')
 local SkinManager = require('ui.skins.skin_manager')
 local CoinSystem = require('core.coin_system')
+local I18n = require('utils.i18n')
+local AutoStart = require('utils.auto_start')
 
 -- 颜色定义 (参考 UI_DESIGN_STANDARDS.md)
 local COL = {
@@ -34,7 +36,9 @@ local state = {
   skin_picker_requested = false,
   dev_panel_requested = false,
   close_requested = false,
-  show_welcome_requested = false
+  show_welcome_requested = false,
+  reset_preferences_requested = false,
+  factory_reset_requested = false
 }
 
 -- 辅助函数：格式化时间
@@ -115,42 +119,72 @@ function Settings.draw(ctx, open, data)
   local visible, new_open = r.ImGui_Begin(ctx, "Settings##Window", true, flags)
   
   if visible then
-    draw_title_bar(ctx, "Settings", function() new_open = false end)
+    draw_title_bar(ctx, I18n.get("settings.title"), function() new_open = false end)
     
     if r.ImGui_BeginTabBar(ctx, "SettingsTabs") then
       
       -- === Tab 1: General (外观与显示) ===
-      if r.ImGui_BeginTabItem(ctx, "General") then
+      if r.ImGui_BeginTabItem(ctx, I18n.get("settings.tabs.general")) then
         if r.ImGui_BeginChild(ctx, "GeneralContent") then
           r.ImGui_Dummy(ctx, 0, 10)
           
+          -- Language Selection
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.language"))
+          r.ImGui_Separator(ctx)
+          r.ImGui_Dummy(ctx, 0, 5)
+          
+          local current_lang = Config.LANGUAGE or "en"
+          local supported_langs = I18n.get_supported_languages()
+          local lang_display = {}
+          local current_lang_idx = 0
+          for i, lang in ipairs(supported_langs) do
+            table.insert(lang_display, I18n.get_language_display(lang))
+            if lang == current_lang then
+              current_lang_idx = i - 1  -- ImGui Combo uses 0-based index
+            end
+          end
+          
+          r.ImGui_SetNextItemWidth(ctx, 250)
+          local changed_lang, new_lang_idx = r.ImGui_Combo(ctx, "🌐##language_combo", current_lang_idx, table.concat(lang_display, "\0") .. "\0", #lang_display)
+          if changed_lang and new_lang_idx >= 0 and new_lang_idx < #supported_langs then
+            local selected_lang = supported_langs[new_lang_idx + 1]
+            Config.LANGUAGE = selected_lang
+            I18n.set_language(selected_lang)
+            -- 标记需要保存
+            if not data.needs_save then data.needs_save = {} end
+            data.needs_save.config = true
+          end
+          r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.change_interface_language"))
+          
+          r.ImGui_Dummy(ctx, 0, 15)
+          
           -- Skin
-          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Appearance")
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.general.appearance"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
         local current_skin = SkinManager.get_active_skin_id()
-        r.ImGui_Text(ctx, "Current Skin: " .. (current_skin or "None"))
-        if r.ImGui_Button(ctx, "Change Skin", 200, 32) then
+        r.ImGui_Text(ctx, I18n.get("settings.general.current_skin") .. (current_skin or I18n.get("settings.general.none")))
+        if r.ImGui_Button(ctx, I18n.get("settings.general.change_skin"), 200, 32) then
           state.skin_picker_requested = true
         end
         r.ImGui_Dummy(ctx, 0, 15)
         
         -- Modules (Switches)
-        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Modules")
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.general.modules"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
         -- Stats Box Toggle
         local show_global = Config.SHOW_GLOBAL_STATS
-        if r.ImGui_Checkbox(ctx, "Show Stats Box", show_global) then
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.general.show_stats_box"), show_global) then
           Config.SHOW_GLOBAL_STATS = not show_global
         end
         
         -- Stats Box Scale (Independent)
         if Config.SHOW_GLOBAL_STATS then
           r.ImGui_Indent(ctx, 20)
-          r.ImGui_Text(ctx, "Stats Box Scale")
+          r.ImGui_Text(ctx, I18n.get("settings.general.stats_box_scale"))
           local old_sb_scale = Config.STATS_BOX_SCALE or 1.0
           local _, new_sb_scale = r.ImGui_SliderDouble(ctx, "##sb_scale", old_sb_scale, 0.5, 2.0, "%.2f x")
           
@@ -159,9 +193,9 @@ function Settings.draw(ctx, open, data)
              new_sb_scale = 1.0
           end
           if new_sb_scale ~= old_sb_scale then Config.STATS_BOX_SCALE = new_sb_scale end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
-          r.ImGui_Text(ctx, "Offset X")
+          r.ImGui_Text(ctx, I18n.get("settings.general.offset_x"))
           local old_off_x = Config.STATS_BOX_OFFSET_X or 0
           local _, new_off_x = r.ImGui_SliderInt(ctx, "##sb_off_x", old_off_x, -500, 500)
           
@@ -170,9 +204,9 @@ function Settings.draw(ctx, open, data)
              new_off_x = 0
           end
           if new_off_x ~= old_off_x then Config.STATS_BOX_OFFSET_X = new_off_x end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
-          r.ImGui_Text(ctx, "Offset Y")
+          r.ImGui_Text(ctx, I18n.get("settings.general.offset_y"))
           local old_off_y = Config.STATS_BOX_OFFSET_Y or 100
           local _, new_off_y = r.ImGui_SliderInt(ctx, "##sb_off_y", old_off_y, -500, 500)
           
@@ -181,12 +215,12 @@ function Settings.draw(ctx, open, data)
              new_off_y = 100
           end
           if new_off_y ~= old_off_y then Config.STATS_BOX_OFFSET_Y = new_off_y end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
 
           r.ImGui_Dummy(ctx, 0, 5)
           
           -- Text Offset (数字偏移)
-          r.ImGui_Text(ctx, "Text Offset X")
+          r.ImGui_Text(ctx, I18n.get("settings.general.text_offset_x"))
           local old_text_off_x = Config.STATS_BOX_TEXT_OFFSET_X or 0.01
           local _, new_text_off_x = r.ImGui_SliderDouble(ctx, "##sb_text_off_x", old_text_off_x, -0.5, 0.5, "%.3f")
           
@@ -195,9 +229,9 @@ function Settings.draw(ctx, open, data)
              new_text_off_x = 0.01
           end
           if new_text_off_x ~= old_text_off_x then Config.STATS_BOX_TEXT_OFFSET_X = new_text_off_x end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
-          r.ImGui_Text(ctx, "Text Offset Y")
+          r.ImGui_Text(ctx, I18n.get("settings.general.text_offset_y"))
           local old_text_off_y = Config.STATS_BOX_TEXT_OFFSET_Y or -0.12
           local _, new_text_off_y = r.ImGui_SliderDouble(ctx, "##sb_text_off_y", old_text_off_y, -0.5, 0.5, "%.3f")
           
@@ -206,10 +240,10 @@ function Settings.draw(ctx, open, data)
              new_text_off_y = -0.12
           end
           if new_text_off_y ~= old_text_off_y then Config.STATS_BOX_TEXT_OFFSET_Y = new_text_off_y end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
           r.ImGui_Dummy(ctx, 0, 5)
-          if r.ImGui_Button(ctx, "Reset Stats Box Defaults") then
+          if r.ImGui_Button(ctx, I18n.get("settings.general.reset_stats_box_defaults")) then
              Config.STATS_BOX_SCALE = 1.0
              Config.STATS_BOX_OFFSET_X = 0
              Config.STATS_BOX_OFFSET_Y = 100
@@ -223,14 +257,14 @@ function Settings.draw(ctx, open, data)
         
         -- Timer Toggle
         local show_pomo = Config.SHOW_POMODORO
-        if r.ImGui_Checkbox(ctx, "Show Pomodoro Timer", show_pomo) then
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.general.show_pomodoro_timer"), show_pomo) then
           Config.SHOW_POMODORO = not show_pomo
         end
         
         -- Timer Scale (Independent)
         if Config.SHOW_POMODORO then
           r.ImGui_Indent(ctx, 20)
-          r.ImGui_Text(ctx, "Timer Scale")
+          r.ImGui_Text(ctx, I18n.get("settings.general.timer_scale"))
           local old_tm_scale = Config.TIMER_SCALE or 1.0
           local _, new_tm_scale = r.ImGui_SliderDouble(ctx, "##tm_scale", old_tm_scale, 0.5, 2.0, "%.2f x")
           
@@ -238,10 +272,10 @@ function Settings.draw(ctx, open, data)
              new_tm_scale = 1.0
           end
           if new_tm_scale ~= old_tm_scale then Config.TIMER_SCALE = new_tm_scale end
-          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, "Right-click to reset") end
+          if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
           r.ImGui_Dummy(ctx, 0, 5)
-          if r.ImGui_Button(ctx, "Reset Timer Defaults") then
+          if r.ImGui_Button(ctx, I18n.get("settings.general.reset_timer_defaults")) then
              Config.TIMER_SCALE = 1.0
           end
           
@@ -251,10 +285,45 @@ function Settings.draw(ctx, open, data)
         
         -- Treasure Box Toggle
         local show_box = Config.SHOW_TREASURE_BOX
-        if r.ImGui_Checkbox(ctx, "Enable Treasure Box", show_box) then
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.general.enable_treasure_box"), show_box) then
           Config.SHOW_TREASURE_BOX = not show_box
         end
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  (Rewards appear after focus sessions)")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.general.treasure_box_hint"))
+        
+        r.ImGui_Dummy(ctx, 0, 10)
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 10)
+        
+        -- Window Docking
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.general.window_docking"))
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        local enable_docking = Config.ENABLE_DOCKING or false
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.general.enable_docking"), enable_docking) then
+          Config.ENABLE_DOCKING = not enable_docking
+          if not data.needs_save then data.needs_save = {} end
+          data.needs_save.config = true
+        end
+        
+        r.ImGui_Dummy(ctx, 0, 3)
+        r.ImGui_TextWrapped(ctx, I18n.get("settings.general.docking_description"))
+        r.ImGui_Dummy(ctx, 0, 3)
+        r.ImGui_TextWrapped(ctx, I18n.get("settings.general.docking_instruction"))
+        r.ImGui_Dummy(ctx, 0, 3)
+        r.ImGui_TextWrapped(ctx, I18n.get("settings.general.docking_note"))
+        
+        -- 显示当前停靠状态（如果启用停靠）
+        if Config.ENABLE_DOCKING then
+          r.ImGui_Dummy(ctx, 0, 5)
+          local status_text = I18n.get("settings.general.window_docked_status")
+          if Config.WINDOW_DOCKED then
+            status_text = status_text .. I18n.get("settings.general.window_docked")
+          else
+            status_text = status_text .. I18n.get("settings.general.window_floating")
+          end
+          r.ImGui_TextColored(ctx, COL.TEXT_DIM, status_text)
+        end
         
         r.ImGui_EndChild(ctx)
         end
@@ -262,7 +331,7 @@ function Settings.draw(ctx, open, data)
       end
       
       -- === Tab 3: Stats (数据) ===
-      if r.ImGui_BeginTabItem(ctx, "Stats") then
+      if r.ImGui_BeginTabItem(ctx, I18n.get("settings.tabs.stats")) then
         if r.ImGui_BeginChild(ctx, "StatsContent") then
           r.ImGui_Dummy(ctx, 0, 10)
           
@@ -270,41 +339,41 @@ function Settings.draw(ctx, open, data)
         if tracker then
           local gs = tracker:get_global_stats()
           
-          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Lifetime Stats")
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.stats.lifetime_stats"))
           r.ImGui_Separator(ctx)
           r.ImGui_Dummy(ctx, 0, 5)
           
           if r.ImGui_BeginTable(ctx, "StatsTable", 2) then
-             r.ImGui_TableSetupColumn(ctx, "Label", r.ImGui_TableColumnFlags_WidthFixed(), 120)
-             r.ImGui_TableSetupColumn(ctx, "Value")
+             r.ImGui_TableSetupColumn(ctx, I18n.get("settings.stats.label"), r.ImGui_TableColumnFlags_WidthFixed(), 120)
+             r.ImGui_TableSetupColumn(ctx, I18n.get("settings.stats.value"))
              
-             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, "Total Focus:")
+             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, I18n.get("settings.stats.total_focus"))
              r.ImGui_TableSetColumnIndex(ctx, 1); r.ImGui_Text(ctx, format_time(gs.total_focus_time or 0))
              
-             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, "Total Time:")
+             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, I18n.get("settings.stats.total_time"))
              r.ImGui_TableSetColumnIndex(ctx, 1); r.ImGui_Text(ctx, format_time(gs.total_time))
              
-             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, "Operations:")
+             r.ImGui_TableNextRow(ctx); r.ImGui_TableSetColumnIndex(ctx, 0); r.ImGui_Text(ctx, I18n.get("settings.stats.operations"))
              r.ImGui_TableSetColumnIndex(ctx, 1); r.ImGui_Text(ctx, tostring(gs.total_operations))
              
              r.ImGui_EndTable(ctx)
           end
           
           r.ImGui_Dummy(ctx, 0, 15)
-          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Economy")
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.stats.economy"))
           r.ImGui_Separator(ctx)
           r.ImGui_Dummy(ctx, 0, 5)
           
-          r.ImGui_Text(ctx, "Balance: " .. tostring(CoinSystem.get_balance()))
-          r.ImGui_Text(ctx, "Today Earned: " .. tostring(CoinSystem.get_daily_earned()) .. " / 600")
+          r.ImGui_Text(ctx, I18n.get("settings.stats.balance") .. tostring(CoinSystem.get_balance()))
+          r.ImGui_Text(ctx, I18n.get("settings.stats.today_earned") .. tostring(CoinSystem.get_daily_earned()) .. " / 600")
           
           r.ImGui_Dummy(ctx, 0, 15)
-          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Manage Data")
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.stats.manage_data"))
           r.ImGui_Separator(ctx)
           r.ImGui_Dummy(ctx, 0, 5)
           
-          if r.ImGui_Button(ctx, "Reset Daily Limit", 150, 24) then
-             CoinSystem.reward_focus(0) -- Hack to reset daily
+          if r.ImGui_Button(ctx, I18n.get("settings.stats.reset_daily_limit"), 150, 24) then
+             CoinSystem.reset_daily_limit()
           end
         end
         r.ImGui_EndChild(ctx)
@@ -313,53 +382,132 @@ function Settings.draw(ctx, open, data)
       end
       
       -- === Tab 4: System (系统) ===
-      if r.ImGui_BeginTabItem(ctx, "System") then
+      if r.ImGui_BeginTabItem(ctx, I18n.get("settings.tabs.system")) then
         if r.ImGui_BeginChild(ctx, "SystemContent") then
           r.ImGui_Dummy(ctx, 0, 10)
           
-          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "About")
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.about"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         r.ImGui_Text(ctx, "ReaPet")
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "Version 1.0.2")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.version"))
         
         r.ImGui_Dummy(ctx, 0, 15)
-        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Instructions")
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.instructions"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
         -- Show Welcome Instructions Button
-        if r.ImGui_Button(ctx, "Show Instructions", 200, 32) then
+        if r.ImGui_Button(ctx, I18n.get("settings.system.show_instructions"), 200, 32) then
           state.show_welcome_requested = true
         end
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  View instructions again")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.view_instructions_again"))
         
-        -- Developer section hidden for release
-        -- r.ImGui_Dummy(ctx, 0, 15)
-        -- r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Developer")
-        -- r.ImGui_Separator(ctx)
-        -- r.ImGui_Dummy(ctx, 0, 5)
-        -- 
-        -- -- Developer Mode Toggle
-        -- local dev_mode = Config.DEVELOPER_MODE
-        -- if r.ImGui_Checkbox(ctx, "Developer Mode", dev_mode) then
-        --   Config.DEVELOPER_MODE = not dev_mode
-        --   -- 标记需要保存（通过返回结果）
-        --   if not data.needs_save then data.needs_save = {} end
-        --   data.needs_save.config = true
-        -- end
-        -- r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Enable developer features")
-        -- 
-        -- -- Open Dev Panel Button (only if developer mode is enabled)
-        -- if Config.DEVELOPER_MODE then
-        --   r.ImGui_Dummy(ctx, 0, 5)
-        --   if r.ImGui_Button(ctx, "Open Developer Panel", 200, 32) then
-        --     state.dev_panel_requested = true
-        --   end
-        -- end
+        -- Auto-start on REAPER launch
+        r.ImGui_Dummy(ctx, 0, 15)
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.auto_start"))
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        local auto_start = Config.AUTO_START_ON_LAUNCH or false
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.system.auto_start_on_launch"), auto_start) then
+          Config.AUTO_START_ON_LAUNCH = not auto_start
+          if not data.needs_save then data.needs_save = {} end
+          data.needs_save.config = true
+          data.needs_save.auto_start = true  -- 标记需要更新启动脚本
+        end
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.auto_start_description"))
+        
+        -- Startup Actions
+        r.ImGui_Dummy(ctx, 0, 10)
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.startup_actions"))
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        if r.ImGui_Button(ctx, I18n.get("settings.system.open_startup_actions"), 200, 32) then
+          -- 打开 Startup Actions
+          local resource_path = r.GetResourcePath()
+          if resource_path then
+            local possible_paths = {
+              resource_path .. "/Scripts/StartupActions/zyc_startup_actions.lua",
+              resource_path .. "/Scripts/zyc_startup_actions.lua",
+            }
+            
+            local found_path = nil
+            for _, path in ipairs(possible_paths) do
+              if r.file_exists(path) then
+                found_path = path
+                break
+              end
+            end
+            
+            if found_path then
+              local cmd_id = r.AddRemoveReaScript(true, 0, found_path, true)
+              if cmd_id and cmd_id > 0 then
+                r.Main_OnCommand(cmd_id, 0)
+              else
+                pcall(dofile, found_path)
+              end
+            else
+              r.ShowMessageBox("Startup Actions script not found.\n\nPlease ensure Startup Actions is installed via ReaPack.", "Not Found", 0)
+            end
+          end
+        end
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.startup_actions_description"))
+        
+        -- Reset Settings
+        r.ImGui_Dummy(ctx, 0, 15)
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Reset Settings")
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        -- Reset Preferences Button (exclude coin and skin system)
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xFF8800FF)  -- 橙色按钮
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFFAA00FF)
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xCC6600FF)
+        if r.ImGui_Button(ctx, "Reset Preferences", 200, 32) then
+          state.reset_preferences_requested = true
+        end
+        r.ImGui_PopStyleColor(ctx, 3)
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Reset all settings except coins and skins")
+        
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        -- Factory Reset Button (reset everything)
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
+        if r.ImGui_Button(ctx, "Factory Reset", 200, 32) then
+          state.factory_reset_requested = true
+        end
+        r.ImGui_PopStyleColor(ctx, 3)
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Reset all settings including coins and skins")
+        
+        -- Developer section
+        r.ImGui_Dummy(ctx, 0, 15)
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Developer")
+        r.ImGui_Separator(ctx)
+        r.ImGui_Dummy(ctx, 0, 5)
+        
+        -- Developer Mode Toggle
+        local dev_mode = Config.DEVELOPER_MODE
+        if r.ImGui_Checkbox(ctx, "Developer Mode", dev_mode) then
+          Config.DEVELOPER_MODE = not dev_mode
+          if not data.needs_save then data.needs_save = {} end
+          data.needs_save.config = true
+        end
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Enable developer features")
+        
+        -- Open Dev Panel Button (only if developer mode is enabled)
+        if Config.DEVELOPER_MODE then
+          r.ImGui_Dummy(ctx, 0, 5)
+          if r.ImGui_Button(ctx, "Open Developer Panel", 200, 32) then
+            state.dev_panel_requested = true
+          end
+        end
         
         r.ImGui_Dummy(ctx, 0, 20)
-        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Exit")
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.exit"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
@@ -367,11 +515,11 @@ function Settings.draw(ctx, open, data)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
-        if r.ImGui_Button(ctx, "Close Companion", 200, 36) then
+        if r.ImGui_Button(ctx, I18n.get("settings.system.close_companion"), 200, 36) then
           state.close_requested = true
         end
         r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Exit the REAPER Companion")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.exit_hint"))
         
         r.ImGui_EndChild(ctx)
         end
@@ -409,12 +557,28 @@ function Settings.draw(ctx, open, data)
     result.show_welcome = true
   end
   
+  if state.reset_preferences_requested then
+    state.reset_preferences_requested = false
+    result.reset_preferences = true
+  end
+  
+  if state.factory_reset_requested then
+    state.factory_reset_requested = false
+    result.factory_reset = true
+  end
+  
   -- 传递需要保存的标志
   if data and data.needs_save then
     result.needs_save = data.needs_save
+    
+    -- 如果启用了自动启动，更新启动脚本
+    if data.needs_save.auto_start then
+      result.update_auto_start = true
+      result.auto_start_enabled = Config.AUTO_START_ON_LAUNCH
+    end
   end
   
-  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.needs_save then
+  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.reset_preferences or result.factory_reset or result.update_auto_start or result.needs_save then
     return result
   end
   
