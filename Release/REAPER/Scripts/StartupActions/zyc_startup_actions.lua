@@ -575,7 +575,8 @@ end
 -- 这个 ID 会通过自动查找功能自动更新，但也可以手动设置以提高性能
 -- ReaPet v1.0.3: _RS2bff3c4d5742f41cc75fb9d04fa7c041c2d023d5
 -- ReaPet v1.0.4: _RSa83ec3c4ca3001f4f071e3c521bbf360b94d9853
-local REAPET_COMMAND_ID_CACHE = "_RSa83ec3c4ca3001f4f071e3c521bbf360b94d9853"
+-- ReaPet v1.0.4.3: _RS2bff3c4d5742f41cc75fb9d04fa7c041c2d023d5
+local REAPET_COMMAND_ID_CACHE = "_RS2bff3c4d5742f41cc75fb9d04fa7c041c2d023d5"
 
 -- 自动查找 ReaPet 的命令 ID
 local function find_reapet_command_id()
