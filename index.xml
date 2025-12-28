@@ -413,11 +413,11 @@
 + Added user actions management
 + Added auto-registration with SWS
 + Added multi-language support]]></changelog>
-        <source main="main">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/zyc_startup_actions.lua</source>
-        <source file="zyc_startup_actions_run.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/zyc_startup_actions_run.lua</source>
-        <source file="utils/i18n.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/utils/i18n.lua</source>
-        <source file="i18n/en.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/i18n/en.lua</source>
-        <source file="i18n/zh.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/i18n/zh.lua</source>
+        <source main="main">https://github.com/YichengZ/zyc-scripts/raw/d6338292354fd4a71c6a5c5c45f63b716d2ffc8d/Release/REAPER/Scripts/StartupActions/zyc_startup_actions.lua</source>
+        <source file="zyc_startup_actions_run.lua">https://github.com/YichengZ/zyc-scripts/raw/d6338292354fd4a71c6a5c5c45f63b716d2ffc8d/Release/REAPER/Scripts/StartupActions/zyc_startup_actions_run.lua</source>
+        <source file="utils/i18n.lua">https://github.com/YichengZ/zyc-scripts/raw/d6338292354fd4a71c6a5c5c45f63b716d2ffc8d/Release/REAPER/Scripts/StartupActions/utils/i18n.lua</source>
+        <source file="i18n/en.lua">https://github.com/YichengZ/zyc-scripts/raw/d6338292354fd4a71c6a5c5c45f63b716d2ffc8d/Release/REAPER/Scripts/StartupActions/i18n/en.lua</source>
+        <source file="i18n/zh.lua">https://github.com/YichengZ/zyc-scripts/raw/d6338292354fd4a71c6a5c5c45f63b716d2ffc8d/Release/REAPER/Scripts/StartupActions/i18n/zh.lua</source>
       </version>
     </reapack>
   </category>
