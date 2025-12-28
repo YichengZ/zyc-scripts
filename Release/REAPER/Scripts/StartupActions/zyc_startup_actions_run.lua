@@ -1,14 +1,3 @@
--- @description Zyc Startup Actions Runner (Internal)
--- @version 2.2.0
--- @author Yicheng Zhu (Ethan)
--- @about
---   Internal script that executes the configured startup actions.
---   This script is automatically registered with SWS Global Startup Action
---   and should not be run manually.
--- @provides
--- @changelog
---   + Initial release
-
 local r = reaper
 local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
 local config_path = script_path .. 'zyc_startup_actions_cfg.lua'
