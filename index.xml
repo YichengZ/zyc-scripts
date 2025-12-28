@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Zyc Scripts" commit="f94d3e00265f71ec15f5ce69d6edc08a1ee35d06">
+<index version="1" name="Zyc Scripts" commit="cff5d5f06ffabf31db409cb803be4f31b69b9074">
   <category name="Release/REAPER/Effects">
     <reapack name="zyc_EnvFollower.jsfx" type="effect" desc="zyc_EnvFollower (Envelope Follower)">
       <metadata>
@@ -385,6 +385,39 @@
         <source file="assets/skins/rabbit_base/rabbit_base_head.png">https://github.com/YichengZ/zyc-scripts/raw/f94d3e00265f71ec15f5ce69d6edc08a1ee35d06/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_head.png</source>
         <source file="assets/skins/rabbit_base/rabbit_base_rest.png">https://github.com/YichengZ/zyc-scripts/raw/f94d3e00265f71ec15f5ce69d6edc08a1ee35d06/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_rest.png</source>
         <source file="assets/skins/shop/blindbox.png">https://github.com/YichengZ/zyc-scripts/raw/f94d3e00265f71ec15f5ce69d6edc08a1ee35d06/Release/REAPER/Scripts/ReaPet/assets/skins/shop/blindbox.png</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Release/REAPER/Scripts/StartupActions">
+    <reapack name="zyc_startup_actions.lua" type="script" desc="Zyc Startup Actions Manager">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc Startup Actions Manager\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 A powerful startup actions manager for REAPER that allows you to configure and manage actions that run automatically when REAPER starts.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Key Features\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Default Actions}: Pre-configured actions like ReaPet that can be enabled/disabled\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b User Actions}: Add your own custom actions to run on startup\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Auto Registration}: Automatically registers with SWS Global Startup Action\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Drag & Drop}: Reorder actions by dragging\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Multi-language}: Supports English and Chinese (\u20013 ?\u25991 ?)\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Perfect for setting up your REAPER workspace exactly how you want it!\par}
+}
+]]></description>
+      </metadata>
+      <version name="2.2.0" author="Yicheng Zhu (Ethan)" time="2025-12-28T14:10:15Z">
+        <changelog><![CDATA[+ Initial release
++ Added default actions support
++ Added user actions management
++ Added auto-registration with SWS
++ Added multi-language support]]></changelog>
+        <source main="main">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/zyc_startup_actions.lua</source>
+        <source file="zyc_startup_actions_run.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/zyc_startup_actions_run.lua</source>
+        <source file="utils/i18n.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/utils/i18n.lua</source>
+        <source file="i18n/en.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/i18n/en.lua</source>
+        <source file="i18n/zh.lua">https://github.com/YichengZ/zyc-scripts/raw/cff5d5f06ffabf31db409cb803be4f31b69b9074/Release/REAPER/Scripts/StartupActions/i18n/zh.lua</source>
       </version>
     </reapack>
   </category>
