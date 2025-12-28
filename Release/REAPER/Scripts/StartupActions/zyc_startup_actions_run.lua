@@ -1,13 +1,11 @@
--- @description Zyc Startup Actions Runner
--- @version 1.0.0
+-- @description Zyc Startup Actions Runner (Internal)
+-- @version 2.2.0
 -- @author Yicheng Zhu (Ethan)
 -- @about
---   # Zyc Startup Actions Runner
---
---   This script is automatically generated and registered as the SWS Global Startup Action.
---   It executes the configured startup actions when REAPER starts.
---
---   **Note**: This script is managed by zyc_startup_actions.lua. Do not edit manually.
+--   Internal script that executes the configured startup actions.
+--   This script is automatically registered with SWS Global Startup Action
+--   and should not be run manually.
+-- @provides
 -- @changelog
 --   + Initial release
 

@@ -1,5 +1,5 @@
 -- @description Zyc Startup Actions Manager
--- @version 1.0.0
+-- @version 2.2.0
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc Startup Actions Manager
@@ -8,20 +8,21 @@
 --   and manage actions that run automatically when REAPER starts.
 --
 --   ### Key Features
---   * **User Actions**: Add and manage custom startup actions
---   * **Default Actions**: Configure default actions like ReaPet
+--   * **Default Actions**: Pre-configured actions like ReaPet that can be enabled/disabled
+--   * **User Actions**: Add your own custom actions to run on startup
 --   * **Auto Registration**: Automatically registers with SWS Global Startup Action
 --   * **Drag & Drop**: Reorder actions by dragging
---   * **Multi-language**: Supports English and Chinese
+--   * **Multi-language**: Supports English and Chinese (中文)
 --
---   Make your REAPER workflow more efficient with automated startup actions!
+--   Perfect for setting up your REAPER workspace exactly how you want it!
 -- @provides
 --   zyc_startup_actions_run.lua
---   utils/*.lua
+--   utils/i18n.lua
 --   i18n/*.lua
 -- @changelog
 --   + Initial release
---   + Added startup actions management
+--   + Added default actions support
+--   + Added user actions management
 --   + Added auto-registration with SWS
 --   + Added multi-language support
 
