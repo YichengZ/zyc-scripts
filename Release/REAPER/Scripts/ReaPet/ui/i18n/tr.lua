@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "Hakkında",
-      version = "Sürüm 1.0.3",
+      version = "Sürüm 1.0.4",
       language = "Dil",
       change_interface_language = "  Arayüz dilini değiştir",
       instructions = "Talimatlar",

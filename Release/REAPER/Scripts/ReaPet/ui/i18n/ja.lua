@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "について",
-      version = "バージョン 1.0.3",
+      version = "バージョン 1.0.4",
       language = "言語",
       change_interface_language = "  インターフェース言語を変更",
       instructions = "説明",
