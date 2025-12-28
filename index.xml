@@ -7,12 +7,15 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 A professional grade envelope follower with Peak/RMS detection.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc EnvFollower - Professional Envelope Follower\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 A professional grade envelope follower with Peak/RMS detection for dynamic parameter modulation.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Features\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Dual Detection}: Switch between Peak (fast) and RMS (smooth) modes.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Filter Pre-processing}: Built-in HPF and LPF to target specific frequency ranges.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Visual Feedback}: Real-time oscilloscope with Cockos-style smooth rendering.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Output Control}: Generates 0-100 parameter modulation signal.\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Output Control}: Generates 0-100 parameter modulation signal.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b RMS Smoothing}: Advanced smoothing control for natural envelope tracking.\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Ideal for sidechain compression, ducking, and dynamic effects!\par}
 }
 ]]></description>
       </metadata>
@@ -30,12 +33,15 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 A lightweight, high-performance LFO for parameter modulation.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc LFO - FX Parameter Modulator\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 A lightweight, high-performance LFO (Low Frequency Oscillator) for parameter modulation in REAPER.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Key Features\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b 7 Waveforms}: Sine, Up, Down, Triangle, Square, Random, Bin.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Visualizer}: Real-time smooth waveform display.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Visualizer}: Real-time smooth waveform display with oscilloscope view.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Advanced Control}: Features Jitter, Smoothing, and Phase adjustment.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b CPU Efficient}: Optimized for low resource usage.\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b CPU Efficient}: Optimized for low resource usage.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Retrigger Support}: Sync to transport for rhythmic modulation.\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Perfect for adding movement and life to static parameters!\par}
 }
 ]]></description>
       </metadata>
