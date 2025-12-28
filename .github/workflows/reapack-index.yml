@@ -21,14 +21,13 @@ jobs:
         with:
           fetch-depth: 0
       
-      # 1. 配置 Git 身份，防止提交失败
+      # 1. 配置 Git 身份
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 2. [关键修复] 安装 Pandoc
-      # 你的 @about 包含 Markdown，ReaPack 需要用 Pandoc 将其转为 RTF
+      # 2. 安装 Pandoc (解决 RTF conversion failed 报错)
       - name: Install system dependencies
         run: sudo apt-get install -y pandoc
 
@@ -40,10 +39,14 @@ jobs:
       - name: Install reapack-index
         run: gem install reapack-index
       
-      # 3. 运行索引 (扫描 Release 文件夹，生成到根目录)
+      # 3. 运行索引 (扫描 Release 文件夹)
       - name: Run reapack-index
         run: reapack-index --scan Release --commit
       
+      # 4. 推送更改 (增加 rebase 以解决 rejected 报错)
       - name: Push changes
         run: |
+          # 这一步至关重要：先拉取服务器上的最新状态并合并
+          git pull --rebase origin main
+          # 然后再推送
           git push origin main || echo "No changes to push"
