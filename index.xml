@@ -54,20 +54,6 @@
     </reapack>
   </category>
   <category name="Release/REAPER/Scripts/ReaPet">
-    <reapack name="check_data_paths.lua" type="script" desc="Check Data File Paths">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Helper script to check where ReaPet and StartupActions save their data files. Run this script to see the actual file paths.\par}
-}
-]]></description>
-      </metadata>
-      <version name="1.0" author="Yicheng Zhu (Ethan)" time="2025-12-28T16:30:01Z">
-        <source main="main">https://github.com/YichengZ/zyc-scripts/raw/3104058c74dc105e6709204de37539e7cc243a64/Release/REAPER/Scripts/ReaPet/check_data_paths.lua</source>
-      </version>
-    </reapack>
     <reapack name="zyc_ReaPet.lua" type="script" desc="Zyc ReaPet - Productivity Companion">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}

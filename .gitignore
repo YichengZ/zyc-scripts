@@ -40,3 +40,6 @@ cockos_meter
 **/zyc_startup_actions_cfg.lua
 **/companion_data.json
 **/data/companion_data.json
+
+# Archive folder (development documents and scripts)
+archive/
