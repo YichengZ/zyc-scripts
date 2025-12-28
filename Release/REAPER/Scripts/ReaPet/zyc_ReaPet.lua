@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.1
+-- @version 1.0.4.2
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,8 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.2: Removed auto-start on REAPER launch feature (caused crash issues)
+--   + v1.0.4.2: Updated UI terminology: "Startup Actions" / "启动项设置"
 --   + v1.0.4.1: Fixed data file paths to use ResourcePath/Data/ for cross-platform compatibility
 --   + v1.0.4.1: Added automatic data migration from old script directory locations
 --   + v1.0.4.1: Improved path handling for Windows/macOS/Linux compatibility
@@ -699,30 +701,6 @@ local function Loop()
         is_data_dirty = true
       end
       
-      -- 处理自动启动脚本更新
-      if result.update_auto_start then
-        local AutoStart = require('utils.auto_start')
-        local main_script_path = script_path .. "zyc_ReaPet.lua"
-        
-        -- 验证主脚本路径
-        local test_file = io.open(main_script_path, "r")
-        if not test_file then
-          r.ShowMessageBox("无法找到主脚本文件:\n" .. main_script_path .. "\n\n请确保脚本文件存在。", "Auto-start Error", 0)
-        else
-          test_file:close()
-          
-          local success, message = AutoStart.update_startup_script(result.auto_start_enabled, main_script_path)
-          if not success then
-            r.ShowMessageBox("自动启动设置失败:\n" .. tostring(message) .. "\n\n提示: 请检查 REAPER 资源目录的写入权限。", "Auto-start Error", 0)
-          else
-            -- 显示成功消息（可选，避免每次都弹窗）
-            -- 只在启用时显示，禁用时静默处理
-            if result.auto_start_enabled then
-              r.ShowMessageBox("自动启动已启用\n\nReaPet 将在下次启动 REAPER 时自动运行。\n\n启动脚本位置:\nScripts/startup/zyc_ReaPet_auto_start.lua", "Auto-start Enabled", 0)
-            end
-          end
-        end
-      end
     elseif type(result) == "boolean" then
       settings_open = result
     end

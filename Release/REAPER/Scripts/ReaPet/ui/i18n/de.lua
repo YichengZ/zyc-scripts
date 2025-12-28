@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "Über",
-      version = "Version 1.0.4.1",
+      version = "Version 1.0.4.2",
       language = "Sprache",
       change_interface_language = "  Interface-Sprache ändern",
       instructions = "Anleitung",
