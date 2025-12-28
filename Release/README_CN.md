@@ -4,7 +4,7 @@
 
 ## 🎵 REAPER 脚本
 
-### zyc_ReaPet
+### zyc_ReaPet (v1.0.4.3)
 REAPER 桌面伴侣应用，具有以下特性：
 - **操作统计** - 追踪操作次数、总时长和活跃时长（全局和项目级别）
 - **番茄钟** - 专注/休息计时器，支持自定义预设
@@ -13,7 +13,14 @@ REAPER 桌面伴侣应用，具有以下特性：
 - **8种角色皮肤** - 猫、狗、熊、兔子、考拉、狮子、洋葱、小鸡
 - **多工程支持** - 自动在工程间切换数据
 
-### zyc_EnvFollower
+### zyc_startup_actions (v2.2.0)
+启动项设置管理器，用于配置在 REAPER 启动时自动运行的命令：
+- **启动命令配置** - 添加/删除在 REAPER 启动时运行的命令
+- **ReaPet 集成** - 自动检测并将 ReaPet 添加到启动命令
+- **SWS 扩展支持** - 使用 SWS 全局启动动作
+- **多语言支持** - 英文和中文
+
+### zyc_EnvFollower (v3.3)
 高级包络跟随器，具有以下特性：
 - **Peak/RMS检测模式** - 快速峰值检测或平滑RMS检测
 - **滤波器预处理** - 高通和低通滤波器，频率范围20Hz-20kHz
@@ -21,7 +28,7 @@ REAPER 桌面伴侣应用，具有以下特性：
 - **实时示波器** - 2秒窗口的实时波形显示
 - **调试功能** - 完整的信号链调试信息
 
-### zyc_LFO
+### zyc_LFO (v1.0)
 高级LFO调制器，具有以下特性：
 - **7种波形类型** - 正弦波、上升、下降、三角波、方波、随机、二进制
 - **精确频率控制** - 精细和粗糙频率调节
@@ -39,7 +46,7 @@ REAPER 桌面伴侣应用，具有以下特性：
 3. 点击 `Import a repository`
 4. 粘贴以下URL：
    ```
-   https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml
+   https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
    ```
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
@@ -90,20 +97,26 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 ## 📝 版本历史
 
-### zyc_EnvFollower v1.0.0
-- 初始发布
+### zyc_ReaPet v1.0.4.3
+- 隐藏了 Developer Mode UI（生产版本）
+- 更新了 UI 术语："Startup Actions" / "启动项设置"
+- 修复了数据文件路径（跨平台兼容）
+- 添加了自动数据迁移功能
+
+### zyc_EnvFollower v3.3
 - 高级包络跟随器，具有完整的Peak/RMS检测功能
+- 实时示波器显示
+- 完整的调试信息
 
-### zyc_LFO v1.0.0
-- 初始发布
-- 精简版本，保留核心LFO功能
-- 优化的性能和简化的UI
+### zyc_LFO v1.0
+- 高级LFO调制器，7种波形类型
+- 实时波形显示
+- Hold和Retrigger功能
 
-### zyc_ReaPet v1.0.0
-- 初始发布
-- 完整的 REAPER 桌面伴侣应用，包含统计追踪、番茄钟和宝箱系统
-- 8种角色皮肤，使用PNG分层渲染
-- 多工程支持，自动数据管理
+### zyc_startup_actions v2.2.0
+- 启动项设置管理器
+- ReaPet 集成
+- 多语言支持
 
 ## 👨‍💻 作者
 

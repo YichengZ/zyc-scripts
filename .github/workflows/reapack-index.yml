@@ -46,26 +46,60 @@ jobs:
       # 4. 推送更改 (处理并发更新的情况)
       - name: Push changes
         run: |
-          # 先获取最新状态（不合并）
+          # 先获取最新状态
           git fetch origin main
           
-          # 检查远程是否有新的提交（相对于当前 HEAD）
-          if git merge-base --is-ancestor HEAD origin/main; then
-            echo "Remote has new commits, updating local branch..."
-            # 远程有新的提交，需要先合并
-            # 尝试 rebase，如果失败则使用 merge
-            if ! git pull --rebase origin main; then
-              echo "Rebase failed, trying merge..."
-              git pull --no-rebase origin main
-            fi
-          else
-            echo "Local is up to date or ahead, proceeding with push"
+          # 检查是否有本地更改需要提交
+          if git diff --quiet HEAD; then
+            echo "No local changes to commit"
+            exit 0
           fi
           
-          # 检查是否有需要推送的更改
-          if git diff --quiet HEAD origin/main; then
-            echo "No changes to push (index.xml already up to date)"
-          else
-            echo "Pushing changes..."
-            git push origin main
+          # 提交本地更改（reapack-index 可能已经提交了）
+          if ! git diff --cached --quiet; then
+            echo "Staging changes..."
+            git add -A
+            git commit -m "index: update ReaPack index" || echo "No changes to commit"
           fi
+          
+          # 循环重试推送，处理并发更新
+          max_retries=5
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            # 获取最新远程状态
+            git fetch origin main
+            
+            # 检查远程是否有新的提交
+            if git merge-base --is-ancestor HEAD origin/main 2>/dev/null; then
+              echo "Remote has new commits (attempt $((retry_count + 1))/$max_retries), updating local branch..."
+              # 远程有新的提交，需要先合并
+              if ! git pull --rebase origin main 2>/dev/null; then
+                echo "Rebase failed, trying merge..."
+                if ! git pull --no-rebase origin main 2>/dev/null; then
+                  echo "Merge failed, resetting and retrying..."
+                  git reset --hard origin/main
+                  git checkout main
+                  # 重新运行 reapack-index（如果需要）
+                  reapack-index --scan Release --commit || true
+                  git add -A
+                  git commit -m "index: update ReaPack index" || true
+                fi
+              fi
+            fi
+            
+            # 尝试推送
+            if git push origin main 2>&1; then
+              echo "Push successful!"
+              exit 0
+            else
+              retry_count=$((retry_count + 1))
+              if [ $retry_count -lt $max_retries ]; then
+                echo "Push failed, retrying in 2 seconds..."
+                sleep 2
+              fi
+            fi
+          done
+          
+          echo "Failed to push after $max_retries attempts"
+          exit 1
