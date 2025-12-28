@@ -1,4 +1,4 @@
--- Lightweight FX scanner for this project (inspired by Sexan's parser)
+-- Lightweight FX scanner for this project
 -- Provides: generate_fx_list(), filter_third_party_vst()
 
 local r = reaper

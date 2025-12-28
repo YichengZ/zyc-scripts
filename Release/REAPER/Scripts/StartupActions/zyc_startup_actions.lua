@@ -96,6 +96,17 @@ if not r.JS_Window_HandleFromAddress then
     return
 end
 
+-- Check SWS Extension
+if not r.NF_GetGlobalStartupAction and not r.CF_GetConfigPath and not r.BR_GetMediaItemByGUID then
+    local msg = "SWS Extension is not installed.\n\n"
+    msg = msg .. "SWS Extension is required for Startup Actions to work properly.\n\n"
+    msg = msg .. "Please install SWS Extension from:\n"
+    msg = msg .. "https://www.sws-extension.org/\n\n"
+    msg = msg .. "Or via ReaPack: Extensions > ReaPack > Browse Packages > Search 'SWS'"
+    r.ShowMessageBox(msg, "SWS Extension Required", 0)
+    return
+end
+
 local function get_action_description(cmd_id)
     if not cmd_id or cmd_id == 0 then return nil end
     if desc_cache[cmd_id] then return desc_cache[cmd_id] end

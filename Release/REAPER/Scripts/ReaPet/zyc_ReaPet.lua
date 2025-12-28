@@ -68,6 +68,21 @@ local function init_i18n()
   I18n.init(lang)
 end
 
+-- ========= SWS Extension Check =========
+local function check_sws_extension()
+  -- 检查 SWS 扩展是否安装（通过检查 SWS API 函数）
+  if not r.NF_GetGlobalStartupAction and not r.CF_GetConfigPath and not r.BR_GetMediaItemByGUID then
+    local msg = "SWS Extension is not installed.\n\n"
+    msg = msg .. "SWS Extension is required for some features.\n\n"
+    msg = msg .. "Please install SWS Extension from:\n"
+    msg = msg .. "https://www.sws-extension.org/\n\n"
+    msg = msg .. "Or via ReaPack: Extensions > ReaPack > Browse Packages > Search 'SWS'"
+    r.ShowMessageBox(msg, "SWS Extension Required", 0)
+    return false
+  end
+  return true
+end
+
 -- ========= ReaImGui Version Check =========
 local function check_imgui_compatibility()
   -- 标准 API 检查
@@ -79,6 +94,7 @@ local function check_imgui_compatibility()
 end
 
 if not check_imgui_compatibility() then return end
+if not check_sws_extension() then return end
 
 local ctx = r.ImGui_CreateContext('ReaPet')
 local tracker = Tracker:new()

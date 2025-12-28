@@ -1,15 +1,20 @@
 desc:zyc_EnvFollower (Envelope Follower)
 // @description Zyc EnvFollower - Professional Envelope Follower
-// @author Yicheng Zhu (Ethan)
 // @version 3.3
+// @author Yicheng Zhu (Ethan)
 // @about
-//   A professional grade envelope follower with Peak/RMS detection.
+//   # Zyc EnvFollower - Professional Envelope Follower
+//
+//   A professional grade envelope follower with Peak/RMS detection for dynamic parameter modulation.
 //
 //   ### Features
 //   * **Dual Detection**: Switch between Peak (fast) and RMS (smooth) modes.
 //   * **Filter Pre-processing**: Built-in HPF and LPF to target specific frequency ranges.
 //   * **Visual Feedback**: Real-time oscilloscope with Cockos-style smooth rendering.
 //   * **Output Control**: Generates 0-100 parameter modulation signal.
+//   * **RMS Smoothing**: Advanced smoothing control for natural envelope tracking.
+//
+//   Ideal for sidechain compression, ducking, and dynamic effects!
 // @changelog
 //   + v3.3: Set RMS Smooth default to 15% for optimal balance
 //   + v3.2: Added RMS Smooth control to eliminate step-like changes

@@ -111,7 +111,10 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 ## 📄 许可证
 
-本项目采用开源许可证，欢迎使用和修改。
+本项目采用 MIT 许可证。详见 [LICENSE](../../LICENSE) 文件。
+
+第三方组件：
+- `json.lua`: Copyright (c) 2020 rxi, MIT 许可证（位于 ReaPet/utils/json.lua）
 
 ## 🆘 支持
 
