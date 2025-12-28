@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.3
+-- @version 1.0.4.1
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,9 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.1: Fixed data file paths to use ResourcePath/Data/ for cross-platform compatibility
+--   + v1.0.4.1: Added automatic data migration from old script directory locations
+--   + v1.0.4.1: Improved path handling for Windows/macOS/Linux compatibility
 --   + Initial public release
 --   + Added basic pet system and shop
 

@@ -10,7 +10,33 @@ Tracker.__index = Tracker
 
 -- [配置] 文件路径与 Key
 local SCRIPT_PATH = debug.getinfo(1, "S").source:match("@(.*[\\//])")
-local DATA_FILE = SCRIPT_PATH .. "../data/companion_data.json" 
+
+-- [辅助函数] 跨平台路径连接
+local function join_path(...)
+    local parts = {...}
+    local path = table.concat(parts, "/")
+    -- 规范化路径：统一使用 /，REAPER API 和 io.open 都能处理
+    path = path:gsub("/+", "/")
+    return path
+end
+
+-- 使用 REAPER 资源目录保存用户数据，避免更新时数据丢失
+-- 标准位置：ResourcePath/Data/ReaPet/companion_data.json
+-- Windows: C:\Users\...\AppData\Roaming\REAPER\Data\ReaPet\companion_data.json
+-- macOS: /Users/.../Library/Application Support/REAPER/Data/ReaPet/companion_data.json
+local function get_data_file_path()
+    local resource_path = r.GetResourcePath()
+    if resource_path then
+        -- 确保目录存在（使用跨平台路径连接）
+        local data_dir = join_path(resource_path, "Data", "ReaPet")
+        r.RecursiveCreateDirectory(data_dir, 0)
+        return join_path(data_dir, "companion_data.json")
+    else
+        -- 后备方案：如果无法获取资源路径，使用脚本目录（不推荐）
+        return SCRIPT_PATH .. "../data/companion_data.json"
+    end
+end
+local DATA_FILE = get_data_file_path()
 local PROJ_KEY = "ReaperCompanion_stats"
 local PROJ_ID_KEY = "project_id"
 local AFK_THRESHOLD = 60 

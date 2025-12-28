@@ -1,7 +1,61 @@
 local r = reaper
 local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
-local config_path = script_path .. 'zyc_startup_actions_cfg.lua'
 local run_script_path = script_path .. 'zyc_startup_actions_run.lua'
+
+-- 辅助函数：跨平台路径连接
+local function join_path(...)
+    local parts = {...}
+    local path = table.concat(parts, "/")
+    path = path:gsub("/+", "/")
+    return path
+end
+
+-- 获取配置路径（使用 REAPER 资源目录，避免更新时数据丢失）
+-- Windows: C:\Users\...\AppData\Roaming\REAPER\Data\StartupActions\zyc_startup_actions_cfg.lua
+-- macOS: /Users/.../Library/Application Support/REAPER/Data/StartupActions/zyc_startup_actions_cfg.lua
+local function get_config_path()
+    local resource_path = r.GetResourcePath()
+    if resource_path then
+        -- 确保目录存在（使用跨平台路径连接）
+        local data_dir = join_path(resource_path, "Data", "StartupActions")
+        r.RecursiveCreateDirectory(data_dir, 0)
+        local new_config_path = join_path(data_dir, "zyc_startup_actions_cfg.lua")
+        
+        -- 数据迁移：从旧位置迁移到新位置（如果旧位置有数据且新位置没有）
+        local old_config_path = script_path .. 'zyc_startup_actions_cfg.lua'
+        
+        -- 检查新位置是否已有数据
+        local new_file = io.open(new_config_path, "r")
+        local new_file_exists = new_file ~= nil
+        if new_file then new_file:close() end
+        
+        -- 如果新位置没有数据，尝试从旧位置迁移
+        if not new_file_exists then
+            local old_file = io.open(old_config_path, "r")
+            if old_file then
+                local content = old_file:read("*a")
+                old_file:close()
+                if content and #content > 0 then
+                    -- 迁移数据到新位置
+                    local new_file = io.open(new_config_path, "w")
+                    if new_file then
+                        new_file:write(content)
+                        new_file:close()
+                        -- 迁移成功后，可以选择删除旧文件（可选）
+                        -- os.remove(old_config_path)
+                    end
+                end
+            end
+        end
+        
+        return new_config_path
+    else
+        -- 后备方案：如果无法获取资源路径，使用脚本目录（不推荐）
+        return script_path .. 'zyc_startup_actions_cfg.lua'
+    end
+end
+
+local config_path = get_config_path()
 
 local I18n = dofile(script_path .. 'utils/i18n.lua')
 
@@ -280,10 +334,28 @@ local function check_and_create_runner_script()
         file:close()
         return 
     end
+    -- 获取配置路径（使用 REAPER 资源目录，跨平台兼容）
+    local function join_path(...)
+        local parts = {...}
+        local path = table.concat(parts, "/")
+        path = path:gsub("/+", "/")
+        return path
+    end
+    
+    local function get_config_path()
+        local resource_path = reaper.GetResourcePath()
+        if resource_path then
+            return join_path(resource_path, "Data", "StartupActions", "zyc_startup_actions_cfg.lua")
+        else
+            -- 后备方案：使用脚本目录
+            local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
+            return script_path .. 'zyc_startup_actions_cfg.lua'
+        end
+    end
+    
     local content = [[
 local r = reaper
-local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
-local config_path = script_path .. 'zyc_startup_actions_cfg.lua'
+local config_path = ]] .. string.format("%q", get_config_path()) .. [[
 
 if not r.file_exists(config_path) then
     return
@@ -487,44 +559,146 @@ local function save_config()
     return true
 end
 
--- ReaPet 版本对应的命名命令 ID
--- 更新 ReaPet 版本时，需要更新此 ID
--- 获取方法：运行 scripts/get_reapet_id.lua 或手动获取
+-- ReaPet 版本对应的命名命令 ID（缓存）
+-- 更新 ReaPet 版本时，可以更新此 ID 作为后备方案
+-- 这个 ID 会通过自动查找功能自动更新，但也可以手动设置以提高性能
 -- ReaPet v1.0.3: _RS2bff3c4d5742f41cc75fb9d04fa7c041c2d023d5
-local REAPET_COMMAND_ID = "_RS2bff3c4d5742f41cc75fb9d04fa7c041c2d023d5"
+-- ReaPet v1.0.4: _RSa83ec3c4ca3001f4f071e3c521bbf360b94d9853
+local REAPET_COMMAND_ID_CACHE = "_RSa83ec3c4ca3001f4f071e3c521bbf360b94d9853"
+
+-- 自动查找 ReaPet 的命令 ID
+local function find_reapet_command_id()
+    -- 方案 1：尝试使用缓存的 ID
+    if REAPET_COMMAND_ID_CACHE then
+        local cmd_id = r.NamedCommandLookup(REAPET_COMMAND_ID_CACHE)
+        if cmd_id and cmd_id > 0 then
+            return REAPET_COMMAND_ID_CACHE
+        end
+    end
+    
+    -- 方案 2：使用相对路径（最可靠，因为两个脚本在同一仓库）
+    local current_script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
+    if current_script_path then
+        -- 从 StartupActions/ 到 ReaPet/
+        -- 相对路径：../ReaPet/zyc_ReaPet.lua
+        local relative_paths = {
+            current_script_path .. "../ReaPet/zyc_ReaPet.lua",
+            current_script_path .. "../../ReaPet/zyc_ReaPet.lua",
+        }
+        
+        for _, path in ipairs(relative_paths) do
+            -- 规范化路径
+            path = path:gsub("/+", "/"):gsub("\\+", "\\")
+            if r.file_exists(path) then
+                -- 注册脚本以获取命令 ID
+                local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
+                if cmd_id and cmd_id > 0 then
+                    -- 获取命名命令 ID
+                    local named_id = r.ReverseNamedCommandLookup(cmd_id)
+                    if named_id then
+                        -- 确保格式正确（以 _RS 开头）
+                        if not named_id:match("^_RS") then
+                            if named_id:match("^RS") then
+                                named_id = "_" .. named_id
+                            else
+                                named_id = "_RS" .. named_id
+                            end
+                        end
+                        return named_id
+                    end
+                end
+            end
+        end
+    end
+    
+    -- 方案 3：通过绝对路径查找（后备方案）
+    local resource_path = r.GetResourcePath()
+    if resource_path then
+        local absolute_paths = {
+            resource_path .. "/Scripts/ReaPet/zyc_ReaPet.lua",
+            resource_path .. "/Scripts/zyc_ReaPet.lua",
+        }
+        
+        for _, path in ipairs(absolute_paths) do
+            if r.file_exists(path) then
+                -- 注册脚本以获取命令 ID
+                local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
+                if cmd_id and cmd_id > 0 then
+                    -- 获取命名命令 ID
+                    local named_id = r.ReverseNamedCommandLookup(cmd_id)
+                    if named_id then
+                        -- 确保格式正确（以 _RS 开头）
+                        if not named_id:match("^_RS") then
+                            if named_id:match("^RS") then
+                                named_id = "_" .. named_id
+                            else
+                                named_id = "_RS" .. named_id
+                            end
+                        end
+                        return named_id
+                    end
+                end
+            end
+        end
+    end
+    
+    return nil
+end
 
 local function get_default_startup_commands()
     local commands = {}
     
-    -- 方案 1：优先使用硬编码 ID（最可靠，像 nvk）
-    if REAPET_COMMAND_ID then
-        local cmd_id = r.NamedCommandLookup(REAPET_COMMAND_ID)
-        if cmd_id and cmd_id > 0 then
-            table.insert(commands, REAPET_COMMAND_ID)
-            return commands
+    -- 方案 1：自动查找 ReaPet 的命令 ID（优先）
+    local reapet_id = find_reapet_command_id()
+    if reapet_id then
+        table.insert(commands, reapet_id)
+        return commands
+    end
+    
+    -- 方案 2：如果找不到 ID，使用相对路径方式（兼容性）
+    local current_script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
+    local found_path = nil
+    local found_relative = nil
+    
+    -- 优先使用相对路径
+    if current_script_path then
+        local relative_paths = {
+            {path = current_script_path .. "../ReaPet/zyc_ReaPet.lua", relative = "@ReaPet/zyc_ReaPet.lua"},
+            {path = current_script_path .. "../../ReaPet/zyc_ReaPet.lua", relative = "@ReaPet/zyc_ReaPet.lua"},
+        }
+        
+        for _, path_info in ipairs(relative_paths) do
+            -- 规范化路径
+            path_info.path = path_info.path:gsub("/+", "/"):gsub("\\+", "\\")
+            if r.file_exists(path_info.path) then
+                found_path = path_info.path
+                found_relative = path_info.relative
+                break
+            end
         end
     end
     
-    -- 方案 2：如果 ID 不存在，降级到路径查找（兼容性）
-    local resource_path = r.GetResourcePath()
-    if not resource_path then return commands end
-    
-    local possible_paths = {
-        {path = resource_path .. "/Scripts/ReaPet/zyc_ReaPet.lua", relative = "@ReaPet/zyc_ReaPet.lua"},
-        {path = resource_path .. "/Scripts/zyc_ReaPet.lua", relative = "@zyc_ReaPet.lua"},
-    }
-    
-    local found_path = nil
-    local found_relative = nil
-    for _, path_info in ipairs(possible_paths) do
-        if r.file_exists(path_info.path) then
-            found_path = path_info.path
-            found_relative = path_info.relative
-            break
+    -- 如果相对路径找不到，使用绝对路径
+    if not found_path then
+        local resource_path = r.GetResourcePath()
+        if resource_path then
+            local absolute_paths = {
+                {path = resource_path .. "/Scripts/ReaPet/zyc_ReaPet.lua", relative = "@ReaPet/zyc_ReaPet.lua"},
+                {path = resource_path .. "/Scripts/zyc_ReaPet.lua", relative = "@zyc_ReaPet.lua"},
+            }
+            
+            for _, path_info in ipairs(absolute_paths) do
+                if r.file_exists(path_info.path) then
+                    found_path = path_info.path
+                    found_relative = path_info.relative
+                    break
+                end
+            end
         end
     end
     
     if found_path then
+        -- 尝试注册并获取 ID
         local cmd_id = r.AddRemoveReaScript(true, 0, found_path, true)
         if cmd_id and cmd_id > 0 then
             local named_id = r.ReverseNamedCommandLookup(cmd_id)
@@ -540,6 +714,7 @@ local function get_default_startup_commands()
             table.insert(commands, found_relative)
         end
     else
+        -- 如果文件都不存在，使用默认路径（让用户知道需要安装）
         table.insert(commands, "@ReaPet/zyc_ReaPet.lua")
     end
     

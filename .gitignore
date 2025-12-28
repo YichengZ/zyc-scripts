@@ -34,3 +34,9 @@ zyc_EnvFollower_v*.jsfx
 zyc_LFO_Lite.jsfx
 zyc_LFO
 cockos_meter
+
+# User data files (should not be committed)
+# These are now saved to ResourcePath/Data/ but old locations may exist
+**/zyc_startup_actions_cfg.lua
+**/companion_data.json
+**/data/companion_data.json
