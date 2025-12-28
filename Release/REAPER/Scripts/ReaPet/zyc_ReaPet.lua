@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4
+-- @version 1.0.4.1
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,11 +21,11 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
---   + v1.0.4: Added multi-language support (14 languages)
---   + v1.0.4: Added auto-start utility and window flags
---   + v1.0.4: Enhanced settings and welcome windows
---   + v1.0.3: Initial public release
---   + v1.0.3: Added basic pet system and shop
+--   + v1.0.4.1: Fixed data file paths to use ResourcePath/Data/ for cross-platform compatibility
+--   + v1.0.4.1: Added automatic data migration from old script directory locations
+--   + v1.0.4.1: Improved path handling for Windows/macOS/Linux compatibility
+--   + Initial public release
+--   + Added basic pet system and shop
 
 local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
 package.path = script_path .. "?.lua;" .. script_path .. "?/init.lua;" .. package.path

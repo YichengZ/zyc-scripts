@@ -105,11 +105,68 @@ Config.DOCK_POSITION = nil            -- 停靠位置记忆（"left", "right", "
 -- ========= 自动启动配置 =========
 Config.AUTO_START_ON_LAUNCH = false   -- 是否在 REAPER 启动时自动运行（默认关闭）
 
+-- ========= 辅助函数：跨平台路径连接 =========
+local function join_path(...)
+  local parts = {...}
+  local path = table.concat(parts, "/")
+  -- 规范化路径：统一使用 /，REAPER API 和 io.open 都能处理
+  path = path:gsub("/+", "/")
+  -- Windows 路径处理：如果第一部分是盘符（如 C:），保留它
+  return path
+end
+
 -- ========= 初始化函数 =========
 function Config.init(script_path)
-  -- script_path 已经是脚本所在目录（如 /path/to/ReaperCompanion/）
-  -- data 文件夹在项目根目录下，所以应该是 script_path .. "data/companion_data.json"
-  Config.DATA_FILE = script_path .. "data/companion_data.json"
+  -- 使用 REAPER 资源目录保存用户数据，避免更新时数据丢失
+  -- 标准位置：ResourcePath/Data/ReaPet/companion_data.json
+  -- Windows: C:\Users\...\AppData\Roaming\REAPER\Data\ReaPet\companion_data.json
+  -- macOS: /Users/.../Library/Application Support/REAPER/Data/ReaPet/companion_data.json
+  local r = reaper
+  local resource_path = r.GetResourcePath()
+  if resource_path then
+    -- 确保目录存在（使用跨平台路径连接）
+    local data_dir = join_path(resource_path, "Data", "ReaPet")
+    r.RecursiveCreateDirectory(data_dir, 0)
+    Config.DATA_FILE = join_path(data_dir, "companion_data.json")
+    
+    -- 数据迁移：从旧位置迁移到新位置（如果旧位置有数据且新位置没有）
+    local old_paths = {
+      script_path .. "data/companion_data.json",  -- 旧位置1
+      script_path .. "../data/companion_data.json"  -- 旧位置2
+    }
+    
+    -- 检查新位置是否已有数据
+    local new_file = io.open(Config.DATA_FILE, "r")
+    local new_file_exists = new_file ~= nil
+    if new_file then new_file:close() end
+    
+    -- 如果新位置没有数据，尝试从旧位置迁移
+    if not new_file_exists then
+      for _, old_path in ipairs(old_paths) do
+        -- 规范化路径
+        old_path = old_path:gsub("/+", "/"):gsub("\\+", "\\")
+        local old_file = io.open(old_path, "r")
+        if old_file then
+          local content = old_file:read("*a")
+          old_file:close()
+          if content and #content > 0 then
+            -- 迁移数据到新位置
+            local new_file = io.open(Config.DATA_FILE, "w")
+            if new_file then
+              new_file:write(content)
+              new_file:close()
+              -- 迁移成功后，可以选择删除旧文件（可选）
+              -- os.remove(old_path)
+              break  -- 只迁移第一个找到的旧文件
+            end
+          end
+        end
+      end
+    end
+  else
+    -- 后备方案：如果无法获取资源路径，使用脚本目录（不推荐）
+    Config.DATA_FILE = script_path .. "data/companion_data.json"
+  end
 end
 
 -- ========= 加载配置（从 global_stats.ui_settings） =========

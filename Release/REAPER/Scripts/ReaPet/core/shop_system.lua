@@ -82,14 +82,30 @@ local function save_json_file(path, data)
   end
 end
 
+-- ========= 辅助函数：跨平台路径连接 =========
+local function join_path(...)
+  local parts = {...}
+  local path = table.concat(parts, "/")
+  path = path:gsub("/+", "/")
+  return path
+end
+
 -- ========= 初始化 =========
 function ShopSystem.init(data_file_path)
   DATA_FILE = data_file_path
   if not DATA_FILE then
-    local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
-    -- script_path 已经是脚本所在目录（如 /path/to/ReaperCompanion/core/）
-    -- data 文件夹在项目根目录下，所以应该是 script_path .. "../data/companion_data.json"
-    DATA_FILE = script_path .. "../data/companion_data.json"
+    -- 后备方案：使用 REAPER 资源目录保存用户数据
+    local resource_path = r.GetResourcePath()
+    if resource_path then
+      -- 确保目录存在（使用跨平台路径连接）
+      local data_dir = join_path(resource_path, "Data", "ReaPet")
+      r.RecursiveCreateDirectory(data_dir, 0)
+      DATA_FILE = join_path(data_dir, "companion_data.json")
+    else
+      -- 最后的后备方案：使用脚本目录（不推荐）
+      local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
+      DATA_FILE = script_path .. "../data/companion_data.json"
+    end
   end
   
   -- 规范化路径（处理 ../ 等）

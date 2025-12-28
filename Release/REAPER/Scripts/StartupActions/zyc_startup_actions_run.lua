@@ -1,6 +1,28 @@
 local r = reaper
-local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
-local config_path = script_path .. 'zyc_startup_actions_cfg.lua'
+
+-- 辅助函数：跨平台路径连接
+local function join_path(...)
+    local parts = {...}
+    local path = table.concat(parts, "/")
+    path = path:gsub("/+", "/")
+    return path
+end
+
+-- 获取配置路径（使用 REAPER 资源目录，避免更新时数据丢失）
+-- Windows: C:\Users\...\AppData\Roaming\REAPER\Data\StartupActions\zyc_startup_actions_cfg.lua
+-- macOS: /Users/.../Library/Application Support/REAPER/Data/StartupActions/zyc_startup_actions_cfg.lua
+local function get_config_path()
+    local resource_path = r.GetResourcePath()
+    if resource_path then
+        return join_path(resource_path, "Data", "StartupActions", "zyc_startup_actions_cfg.lua")
+    else
+        -- 后备方案：使用脚本目录（不推荐）
+        local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
+        return script_path .. 'zyc_startup_actions_cfg.lua'
+    end
+end
+
+local config_path = get_config_path()
 
 if not r.file_exists(config_path) then
     return
