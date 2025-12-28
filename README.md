@@ -10,13 +10,16 @@ zyc-scripts/
 │   ├── REAPER/               # REAPER scripts
 │   │   ├── Effects/          # Effect plugins (JSFX)
 │   │   └── Scripts/          # Lua scripts
-│   │       └── ReaPet/      # ReaPet companion app
-│   ├── index.xml             # ReaPack index
+│   │       ├── ReaPet/      # ReaPet companion app
+│   │       └── StartupActions/ # Startup Actions Manager
 │   ├── README.md             # English documentation
 │   └── README_CN.md          # Chinese documentation
-├── Development/               # 🔧 Development files
+├── Development/               # 🔧 Development files (not synced)
 │   ├── zyc_EnvFollower.jsfx  # Development versions
 │   └── zyc_LFO.jsfx
+├── .github/                   # GitHub Actions workflows
+│   └── workflows/
+│       └── reapack-index.yml # Auto-generate index.xml
 └── README.md                 # This file
 ```
 
@@ -24,12 +27,13 @@ zyc-scripts/
 
 ### REAPER Scripts
 
-* **zyc_ReaPet** - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
+* **zyc_ReaPet** (v1.0.4.3) - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
+* **zyc_startup_actions** (v2.2.0) - Startup Actions Manager for configuring commands to run automatically when REAPER starts
 
 ### REAPER Effects
 
-* **zyc_EnvFollower** - Advanced envelope follower with Peak/RMS detection
-* **zyc_LFO** - Advanced LFO modulator with 7 waveform types
+* **zyc_EnvFollower** (v3.3) - Advanced envelope follower with Peak/RMS detection
+* **zyc_LFO** (v1.0) - Advanced LFO modulator with 7 waveform types
 
 ## 🚀 Installation
 
@@ -42,7 +46,7 @@ zyc-scripts/
 2. **Add repository**
    - In REAPER: `Extensions` > `ReaPack` > `Manage repositories...`
    - Click `Import a repository`
-   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
+   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
    - Click `OK` then `Apply`
 
 3. **Install scripts**
@@ -72,12 +76,11 @@ zyc-scripts/
 ### ReaPet Documentation
 
 * **User Guide**: See [Release/REAPER/Scripts/ReaPet/README.md](Release/REAPER/Scripts/ReaPet/README.md)
-* **API Reference**: See [Release/REAPER/Scripts/ReaPet/docs/API_REFERENCE.md](Release/REAPER/Scripts/ReaPet/docs/API_REFERENCE.md)
-* **Skin Configuration**: See [Release/REAPER/Scripts/ReaPet/docs/SKIN_CONFIGURATION_GUIDE.md](Release/REAPER/Scripts/ReaPet/docs/SKIN_CONFIGURATION_GUIDE.md)
+* **Assets Guide**: See [Release/REAPER/Scripts/ReaPet/assets/README.md](Release/REAPER/Scripts/ReaPet/assets/README.md)
 
 ## 🎯 Featured Scripts
 
-### zyc_ReaPet
+### zyc_ReaPet (v1.0.4.3)
 
 A comprehensive REAPER companion application featuring:
 
@@ -87,8 +90,18 @@ A comprehensive REAPER companion application featuring:
 - 💰 **Coin System & Shop** - Earn coins and unlock character skins
 - 🎨 **8 Character Skins** - cat, dog, bear, rabbit, koala, lion, onion, chick
 - 🔄 **Multi-Project Support** - Automatic data switching between projects
+- 🌍 **Multi-language Support** - 14 languages supported
 
 Perfect for tracking your REAPER workflow and staying focused!
+
+### zyc_startup_actions (v2.2.0)
+
+Startup Actions Manager for REAPER:
+
+- ⚙️ **Configure Startup Commands** - Set commands to run automatically when REAPER starts
+- 🔗 **ReaPet Integration** - Automatically add ReaPet to startup commands
+- 🌍 **Multi-language Support** - English and Chinese
+- 💾 **Persistent Configuration** - Settings saved in ResourcePath/Data/
 
 ## 🔧 Development Workflow
 
@@ -102,15 +115,11 @@ Perfect for tracking your REAPER workflow and staying focused!
 
 ### For Scripts (Lua)
 
-1. **Develop**: Work in separate repository (e.g., ReaPet)
+1. **Develop**: Work in `dev` branch
 2. **Test**: Ensure functionality works correctly
-3. **Release**: Merge to `main` branch
-4. **Sync**: Use sync script to update zyc-scripts
-   ```bash
-   ./scripts/sync_to_zyc_scripts.sh v1.0.0
-   ```
-5. **Update**: Modify `Release/index.xml` with new version
-6. **Commit**: Push changes to GitHub
+3. **Release**: Merge `dev` to `main` branch
+4. **Auto-Update**: GitHub Actions automatically generates `index.xml` on push to `main`
+5. **Commit**: Push changes to GitHub
 
 ## 👨‍💻 Author
 
