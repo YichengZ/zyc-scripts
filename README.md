@@ -42,7 +42,7 @@ zyc-scripts/
 2. **Add repository**
    - In REAPER: `Extensions` > `ReaPack` > `Manage repositories...`
    - Click `Import a repository`
-   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
+   - Paste: `https://github.com/YichengZ/zyc-scripts/raw/main/Release/index.xml`
    - Click `OK` then `Apply`
 
 3. **Install scripts**
@@ -118,7 +118,10 @@ Perfect for tracking your REAPER workflow and staying focused!
 
 ## 📄 License
 
-Open source license. Feel free to use and modify.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) file for details.
+
+Third-party components:
+- `json.lua`: Copyright (c) 2020 rxi, MIT License (included in Release/REAPER/Scripts/ReaPet/utils/json.lua)
 
 ## 🆘 Support
 

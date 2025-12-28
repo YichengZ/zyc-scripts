@@ -111,7 +111,10 @@ For enhanced workflow, we recommend using these scripts together with Zyc Script
 
 ## 📄 License
 
-This project is licensed under an open source license. Feel free to use and modify.
+This project is licensed under the MIT License. See [LICENSE](../../LICENSE) file for details.
+
+Third-party components:
+- `json.lua`: Copyright (c) 2020 rxi, MIT License (included in ReaPet/utils/json.lua)
 
 ## 🆘 Support
 
