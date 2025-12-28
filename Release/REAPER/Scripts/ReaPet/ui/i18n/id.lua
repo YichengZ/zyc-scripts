@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "Tentang",
-      version = "Version 1.0.4.1",
+      version = "Version 1.0.4.2",
       language = "Bahasa",
       change_interface_language = "  Ubah bahasa antarmuka",
       instructions = "Instruksi",

@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.1
+-- @version 1.0.4.2
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,8 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.2: Removed auto-start on REAPER launch feature (caused crash issues)
+--   + v1.0.4.2: Updated UI terminology: "Startup Actions" / "启动项设置"
 --   + v1.0.4.1: Fixed data file paths to use ResourcePath/Data/ for cross-platform compatibility
 --   + v1.0.4.1: Added automatic data migration from old script directory locations
 --   + v1.0.4.1: Improved path handling for Windows/macOS/Linux compatibility
