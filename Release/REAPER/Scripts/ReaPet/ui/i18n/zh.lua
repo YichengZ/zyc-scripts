@@ -66,9 +66,18 @@ local translations = {
       startup_actions = "启动项设置",
       open_startup_actions = "打开启动项设置",
       startup_actions_description = "  配置在 REAPER 启动时自动运行的命令",
+      reset_settings = "重置设置",
+      reset_preferences = "重置偏好设置",
+      reset_preferences_description = "  重置所有设置（保留金币和皮肤）",
+      factory_reset = "恢复出厂设置",
+      factory_reset_description = "  重置所有设置（包括金币和皮肤）",
+      reset_complete_title = "重置完成",
+      reset_preferences_complete = "偏好设置已重置为默认值（保留金币和皮肤）",
+      factory_reset_complete = "所有设置已恢复出厂默认（包括金币和皮肤）",
+      factory_reset_complete_title = "出厂重置完成",
       exit = "退出",
-      close_companion = "关闭伴侣",
-      exit_hint = "  退出 REAPER 伴侣"
+      close_companion = "关闭 ReaPet",
+      exit_hint = "  关闭 ReaPet"
     }
   },
   -- Pomodoro Settings Window
@@ -109,7 +118,7 @@ local translations = {
   -- Welcome Window
   welcome = {
     title = "🎉 欢迎使用 ReaPet!",
-    subtitle = "在 REAPER 中感受动物小伙伴的陪伴 ～",
+    subtitle = "在 REAPER 中感受动物小伙伴的陪伴 ～ （下滑查看完整教程）",
     quick_guide = "📚 快速指南",
     stats_title = "📊 计数窗口",
     stats_1 = "   • 会记录你在当前项目中的操作次数",

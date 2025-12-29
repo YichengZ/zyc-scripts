@@ -63,9 +63,18 @@ local translations = {
       auto_start = "自動起動",
       auto_start_on_launch = "REAPER起動時に自動実行",
       auto_start_description = "  REAPER起動時にReaPetを自動実行",
+      reset_settings = "設定をリセット",
+      reset_preferences = "設定（プリファレンス）をリセット",
+      reset_preferences_description = "  コインとスキンを除くすべての設定をリセット",
+      factory_reset = "初期化（出荷時設定に戻す）",
+      factory_reset_description = "  コインとスキンを含むすべての設定をリセット",
+      reset_complete_title = "リセット完了",
+      reset_preferences_complete = "プリファレンスがデフォルトにリセットされました（コインとスキンは保持されます）",
+      factory_reset_complete = "すべての設定が出荷時のデフォルトにリセットされました（コインとスキンを含む）",
+      factory_reset_complete_title = "初期化完了",
       exit = "終了",
-      close_companion = "コンパニオンを閉じる",
-      exit_hint = "  REAPERコンパニオンを終了"
+      close_companion = "ReaPetを閉じる",
+      exit_hint = "  ReaPetを閉じる"
     }
   },
   -- Pomodoro Settings Window

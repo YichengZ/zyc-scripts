@@ -1,3 +1,17 @@
+-- @description Zyc Startup Actions Manager
+-- @version 2.2.1
+-- @author Yicheng Zhu (Ethan)
+-- @changelog
+--   + 配合 ReaPet 1.0.4.4 更新
+--   + 确保所有依赖文件（运行库、语言包）正确被索引
+-- @provides
+--   [main] .
+--   zyc_startup_actions_run.lua
+--   utils/i18n.lua
+--   i18n/*.lua
+-- @about
+--   这是一个强大的 REAPER 启动项管理器，允许你配置 REAPER 启动时自动运行的动作。
+--   支持默认动作（如 ReaPet）和自定义用户动作。
 local r = reaper
 local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
 local run_script_path = script_path .. 'zyc_startup_actions_run.lua'

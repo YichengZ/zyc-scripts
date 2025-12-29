@@ -63,9 +63,18 @@ local translations = {
       auto_start = "자동 시작",
       auto_start_on_launch = "REAPER 시작 시 자동 실행",
       auto_start_description = "  REAPER 시작 시 ReaPet 자동 실행",
+      reset_settings = "설정 초기화",
+      reset_preferences = "환경설정 초기화",
+      reset_preferences_description = "  코인 및 스킨을 제외한 모든 설정을 초기화",
+      factory_reset = "공장 초기화",
+      factory_reset_description = "  코인 및 스킨을 포함한 모든 설정을 초기화",
+      reset_complete_title = "초기화 완료",
+      reset_preferences_complete = "환경설정이 기본값으로 초기화되었습니다 (코인 및 스킨 보존)",
+      factory_reset_complete = "모든 설정이 공장 초기값으로 초기화되었습니다 (코인 및 스킨 포함)",
+      factory_reset_complete_title = "공장 초기화 완료",
       exit = "종료",
-      close_companion = "컴패니언 닫기",
-      exit_hint = "  REAPER 컴패니언 종료"
+      close_companion = "ReaPet 닫기",
+      exit_hint = "  ReaPet 닫기"
     }
   },
   -- Pomodoro Settings Window

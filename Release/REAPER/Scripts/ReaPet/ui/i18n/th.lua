@@ -63,9 +63,18 @@ local translations = {
       auto_start = "เริ่มอัตโนมัติ",
       auto_start_on_launch = "เรียกใช้โดยอัตโนมัติเมื่อเปิด REAPER",
       auto_start_description = "  เรียกใช้ ReaPet โดยอัตโนมัติเมื่อเปิด REAPER",
+      reset_settings = "รีเซ็ตการตั้งค่า",
+      reset_preferences = "รีเซ็ตค่ากำหนด",
+      reset_preferences_description = "  รีเซ็ตการตั้งค่าทั้งหมด ยกเว้นเหรียญและสกิน",
+      factory_reset = "รีเซ็ตเป็นค่าจากโรงงาน",
+      factory_reset_description = "  รีเซ็ตการตั้งค่าทั้งหมดรวมถึงเหรียญและสกิน",
+      reset_complete_title = "รีเซ็ตเสร็จสิ้น",
+      reset_preferences_complete = "ค่ากำหนดถูกรีเซ็ตเป็นค่าเริ่มต้น (เก็บเหรียญและสกินไว้)",
+      factory_reset_complete = "การตั้งค่าทั้งหมดถูกรีเซ็ตเป็นค่าเริ่มต้นจากโรงงาน (รวมเหรียญและสกิน)",
+      factory_reset_complete_title = "รีเซ็ตเป็นค่าจากโรงงานเสร็จสิ้น",
       exit = "ออก",
-      close_companion = "ปิดเพื่อน",
-      exit_hint = "  ออกจากเพื่อน REAPER"
+      close_companion = "ปิด ReaPet",
+      exit_hint = "  ปิด ReaPet"
     }
   },
   -- Pomodoro Settings Window
