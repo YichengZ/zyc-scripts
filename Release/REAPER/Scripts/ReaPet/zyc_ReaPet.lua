@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.5
+-- @version 1.0.4.6  -- ⚠️ 更新版本时，请同时更新 config.lua 中的 Config.VERSION
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
