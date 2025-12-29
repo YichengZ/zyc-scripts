@@ -169,7 +169,8 @@ function PomodoroSettings.draw(ctx, open, data)
   local settings_flags = reaper.ImGui_WindowFlags_NoTitleBar() | 
                          reaper.ImGui_WindowFlags_NoScrollbar()
   
-  local visible, new_open = reaper.ImGui_Begin(ctx, "##TimerSettings", true, settings_flags)
+  local win_title = (I18n.get("pomodoro_settings.title") or "Timer Settings") .. "###ZycTimerSettingsWindow"
+  local visible, new_open = reaper.ImGui_Begin(ctx, win_title, true, settings_flags)
   local done_button_clicked = false
   local close_button_clicked = false
   

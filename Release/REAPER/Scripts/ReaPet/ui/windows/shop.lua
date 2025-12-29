@@ -399,7 +399,8 @@ function Shop.draw(ctx, open, data)
   r.ImGui_PushStyleVar(ctx, r.ImGui_StyleVar_ItemSpacing(), ITEM_SPACING, ITEM_SPACING)
   
   local flags = r.ImGui_WindowFlags_NoCollapse() | r.ImGui_WindowFlags_NoScrollbar() | r.ImGui_WindowFlags_NoTitleBar()
-  local visible, new_open = r.ImGui_Begin(ctx, I18n.get("shop.title"), true, flags)
+  local win_title = (I18n.get("shop.title") or "Shop") .. "###ZycShopWindow"
+  local visible, new_open = r.ImGui_Begin(ctx, win_title, true, flags)
   
   if visible then
     r.ImGui_Text(ctx, "Skin Shop")

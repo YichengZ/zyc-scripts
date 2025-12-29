@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.4
+-- @version 1.0.4.5
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,14 +21,12 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.5: Optimized window ID logic to prevent flickering during skin or language switches
 --   + v1.0.4.3: Hidden Developer Mode UI in production release
---   + v1.0.4.2: Removed auto-start on REAPER launch feature (caused crash issues)
---   + v1.0.4.2: Updated UI terminology: "Startup Actions" / "启动项设置"
---   + v1.0.4.1: Fixed data file paths to use ResourcePath/Data/ for cross-platform compatibility
---   + v1.0.4.1: Added automatic data migration from old script directory locations
---   + v1.0.4.1: Improved path handling for Windows/macOS/Linux compatibility
+--   + v1.0.4.2: Removed auto-start on REAPER launch feature
+--   + v1.0.4.2: Updated UI terminology
+--   + v1.0.4.1: Fixed data file paths and added migration
 --   + Initial public release
---   + Added basic pet system and shop
 
 local script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
 package.path = script_path .. "?.lua;" .. script_path .. "?/init.lua;" .. package.path
@@ -281,7 +279,6 @@ local function Loop()
     welcome_open = is_first_run()
     if welcome_open then
       -- 确保 tracker 被传递给欢迎窗口上下文
-      -- 这个会在后面设置
     end
   end
 
@@ -318,31 +315,23 @@ local function Loop()
   if is_first_window_restore then
     is_first_window_restore = false
     
-    -- 如果启用停靠，让 REAPER 自动管理窗口位置（包括停靠状态）
-    -- 注意：即使 Config.WINDOW_DOCKED = true，也不要在初始化时跳过位置设置
-    -- 因为 REAPER 会在窗口真正停靠后自动恢复停靠位置
     if Config.ENABLE_DOCKING then
-      -- 启用停靠时，不设置窗口位置，让 REAPER 自动处理
-      -- REAPER 会自动恢复停靠窗口的位置和状态
       has_saved_window = false
     else
-      -- 未启用停靠时，恢复浮动窗口的位置
       local saved_pos = Config.MAIN_WINDOW_POS
       if saved_pos and saved_pos.x and saved_pos.y then
-        -- 检查位置是否有效（在多显示器环境中，位置可能在 -10000 到 10000 之间）
         if saved_pos.x > -10000 and saved_pos.x < 10000 and 
            saved_pos.y > -10000 and saved_pos.y < 10000 then
           r.ImGui_SetNextWindowPos(ctx, saved_pos.x, saved_pos.y, r.ImGui_Cond_FirstUseEver())
           if saved_pos.w and saved_pos.h and saved_pos.w > 0 and saved_pos.h > 0 then
             r.ImGui_SetNextWindowSize(ctx, saved_pos.w, saved_pos.h, r.ImGui_Cond_FirstUseEver())
-            has_saved_window = true  -- 标记已恢复保存的窗口大小
+            has_saved_window = true 
           end
         end
       end
     end
   end
   
-  -- 只有在没有恢复保存的窗口大小时，才设置默认大小
   if not has_saved_window then
     if pending_skin_resize then
       r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_Always())
@@ -351,14 +340,22 @@ local function Loop()
       r.ImGui_SetNextWindowSize(ctx, base_w, base_h, r.ImGui_Cond_FirstUseEver())
     end
   else
-    -- 如果有保存的窗口大小，清除 pending_skin_resize 标志
     pending_skin_resize = false
   end
   
-  -- 动态生成窗口标志（根据停靠配置）
+  -- 动态生成窗口标志
   local window_flags = WindowFlags.get_main_window_flags()
   
-  local visible, open = r.ImGui_Begin(ctx, 'ReaPet', true, window_flags)
+  -- 【核心修改开始】----------------------------------------------------
+  -- 1. 获取动态标题（用于显示）
+  local lang_title = I18n.get("window.title") or "ReaPet"
+  -- 2. 构造固定ID（用于ImGui识别，防止闪烁）
+  local title_with_id = lang_title .. "###ZycReaPetMainWindow"
+  
+  -- 3. 使用带ID的标题创建窗口
+  local visible, open = r.ImGui_Begin(ctx, title_with_id, true, window_flags)
+  -- 【核心修改结束】----------------------------------------------------
+  
   local floor_y_absolute = nil 
 
   if visible then
@@ -372,68 +369,46 @@ local function Loop()
     ScaleManager.update(w, h, base_w, base_h)
     local scale = ScaleManager.get()
     
-    -- 检测停靠状态（仅在启用停靠时检测）
+    -- 检测停靠状态
     if Config.ENABLE_DOCKING then
-      -- 使用 ImGui_GetWindowDockID 检测停靠状态
-      -- 如果返回非零值，说明窗口已停靠
       local dock_id = 0
       if r.ImGui_GetWindowDockID then
         dock_id = r.ImGui_GetWindowDockID(ctx) or 0
       end
       local is_docked = (dock_id ~= 0)
       
-      -- 如果停靠状态改变，更新配置并检测停靠位置
       if is_docked ~= Config.WINDOW_DOCKED then
         Config.WINDOW_DOCKED = is_docked
         is_data_dirty = true
         
-        -- 检测停靠位置（仅在刚停靠时检测）
         if is_docked then
-          -- 简化实现：根据窗口宽高比判断停靠方向
-          -- 不依赖屏幕尺寸，只根据窗口本身的尺寸比例
           local aspect_ratio = w / h
           if aspect_ratio < 0.8 then
-            -- 窗口较窄（高>宽），可能是左右停靠
-            -- 根据窗口X坐标判断：如果X坐标较小，可能是左侧；否则可能是右侧
-            -- 简化：使用窗口X坐标的绝对值判断（左侧通常X较小，右侧X较大）
-            if wx < 500 then  -- 阈值：如果窗口X坐标小于500，认为是左侧
-              Config.DOCK_POSITION = "left"
-            else
-              Config.DOCK_POSITION = "right"
-            end
+            if wx < 500 then Config.DOCK_POSITION = "left" else Config.DOCK_POSITION = "right" end
           elseif aspect_ratio > 1.5 then
-            -- 窗口较宽（宽>高），可能是上下停靠
-            -- 根据窗口Y坐标判断：如果Y坐标较小，可能是顶部；否则可能是底部
-            if wy < 500 then  -- 阈值：如果窗口Y坐标小于500，认为是顶部
-              Config.DOCK_POSITION = "top"
-            else
-              Config.DOCK_POSITION = "bottom"
-            end
+            if wy < 500 then Config.DOCK_POSITION = "top" else Config.DOCK_POSITION = "bottom" end
           else
-            -- 宽高比接近1:1，无法确定具体方向，保持 nil
             Config.DOCK_POSITION = nil
           end
           is_data_dirty = true
         else
-          -- 取消停靠，清除位置记忆
           Config.DOCK_POSITION = nil
           is_data_dirty = true
         end
       end
     end
     
-    -- 保存窗口位置（仅在非停靠状态下保存）
+    -- 保存窗口位置
     if not Config.WINDOW_DOCKED then
       window_pos_save_timer = window_pos_save_timer + dt
       if window_pos_save_timer > WINDOW_POS_SAVE_INTERVAL then
-        -- 确保缩放值有效（ScaleManager已初始化）
         if scale and scale > 0 then
           Config.MAIN_WINDOW_POS.x = wx
           Config.MAIN_WINDOW_POS.y = wy
           Config.MAIN_WINDOW_POS.w = w
           Config.MAIN_WINDOW_POS.h = h
           Config.MAIN_WINDOW_POS.scale = scale
-          is_data_dirty = true  -- 标记数据需要保存
+          is_data_dirty = true
         end
         window_pos_save_timer = 0
       end
@@ -579,7 +554,6 @@ local function Loop()
       is_p_hovered = PomodoroTimer.is_hovered(mx, my, px, py, pw, ph)
       PomodoroTimer.update(dt, current_p_state, is_p_hovered)
       
-      -- [优化] 字符串缓存
       if current_p_state ~= "idle" then
         local remaining = Pomodoro.get_remaining_time()
         local remaining_int = math.floor(remaining)
@@ -640,7 +614,6 @@ local function Loop()
   r.ImGui_PopStyleVar(ctx, 2)
   
   if settings_open then
-    -- [优化] 复用 settings_ctx 表
     settings_ctx.tracker = tracker
     settings_ctx.pomodoro = Pomodoro
     settings_ctx.treasure = Treasure
@@ -653,51 +626,38 @@ local function Loop()
     local result = Settings.draw(ctx, settings_open, settings_ctx)
     if type(result) == "table" then
       if result.open ~= nil then settings_open = result.open end
-      -- 只在开发者模式下允许打开 dev panel
       if result.open_dev_panel and Config.DEVELOPER_MODE then 
         dev_panel_open = true 
       end
       if result.open_skin_picker then skin_picker_open = true end
       if result.show_welcome then
-        -- 从设置页面请求显示欢迎窗口
         welcome_open = true
       end
       if result.close_program then
-        -- 关闭程序：保存数据并退出循环
         SaveAllData()
         tracker:on_exit()
-        open = false  -- 退出主循环
+        open = false
       end
       
-      -- 处理重置偏好设置（不包括金币和皮肤）
       if result.reset_preferences then
-        -- 重置 Config 到默认值（不包括金币和皮肤系统）
         Config.reset_to_defaults()
-        -- 保存配置
         local global_stats = tracker:get_global_stats()
         Config.save_to_data(global_stats)
         SaveAllDataAtomic()
         r.ShowMessageBox(I18n.get("settings.system.reset_preferences_complete"), I18n.get("settings.system.reset_complete_title"), 0)
       end
       
-      -- 处理恢复出厂设置（包括所有内容）
       if result.factory_reset then
-        -- 重置 Config 到默认值
         Config.reset_to_defaults()
-        -- 重置金币系统
         CoinSystem.reset()
-        -- 重置商店系统
         ShopSystem.reset()
-        -- 重置皮肤为默认
         Config.CURRENT_SKIN_ID = "cat_base"
-        -- 保存所有数据
         local global_stats = tracker:get_global_stats()
         Config.save_to_data(global_stats)
         SaveAllDataAtomic()
         r.ShowMessageBox(I18n.get("settings.system.factory_reset_complete"), I18n.get("settings.system.factory_reset_complete_title"), 0)
       end
       
-      -- 检查是否需要保存配置
       if result.needs_save and result.needs_save.config then
         is_data_dirty = true
       end
@@ -708,7 +668,6 @@ local function Loop()
   end
   
   if skin_picker_open then
-    -- [优化] 复用 shop_ctx 表
     shop_ctx.tracker = tracker
     shop_ctx.script_path = script_path
     shop_ctx.main_window_x = main_window_x
@@ -720,42 +679,37 @@ local function Loop()
     skin_picker_open = Shop.draw(ctx, skin_picker_open, shop_ctx)
   end
 
-  -- Dev Panel 只在开发者模式显示
   if dev_panel_open and Config.DEVELOPER_MODE then 
     local dev_panel_data = {
       welcome_open = welcome_open,
       tracker = tracker,
       save_data = function()
-        -- 保存数据的函数
         SaveAllData()
-        is_data_dirty = false  -- 标记已保存
+        is_data_dirty = false
       end
     }
     DevPanel.draw(ctx, dev_panel_open, dev_panel_data)
     
-    -- 检查 dev panel 是否修改了 welcome_open
     if dev_panel_data.welcome_open ~= nil then
       welcome_open = dev_panel_data.welcome_open
     end
     
-    -- 如果强制显示，重置标志并立即显示
     if dev_panel_data.force_show_welcome then
       local global_stats = tracker:get_global_stats()
       if not global_stats.ui_settings then
         global_stats.ui_settings = {}
       end
-      global_stats.ui_settings.show_welcome = nil  -- 清除标志，允许下次启动时显示
-      welcome_open = true  -- 立即显示欢迎窗口
-      SaveAllData()  -- 立即保存
+      global_stats.ui_settings.show_welcome = nil
+      welcome_open = true
+      SaveAllData()
       is_data_dirty = false
       dev_panel_data.force_show_welcome = false
     end
   elseif dev_panel_open and not Config.DEVELOPER_MODE then
-    dev_panel_open = false  -- 如果开发者模式关闭，自动关闭 dev panel
+    dev_panel_open = false
   end
   
   if pomo_settings_open then
-    -- [优化] 复用 pomo_settings_ctx 表
     pomo_settings_ctx.pomodoro = Pomodoro
     pomo_settings_ctx.tracker = tracker
     pomo_settings_ctx.current_p_state = current_p_state
@@ -773,19 +727,18 @@ local function Loop()
       main_y = main_window_y,
       main_w = main_window_w,
       main_h = main_window_h,
-      tracker = tracker -- 传递 tracker 以便保存状态
+      tracker = tracker
     }
     welcome_open = Welcome.draw(ctx, welcome_open, welcome_ctx)
     
-    -- 如果用户关闭了欢迎窗口，保存标志
     if not welcome_open then
       local global_stats = tracker:get_global_stats()
       if not global_stats.ui_settings then
         global_stats.ui_settings = {}
       end
       global_stats.ui_settings.show_welcome = false
-      is_data_dirty = true  -- 标记数据需要保存
-      SaveAllData() -- 立即保存，确保标志被持久化
+      is_data_dirty = true
+      SaveAllData()
     end
   end
   
