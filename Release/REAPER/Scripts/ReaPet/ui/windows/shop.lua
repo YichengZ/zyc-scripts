@@ -135,14 +135,7 @@ local function draw_purchase_popup(ctx, skins, tracker, main_win_info)
     
     local is_blind_box = (shop_purchase_confirm == "blind_box")
     local price = is_blind_box and ShopSystem.get_blind_box_price() or shop_purchase_confirm.price
-    local skin_name = is_blind_box and I18n.get("shop.blind_box") or (skins and (function()
-      for _, s in ipairs(skins) do
-        if s.id == shop_purchase_confirm.skin_id then return s.name end
-      end
-      return "Unknown"
-    end)() or "Unknown")
     
-    r.ImGui_Text(ctx, I18n.get("shop.unlock") .. " " .. skin_name .. "?")
     r.ImGui_Separator(ctx)
     r.ImGui_Spacing(ctx)
     
