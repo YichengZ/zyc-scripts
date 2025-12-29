@@ -37,7 +37,8 @@ local state = {
   close_requested = false,
   show_welcome_requested = false,
   reset_preferences_requested = false,
-  factory_reset_requested = false
+  factory_reset_requested = false,
+  show_reset_options = false
 }
 
 -- 辅助函数：格式化时间
@@ -115,7 +116,8 @@ function Settings.draw(ctx, open, data)
   r.ImGui_SetNextWindowSize(ctx, 400, 500, r.ImGui_Cond_FirstUseEver())
   
   local flags = r.ImGui_WindowFlags_NoTitleBar() | r.ImGui_WindowFlags_NoScrollbar()
-  local visible, new_open = r.ImGui_Begin(ctx, "Settings##Window", true, flags)
+  local win_title = (I18n.get("settings.title") or "Settings") .. "###ZycSettingsWindow"
+  local visible, new_open = r.ImGui_Begin(ctx, win_title, true, flags)
   
   if visible then
     draw_title_bar(ctx, I18n.get("settings.title"), function() new_open = false end)
@@ -497,27 +499,46 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
-        -- Reset Preferences Button (exclude coin and skin system)
-        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xFF8800FF)  -- 橙色按钮
+        -- Reset Preferences (toggle to reveal reset choices)
+        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xFF8800FF)  -- 橙色按钮 (buttons later)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFFAA00FF)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xCC6600FF)
-        if r.ImGui_Button(ctx, I18n.get("settings.system.reset_preferences"), 200, 32) then
-          state.reset_preferences_requested = true
+
+        local show_reset = state.show_reset_options
+        if r.ImGui_Checkbox(ctx, I18n.get("settings.system.show_reset_options"), show_reset) then
+          state.show_reset_options = not show_reset
         end
-        r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.reset_preferences_description"))
-        
-        r.ImGui_Dummy(ctx, 0, 5)
-        
-        -- Factory Reset Button (reset everything)
-        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
-        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
-        r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
-        if r.ImGui_Button(ctx, I18n.get("settings.system.factory_reset"), 200, 32) then
-          state.factory_reset_requested = true
+
+        r.ImGui_Dummy(ctx, 0, 6)
+        -- Stronger warning text when enabled, with separate descriptions for each reset
+        if state.show_reset_options then
+          r.ImGui_TextColored(ctx, 0xFF6666FF, I18n.get("settings.system.warning_reset_message"))
+          r.ImGui_Dummy(ctx, 0, 8)
+
+          -- Reset Preferences section (description + button)
+          r.ImGui_TextWrapped(ctx, I18n.get("settings.system.reset_preferences_description"))
+          r.ImGui_Dummy(ctx, 0, 6)
+          if r.ImGui_Button(ctx, I18n.get("settings.system.reset_preferences"), 200, 32) then
+            state.reset_preferences_requested = true
+          end
+
+          r.ImGui_Dummy(ctx, 0, 10)
+
+          -- Factory Reset section (description + prominent red button)
+          r.ImGui_TextWrapped(ctx, I18n.get("settings.system.factory_reset_description"))
+          r.ImGui_Dummy(ctx, 0, 6)
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
+          if r.ImGui_Button(ctx, I18n.get("settings.system.factory_reset"), 200, 32) then
+            state.factory_reset_requested = true
+          end
+          r.ImGui_PopStyleColor(ctx, 3)
+        else
+          r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.reset_preferences_description"))
         end
+
         r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.factory_reset_description"))
         
         -- Developer section (HIDDEN in production releases)
         -- r.ImGui_Dummy(ctx, 0, 15)
@@ -563,8 +584,9 @@ function Settings.draw(ctx, open, data)
       end
 
       r.ImGui_EndTabBar(ctx)
-    end
-    r.ImGui_End(ctx)
+      end
+
+      r.ImGui_End(ctx)
   end
   
   r.ImGui_PopStyleColor(ctx, 8)

@@ -54,7 +54,8 @@ function Welcome.draw(ctx, open, data)
   r.ImGui_SetNextWindowSize(ctx, 450, 500, r.ImGui_Cond_FirstUseEver())
   
   local flags = r.ImGui_WindowFlags_NoTitleBar() | r.ImGui_WindowFlags_NoScrollbar()
-  local visible, new_open = r.ImGui_Begin(ctx, "Welcome to ReaPet!##Window", true, flags)
+  local win_title = (I18n.get("welcome.title") or "Welcome") .. "###ZycWelcomeWindow"
+  local visible, new_open = r.ImGui_Begin(ctx, win_title, true, flags)
   
   if visible then
     -- 语言选择器（顶部）- 使用图标和代码让用户一眼识别
