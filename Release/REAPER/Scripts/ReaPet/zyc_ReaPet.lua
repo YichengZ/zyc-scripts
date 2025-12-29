@@ -677,7 +677,7 @@ local function Loop()
         local global_stats = tracker:get_global_stats()
         Config.save_to_data(global_stats)
         SaveAllDataAtomic()
-        r.ShowMessageBox("Preferences reset to defaults (coins and skins preserved)", "Reset Complete", 0)
+        r.ShowMessageBox(I18n.get("settings.system.reset_preferences_complete"), I18n.get("settings.system.reset_complete_title"), 0)
       end
       
       -- 处理恢复出厂设置（包括所有内容）
@@ -694,7 +694,7 @@ local function Loop()
         local global_stats = tracker:get_global_stats()
         Config.save_to_data(global_stats)
         SaveAllDataAtomic()
-        r.ShowMessageBox("All settings reset to factory defaults (including coins and skins)", "Factory Reset Complete", 0)
+        r.ShowMessageBox(I18n.get("settings.system.factory_reset_complete"), I18n.get("settings.system.factory_reset_complete_title"), 0)
       end
       
       -- 检查是否需要保存配置

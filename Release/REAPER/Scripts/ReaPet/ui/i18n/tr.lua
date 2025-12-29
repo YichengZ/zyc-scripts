@@ -63,9 +63,18 @@ local translations = {
       auto_start = "Otomatik başlatma",
       auto_start_on_launch = "REAPER başlatıldığında otomatik çalıştır",
       auto_start_description = "  REAPER başlatıldığında ReaPet'i otomatik çalıştır",
+      reset_settings = "Ayarları sıfırla",
+      reset_preferences = "Tercihleri sıfırla",
+      reset_preferences_description = "  Jetonlar ve görünümler hariç tüm ayarları sıfırla",
+      factory_reset = "Fabrika ayarlarına döndür",
+      factory_reset_description = "  Jetonlar ve görünümler dahil tüm ayarları sıfırla",
+      reset_complete_title = "Sıfırlama Tamamlandı",
+      reset_preferences_complete = "Tercihler varsayılanlara sıfırlandı (jetonlar ve görünümler korunmuştur)",
+      factory_reset_complete = "Tüm ayarlar fabrika varsayılanlarına sıfırlandı (jetonlar ve görünümler dahil)",
+      factory_reset_complete_title = "Fabrika Sıfırlaması Tamamlandı",
       exit = "Çıkış",
-      close_companion = "Yoldaşı kapat",
-      exit_hint = "  REAPER yoldaşından çık"
+      close_companion = "ReaPet'i kapat",
+      exit_hint = "  ReaPet'i kapat"
     }
   },
   -- Pomodoro Settings Window

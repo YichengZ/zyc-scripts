@@ -63,9 +63,18 @@ local translations = {
       auto_start = "Tự động khởi động",
       auto_start_on_launch = "Tự động chạy khi khởi động REAPER",
       auto_start_description = "  Tự động chạy ReaPet khi khởi động REAPER",
+      reset_settings = "Đặt lại cài đặt",
+      reset_preferences = "Đặt lại tùy chọn",
+      reset_preferences_description = "  Đặt lại tất cả cài đặt ngoại trừ tiền và giao diện",
+      factory_reset = "Khôi phục cài đặt gốc",
+      factory_reset_description = "  Đặt lại tất cả cài đặt bao gồm cả tiền và giao diện",
+      reset_complete_title = "Đặt lại hoàn tất",
+      reset_preferences_complete = "Tùy chọn đã được đặt lại về mặc định (giữ tiền và giao diện)",
+      factory_reset_complete = "Tất cả cài đặt đã được đặt lại về mặc định gốc (bao gồm tiền và giao diện)",
+      factory_reset_complete_title = "Khôi phục cài đặt gốc hoàn tất",
       exit = "Thoát",
-      close_companion = "Đóng bạn đồng hành",
-      exit_hint = "  Thoát khỏi bạn đồng hành REAPER"
+      close_companion = "Đóng ReaPet",
+      exit_hint = "  Đóng ReaPet"
     }
   },
   -- Pomodoro Settings Window

@@ -51,7 +51,7 @@ function Welcome.draw(ctx, open, data)
   end
   
   -- 窗口尺寸（确保能装下所有内容包括按钮）
-  r.ImGui_SetNextWindowSize(ctx, 500, 850, r.ImGui_Cond_FirstUseEver())
+  r.ImGui_SetNextWindowSize(ctx, 450, 500, r.ImGui_Cond_FirstUseEver())
   
   local flags = r.ImGui_WindowFlags_NoTitleBar() | r.ImGui_WindowFlags_NoScrollbar()
   local visible, new_open = r.ImGui_Begin(ctx, "Welcome to ReaPet!##Window", true, flags)

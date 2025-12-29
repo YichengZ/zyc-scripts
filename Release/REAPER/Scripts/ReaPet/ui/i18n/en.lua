@@ -66,9 +66,18 @@ local translations = {
       startup_actions = "Startup Actions",
       open_startup_actions = "Open Startup Actions Settings",
       startup_actions_description = "  Configure commands to run automatically when REAPER starts",
+      reset_settings = "Reset Settings",
+      reset_preferences = "Reset Preferences",
+      reset_preferences_description = "  Reset all settings except coins and skins",
+      factory_reset = "Factory Reset",
+      factory_reset_description = "  Reset all settings including coins and skins",
+      reset_complete_title = "Reset Complete",
+      reset_preferences_complete = "Preferences reset to defaults (coins and skins preserved)",
+      factory_reset_complete = "All settings reset to factory defaults (including coins and skins)",
+      factory_reset_complete_title = "Factory Reset Complete",
       exit = "Exit",
-      close_companion = "Close Companion",
-      exit_hint = "  Exit the REAPER Companion"
+      close_companion = "Close ReaPet",
+      exit_hint = "  Close ReaPet"
     }
   },
   -- Pomodoro Settings Window

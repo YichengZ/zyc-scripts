@@ -63,9 +63,18 @@ local translations = {
       auto_start = "Mulai otomatis",
       auto_start_on_launch = "Jalankan otomatis saat REAPER dimulai",
       auto_start_description = "  Jalankan ReaPet otomatis saat REAPER dimulai",
+      reset_settings = "Reset pengaturan",
+      reset_preferences = "Reset preferensi",
+      reset_preferences_description = "  Reset semua pengaturan kecuali koin dan skin",
+      factory_reset = "Reset pabrik",
+      factory_reset_description = "  Reset semua pengaturan termasuk koin dan skin",
+      reset_complete_title = "Reset selesai",
+      reset_preferences_complete = "Preferensi direset ke default (koin dan skin tetap)",
+      factory_reset_complete = "Semua pengaturan direset ke default pabrik (termasuk koin dan skin)",
+      factory_reset_complete_title = "Reset pabrik selesai",
       exit = "Keluar",
-      close_companion = "Tutup pendamping",
-      exit_hint = "  Keluar dari pendamping REAPER"
+      close_companion = "Tutup ReaPet",
+      exit_hint = "  Tutup ReaPet"
     }
   },
   -- Pomodoro Settings Window

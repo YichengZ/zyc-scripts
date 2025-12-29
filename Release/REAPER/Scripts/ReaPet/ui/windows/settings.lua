@@ -493,7 +493,7 @@ function Settings.draw(ctx, open, data)
         
         -- Reset Settings
         r.ImGui_Dummy(ctx, 0, 15)
-        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, "Reset Settings")
+        r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.reset_settings"))
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
@@ -501,11 +501,11 @@ function Settings.draw(ctx, open, data)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xFF8800FF)  -- 橙色按钮
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFFAA00FF)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xCC6600FF)
-        if r.ImGui_Button(ctx, "Reset Preferences", 200, 32) then
+        if r.ImGui_Button(ctx, I18n.get("settings.system.reset_preferences"), 200, 32) then
           state.reset_preferences_requested = true
         end
         r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Reset all settings except coins and skins")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.reset_preferences_description"))
         
         r.ImGui_Dummy(ctx, 0, 5)
         
@@ -513,11 +513,11 @@ function Settings.draw(ctx, open, data)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
-        if r.ImGui_Button(ctx, "Factory Reset", 200, 32) then
+        if r.ImGui_Button(ctx, I18n.get("settings.system.factory_reset"), 200, 32) then
           state.factory_reset_requested = true
         end
         r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Reset all settings including coins and skins")
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.factory_reset_description"))
         
         -- Developer section (HIDDEN in production releases)
         -- r.ImGui_Dummy(ctx, 0, 15)

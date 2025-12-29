@@ -37,7 +37,7 @@ local translations = {
       docking_note = "Hinweis: Wenn angedockt, wird das Fenster Teil des REAPER-Hauptfensters.",
       window_docked_status = "Fensterstatus: ",
       window_docked = "Angedockt",
-      window_floating = "Schwebend"
+      window_floating = "Schwebend",
     },
     stats = {
       lifetime_stats = "Lebenszeit-Statistiken",
@@ -63,9 +63,18 @@ local translations = {
       auto_start = "Automatischer Start",
       auto_start_on_launch = "Beim Start von REAPER automatisch ausführen",
       auto_start_description = "  ReaPet beim Start von REAPER automatisch ausführen",
+      reset_settings = "Einstellungen zurücksetzen",
+      reset_preferences = "Voreinstellungen zurücksetzen",
+      reset_preferences_description = "  Alle Einstellungen zurücksetzen (Coins und Skins behalten)",
+      factory_reset = "Auf Werkseinstellungen zurücksetzen",
+      factory_reset_description = "  Alle Einstellungen zurücksetzen (einschließlich Coins und Skins)",
+      reset_complete_title = "Zurücksetzen abgeschlossen",
+      reset_preferences_complete = "Voreinstellungen auf Standard zurückgesetzt (Coins und Skins wurden beibehalten)",
+      factory_reset_complete = "Alle Einstellungen auf Werkseinstellungen zurückgesetzt (einschließlich Coins und Skins)",
+      factory_reset_complete_title = "Werkseinstellung abgeschlossen",
       exit = "Beenden",
-      close_companion = "Begleiter schließen",
-      exit_hint = "  REAPER-Begleiter beenden"
+      close_companion = "ReaPet schließen",
+      exit_hint = "  ReaPet schließen"
     }
   },
   -- Pomodoro Settings Window

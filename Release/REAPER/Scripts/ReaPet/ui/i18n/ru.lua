@@ -63,9 +63,18 @@ local translations = {
       auto_start = "Автозапуск",
       auto_start_on_launch = "Автоматически запускать при старте REAPER",
       auto_start_description = "  Автоматически запускать ReaPet при старте REAPER",
+      reset_settings = "Сброс настроек",
+      reset_preferences = "Сброс предпочтений",
+      reset_preferences_description = "  Сбросить все настройки, кроме монет и скинов",
+      factory_reset = "Сброс к заводским настройкам",
+      factory_reset_description = "  Сбросить все настройки, включая монеты и скины",
+      reset_complete_title = "Сброс завершён",
+      reset_preferences_complete = "Предпочтения сброшены к значениям по умолчанию (монеты и скины сохранены)",
+      factory_reset_complete = "Все настройки сброшены к заводским значениям (включая монеты и скины)",
+      factory_reset_complete_title = "Заводской сброс выполнен",
       exit = "Выход",
-      close_companion = "Закрыть компаньона",
-      exit_hint = "  Выйти из компаньона REAPER"
+      close_companion = "Закрыть ReaPet",
+      exit_hint = "  Закрыть ReaPet"
     }
   },
   -- Pomodoro Settings Window
