@@ -21,6 +21,7 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.6: Removed "Unlock xxxx?" text from shop purchase popup, removed "Current Skin" display from settings (skin names are dev codes)
 --   + v1.0.4.5: Optimized window ID logic to prevent flickering during skin or language switches
 --   + v1.0.4.3: Hidden Developer Mode UI in production release
 --   + v1.0.4.2: Removed auto-start on REAPER launch feature
