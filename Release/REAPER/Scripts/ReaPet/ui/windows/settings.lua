@@ -38,6 +38,7 @@ local state = {
   show_welcome_requested = false,
   reset_preferences_requested = false,
   factory_reset_requested = false,
+  reset_current_project_stats_requested = false,
   show_reset_options = false
 }
 
@@ -164,8 +165,6 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
-        local current_skin = SkinManager.get_active_skin_id()
-        r.ImGui_Text(ctx, I18n.get("settings.general.current_skin") .. (current_skin or I18n.get("settings.general.none")))
         if r.ImGui_Button(ctx, I18n.get("settings.general.change_skin"), 200, 32) then
           state.skin_picker_requested = true
         end
@@ -244,12 +243,34 @@ function Settings.draw(ctx, open, data)
           if r.ImGui_IsItemHovered(ctx) then r.ImGui_SetTooltip(ctx, I18n.get("settings.general.right_click_to_reset")) end
           
           r.ImGui_Dummy(ctx, 0, 5)
+          
+          -- 等宽字体选项（用于解决部分 Windows 设备上数字宽度不一致的问题）
+          local use_monospace = Config.STATS_BOX_USE_MONOSPACE or false
+          if r.ImGui_Checkbox(ctx, I18n.get("settings.general.stats_box_use_monospace"), use_monospace) then
+            Config.STATS_BOX_USE_MONOSPACE = not use_monospace
+            -- 需要重新初始化字体
+            local ok, FontManager = pcall(require, 'utils.font_manager')
+            if ok and FontManager and FontManager.init then
+              FontManager.init(ctx)
+            end
+          end
+          if r.ImGui_IsItemHovered(ctx) then
+            r.ImGui_SetTooltip(ctx, I18n.get("settings.general.stats_box_use_monospace_tooltip"))
+          end
+          
+          r.ImGui_Dummy(ctx, 0, 5)
           if r.ImGui_Button(ctx, I18n.get("settings.general.reset_stats_box_defaults")) then
              Config.STATS_BOX_SCALE = 1.0
              Config.STATS_BOX_OFFSET_X = 0
              Config.STATS_BOX_OFFSET_Y = 100
              Config.STATS_BOX_TEXT_OFFSET_X = 0.01
              Config.STATS_BOX_TEXT_OFFSET_Y = -0.12
+             Config.STATS_BOX_USE_MONOSPACE = false
+             -- 重新初始化字体
+             local ok, FontManager = pcall(require, 'utils.font_manager')
+             if ok and FontManager and FontManager.init then
+               FontManager.init(ctx)
+             end
           end
           
           r.ImGui_Unindent(ctx, 20)
@@ -373,9 +394,26 @@ function Settings.draw(ctx, open, data)
           r.ImGui_Separator(ctx)
           r.ImGui_Dummy(ctx, 0, 5)
           
+          r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.stats.reset_daily_limit_description"))
+          r.ImGui_Dummy(ctx, 0, 5)
           if r.ImGui_Button(ctx, I18n.get("settings.stats.reset_daily_limit"), 150, 24) then
              CoinSystem.reset_daily_limit()
           end
+          
+          r.ImGui_Dummy(ctx, 0, 15)
+          r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.stats.reset_project_stats"))
+          r.ImGui_Separator(ctx)
+          r.ImGui_Dummy(ctx, 0, 5)
+          
+          r.ImGui_TextWrapped(ctx, I18n.get("settings.stats.reset_project_stats_description"))
+          r.ImGui_Dummy(ctx, 0, 6)
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xFF8800FF)  -- 橙色按钮
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFFAA00FF)
+          r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xCC6600FF)
+          if r.ImGui_Button(ctx, I18n.get("settings.stats.reset_project_stats_button"), 200, 32) then
+            state.reset_current_project_stats_requested = true
+          end
+          r.ImGui_PopStyleColor(ctx, 3)
         end
         r.ImGui_EndChild(ctx)
         end
@@ -391,7 +429,10 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         r.ImGui_Text(ctx, "ReaPet")
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.version"))
+        -- 版本号：从 Config.VERSION 获取，i18n 只提供格式字符串
+        local version_format = I18n.get("settings.system.version_format") or "Version %s"
+        local version_text = string.format(version_format, Config.VERSION)
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, version_text)
         
         r.ImGui_Dummy(ctx, 0, 15)
         r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.instructions"))
@@ -399,10 +440,11 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Dummy(ctx, 0, 5)
         
         -- Show Welcome Instructions Button
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.view_instructions_again"))
+        r.ImGui_Dummy(ctx, 0, 5)
         if r.ImGui_Button(ctx, I18n.get("settings.system.show_instructions"), 200, 32) then
           state.show_welcome_requested = true
         end
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.view_instructions_again"))
         
         -- Startup Actions (Auto-start Manager)
         r.ImGui_Dummy(ctx, 0, 10)
@@ -410,48 +452,37 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Separator(ctx)
         r.ImGui_Dummy(ctx, 0, 5)
         
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.startup_actions_description"))
+        r.ImGui_Dummy(ctx, 0, 5)
         if r.ImGui_Button(ctx, I18n.get("settings.system.open_startup_actions"), 200, 32) then
           -- 打开 Startup Actions
+          -- ⚠️ 重要：只通过已注册的命令 ID 查找，不使用 dofile
+          -- 因为 dofile 会执行脚本，而脚本内部有 AddRemoveReaScript 调用，会导致重复注册
           local found = false
-          local current_script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
           
-          -- 方法 1: 使用相对路径（最可靠，因为两个脚本在同一仓库）
-          if current_script_path then
-            -- 从 ReaPet/ui/windows/ 到 StartupActions/
-            -- 需要向上三级：../../
-            local relative_paths = {
-              current_script_path .. "../../../StartupActions/zyc_startup_actions.lua",
-              current_script_path .. "../../StartupActions/zyc_startup_actions.lua",
-              current_script_path .. "../StartupActions/zyc_startup_actions.lua",
-            }
-            
-            for _, path in ipairs(relative_paths) do
-              -- 规范化路径
-              path = path:gsub("/+", "/"):gsub("\\+", "\\")
-              if r.file_exists(path) then
-                local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
-                if cmd_id and cmd_id > 0 then
-                  r.Main_OnCommand(cmd_id, 0)
-                  found = true
-                  break
-                else
-                  -- 如果注册失败，尝试直接运行
-                  local success = pcall(dofile, path)
-                  if success then
-                    found = true
-                    break
-                  end
-                end
-              end
+          -- 方法 1: 尝试通过文件名查找（最快，如果 REAPER 支持）
+          local cmd_id = r.NamedCommandLookup("zyc_startup_actions.lua")
+          if cmd_id and cmd_id > 0 then
+            r.Main_OnCommand(cmd_id, 0)
+            found = true
+          end
+          
+          -- 方法 2: 如果文件名查找失败，使用缓存的命名命令 ID（如果已知）
+          -- Startup Actions v2.2.2: _RS350cc747a0ffd1bb085bea4fadd4f4a09a2549c1
+          if not found then
+            local STARTUP_ACTIONS_COMMAND_ID = "_RS350cc747a0ffd1bb085bea4fadd4f4a09a2549c1"
+            cmd_id = r.NamedCommandLookup(STARTUP_ACTIONS_COMMAND_ID)
+            if cmd_id and cmd_id > 0 then
+              r.Main_OnCommand(cmd_id, 0)
+              found = true
             end
           end
           
-          -- 方法 2: 通过命令 ID 查找（如果脚本已注册）
+          -- 方法 3: 如果缓存也失败，搜索已注册的命令（后备方案）
           if not found and r.kbd_getTextFromCmd then
-            -- 搜索包含 "Startup Actions" 或 "startup actions" 的脚本
             for i = 32000, 33000 do
               local text = r.kbd_getTextFromCmd(i, 0)
-              if text and (text:find("Startup Actions") or text:find("startup actions") or text:find("Zyc Startup")) then
+              if text and (text:find("Startup Actions") or text:find("startup actions") or text:find("Zyc Startup") or text:find("启动项")) then
                 r.Main_OnCommand(i, 0)
                 found = true
                 break
@@ -459,39 +490,18 @@ function Settings.draw(ctx, open, data)
             end
           end
           
-          -- 方法 3: 使用绝对路径（后备方案）
-          if not found then
-            local resource_path = r.GetResourcePath()
-            if resource_path then
-              local absolute_paths = {
-                resource_path .. "/Scripts/StartupActions/zyc_startup_actions.lua",
-                resource_path .. "/Scripts/zyc_startup_actions.lua",
-              }
-              
-              for _, path in ipairs(absolute_paths) do
-                if r.file_exists(path) then
-                  local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
-                  if cmd_id and cmd_id > 0 then
-                    r.Main_OnCommand(cmd_id, 0)
-                    found = true
-                    break
-                  end
-                end
-              end
-            end
-          end
-          
+          -- 如果都找不到，提示用户通过 ReaPack 安装
           if not found then
             local error_msg = "Startup Actions script not found.\n\n"
-            error_msg = error_msg .. "Please ensure Startup Actions is installed via ReaPack.\n\n"
-            if current_script_path then
-              error_msg = error_msg .. "Current path: " .. current_script_path .. "\n"
-              error_msg = error_msg .. "Tried relative: ../StartupActions/zyc_startup_actions.lua"
-            end
-            r.ShowMessageBox(error_msg, "Not Found", 0)
+            error_msg = error_msg .. "Please ensure Startup Actions is installed via ReaPack:\n\n"
+            error_msg = error_msg .. "1. Extensions > ReaPack > Browse packages\n"
+            error_msg = error_msg .. "2. Search for 'zyc_startup_actions'\n"
+            error_msg = error_msg .. "3. Click Install\n\n"
+            error_msg = error_msg .. "This is an optional companion script.\n\n"
+            error_msg = error_msg .. "Note: After installation, the script will be automatically registered in the Action List."
+            r.ShowMessageBox(error_msg, "Startup Actions Not Found", 0)
           end
         end
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.startup_actions_description"))
         
         -- Reset Settings
         r.ImGui_Dummy(ctx, 0, 15)
@@ -569,6 +579,8 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Dummy(ctx, 0, 5)
         
         -- Close Program Button
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.exit_hint"))
+        r.ImGui_Dummy(ctx, 0, 5)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_Button(), 0xCC3333FF)  -- 红色按钮
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonHovered(), 0xFF4444FF)
         r.ImGui_PushStyleColor(ctx, r.ImGui_Col_ButtonActive(), 0xAA2222FF)
@@ -576,7 +588,6 @@ function Settings.draw(ctx, open, data)
           state.close_requested = true
         end
         r.ImGui_PopStyleColor(ctx, 3)
-        r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.exit_hint"))
         
         r.ImGui_EndChild(ctx)
         end
@@ -625,13 +636,18 @@ function Settings.draw(ctx, open, data)
     result.factory_reset = true
   end
   
+  if state.reset_current_project_stats_requested then
+    state.reset_current_project_stats_requested = false
+    result.reset_current_project_stats = true
+  end
+  
   -- 传递需要保存的标志
   if data and data.needs_save then
     result.needs_save = data.needs_save
     
   end
   
-  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.reset_preferences or result.factory_reset or result.needs_save then
+  if result.open_dev_panel or result.open_skin_picker or result.close_program or result.show_welcome or result.reset_preferences or result.factory_reset or result.reset_current_project_stats or result.needs_save then
     return result
   end
   

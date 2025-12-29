@@ -4,7 +4,7 @@ Advanced audio scripts collection, currently focused on REAPER effect plugins, e
 
 ## 🎵 REAPER Scripts
 
-### zyc_ReaPet (v1.0.4.3)
+### zyc_ReaPet (v1.0.4.6)
 REAPER companion app with the following features:
 - **Operation Statistics** - Track operations, time, and active time (global and project level)
 - **Pomodoro Timer** - Focus/break timer with customizable presets
@@ -97,7 +97,7 @@ For enhanced workflow, we recommend using these scripts together with Zyc Script
 
 ## 📝 Version History
 
-### zyc_ReaPet v1.0.4.3
+### zyc_ReaPet v1.0.4.6
 - Hidden Developer Mode UI in production release
 - Updated UI terminology: "Startup Actions" / "启动项设置"
 - Fixed data file paths for cross-platform compatibility
