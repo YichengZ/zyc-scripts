@@ -1,5 +1,5 @@
 -- @description Zyc Startup Actions Manager
--- @version 2.2.2
+-- @version 2.2.3
 -- @author Yicheng Zhu (Ethan)
 -- @changelog
 --   + 优化语言切换逻辑：窗口标题栏现在支持即时平滑切换，消除视觉闪烁
@@ -14,6 +14,7 @@
 --   这是一个强大的 REAPER 启动项管理器，允许你配置 REAPER 启动时自动运行的动作。
 --   支持默认动作（如 ReaPet）和自定义用户动作，并提供完整的本地化支持。
 local r = reaper
+local script_version = "2.2.3"
 local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
 local run_script_path = script_path .. 'zyc_startup_actions_run.lua'
 
@@ -168,7 +169,7 @@ local function load_config()
     config = { 
         user_actions = {}, 
         default_actions = {}, 
-        version = "2.2.0",
+        version = script_version,
         has_asked_about_startup = false
     }
     _G.config = config
@@ -542,7 +543,7 @@ local function save_config()
     file:write('config = {\n')
     file:write('    user_actions = {},\n')
     file:write('    default_actions = {},\n')
-    file:write('    version = "2.2.0"\n')
+    file:write(string.format('    version = "%s"\n', script_version))
     file:write('}\n\n')
     
     -- 保存语言设置

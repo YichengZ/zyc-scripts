@@ -40,21 +40,26 @@ local translations = {
       window_floating = "Плавающее"
     },
     stats = {
-      lifetime_stats = "Общая статистика",
+      lifetime_stats = "Статистика за все время",
       label = "Метка",
       value = "Значение",
       total_focus = "Всего фокуса:",
-      total_time = "Всего времени:",
+      total_time = "Общее время:",
       operations = "Операции:",
       economy = "Экономика",
       balance = "Баланс: ",
       today_earned = "Заработано сегодня: ",
       manage_data = "Управление данными",
-      reset_daily_limit = "Сбросить дневной лимит"
+      reset_daily_limit = "Сбросить дневной лимит",
+      -- 【Updated】
+      reset_daily_limit_description = "Сбросить лимит (Отдохни!)",
+      reset_project_stats = "Данные проекта",
+      reset_project_stats_description = "Очистить статистику этого проекта. Нельзя отменить.",
+      reset_project_stats_button = "Сбросить данные"
     },
     system = {
       about = "О программе",
-      version = "Version 1.0.4.3",
+      version_format = "Version %s",
       language = "Язык",
       change_interface_language = "  Изменить язык интерфейса",
       instructions = "Инструкции",

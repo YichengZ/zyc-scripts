@@ -430,7 +430,12 @@ function Settings.draw(ctx, open, data)
         r.ImGui_Dummy(ctx, 0, 5)
         r.ImGui_Text(ctx, "ReaPet")
         -- 版本号：从 Config.VERSION 获取，i18n 只提供格式字符串
-        local version_format = I18n.get("settings.system.version_format") or "Version %s"
+        local version_format = I18n.get("settings.system.version_format")
+        -- 【修复】如果翻译文件缺失导致返回了键名，强制使用默认格式
+        if not version_format or version_format == "settings.system.version_format" then
+            version_format = "Version %s"
+        end
+        
         local version_text = string.format(version_format, Config.VERSION)
         r.ImGui_TextColored(ctx, COL.TEXT_DIM, version_text)
         
@@ -455,52 +460,49 @@ function Settings.draw(ctx, open, data)
         r.ImGui_TextColored(ctx, COL.TEXT_DIM, I18n.get("settings.system.startup_actions_description"))
         r.ImGui_Dummy(ctx, 0, 5)
         if r.ImGui_Button(ctx, I18n.get("settings.system.open_startup_actions"), 200, 32) then
-          -- 打开 Startup Actions
-          -- ⚠️ 重要：只通过已注册的命令 ID 查找，不使用 dofile
-          -- 因为 dofile 会执行脚本，而脚本内部有 AddRemoveReaScript 调用，会导致重复注册
+          -- === 统一启动逻辑开始 ===
+          local current_script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
           local found = false
           
-          -- 方法 1: 尝试通过文件名查找（最快，如果 REAPER 支持）
-          local cmd_id = r.NamedCommandLookup("zyc_startup_actions.lua")
-          if cmd_id and cmd_id > 0 then
-            r.Main_OnCommand(cmd_id, 0)
-            found = true
-          end
+          -- 定义查找路径：从当前目录一直往上找 StartupActions 文件夹
+          -- 这样无论 settings.lua 在多深的目录都能找到兄弟文件夹
+          local search_paths = {
+            "../StartupActions/zyc_startup_actions.lua",
+            "../../StartupActions/zyc_startup_actions.lua",
+            "../../../StartupActions/zyc_startup_actions.lua",
+            "../../../../StartupActions/zyc_startup_actions.lua", -- 以防万一目录很深
+            -- 最后尝试绝对路径 (标准安装位置)
+            r.GetResourcePath() .. "/Scripts/StartupActions/zyc_startup_actions.lua"
+          }
           
-          -- 方法 2: 如果文件名查找失败，使用缓存的命名命令 ID（如果已知）
-          -- Startup Actions v2.2.2: _RS350cc747a0ffd1bb085bea4fadd4f4a09a2549c1
-          if not found then
-            local STARTUP_ACTIONS_COMMAND_ID = "_RS350cc747a0ffd1bb085bea4fadd4f4a09a2549c1"
-            cmd_id = r.NamedCommandLookup(STARTUP_ACTIONS_COMMAND_ID)
-            if cmd_id and cmd_id > 0 then
-              r.Main_OnCommand(cmd_id, 0)
-              found = true
-            end
-          end
-          
-          -- 方法 3: 如果缓存也失败，搜索已注册的命令（后备方案）
-          if not found and r.kbd_getTextFromCmd then
-            for i = 32000, 33000 do
-              local text = r.kbd_getTextFromCmd(i, 0)
-              if text and (text:find("Startup Actions") or text:find("startup actions") or text:find("Zyc Startup") or text:find("启动项")) then
-                r.Main_OnCommand(i, 0)
+          for _, rel_path in ipairs(search_paths) do
+             local target_path = rel_path
+             -- 如果是相对路径，拼接到当前路径后面
+             if current_script_path and not rel_path:match("^/") and not rel_path:match("^[a-zA-Z]:") then
+                target_path = current_script_path .. rel_path
+             end
+             
+             -- 修正路径分隔符 (Windows/Mac 兼容)
+             target_path = target_path:gsub("[\\/]+", package.config:sub(1,1))
+             
+             if r.file_exists(target_path) then
+                -- 找到了！直接运行，绝不注册
+                local success, err = pcall(dofile, target_path)
+                if not success then
+                   r.ShowMessageBox("Script execution error:\n" .. tostring(err), "Error", 0)
+                end
                 found = true
                 break
-              end
-            end
+             end
           end
           
-          -- 如果都找不到，提示用户通过 ReaPack 安装
           if not found then
-            local error_msg = "Startup Actions script not found.\n\n"
-            error_msg = error_msg .. "Please ensure Startup Actions is installed via ReaPack:\n\n"
-            error_msg = error_msg .. "1. Extensions > ReaPack > Browse packages\n"
-            error_msg = error_msg .. "2. Search for 'zyc_startup_actions'\n"
-            error_msg = error_msg .. "3. Click Install\n\n"
-            error_msg = error_msg .. "This is an optional companion script.\n\n"
-            error_msg = error_msg .. "Note: After installation, the script will be automatically registered in the Action List."
-            r.ShowMessageBox(error_msg, "Startup Actions Not Found", 0)
+             local msg = "Startup Actions script not found.\n\n"
+             msg = msg .. "Expected folder structure: \n"
+             msg = msg .. ".../Scripts/StartupActions/zyc_startup_actions.lua"
+             r.ShowMessageBox(msg, "File Not Found", 0)
           end
+          -- === 统一启动逻辑结束 ===
         end
         
         -- Reset Settings

@@ -50,11 +50,16 @@ local translations = {
       balance = "Saldo: ",
       today_earned = "Ganho hoje: ",
       manage_data = "Gerenciar dados",
-      reset_daily_limit = "Redefinir limite diário"
+      reset_daily_limit = "Redefinir limite diário",
+      -- 【Optimized】
+      reset_daily_limit_description = "Redefinir limite (Descanse!)",
+      reset_project_stats = "Dados do projeto",
+      reset_project_stats_description = "Limpar estatísticas deste projeto. Irreversível.",
+      reset_project_stats_button = "Redefinir dados"
     },
     system = {
       about = "Sobre",
-      version = "Version 1.0.4.3",
+      version_format = "Version %s",
       language = "Idioma",
       change_interface_language = "  Alterar idioma da interface",
       instructions = "Instruções",

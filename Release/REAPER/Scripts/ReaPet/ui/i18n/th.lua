@@ -40,21 +40,26 @@ local translations = {
       window_floating = "ลอย"
     },
     stats = {
-      lifetime_stats = "สถิติตลอดชีวิต",
+      lifetime_stats = "สถิติตลอดชีพ",
       label = "ป้ายกำกับ",
       value = "ค่า",
-      total_focus = "โฟกัสทั้งหมด:",
-      total_time = "เวลาทั้งหมด:",
-      operations = "การดำเนินการ:",
+      total_focus = "เวลามีสมาธิรวม:",
+      total_time = "เวลารวม:",
+      operations = "การทำงาน:",
       economy = "เศรษฐกิจ",
-      balance = "ยอดเงิน: ",
+      balance = "ยอดคงเหลือ: ",
       today_earned = "ได้รับวันนี้: ",
       manage_data = "จัดการข้อมูล",
-      reset_daily_limit = "รีเซ็ตขีดจำกัดรายวัน"
+      reset_daily_limit = "รีเซ็ตขีดจำกัดรายวัน",
+      -- 【Updated】
+      reset_daily_limit_description = "รีเซ็ตขีดจำกัด (พักผ่อนบ้าง!)",
+      reset_project_stats = "ข้อมูลโปรเจกต์",
+      reset_project_stats_description = "ล้างสถิติของโปรเจกต์นี้ ไม่สามารถยกเลิกได้",
+      reset_project_stats_button = "รีเซ็ตข้อมูล"
     },
     system = {
       about = "เกี่ยวกับ",
-      version = "Version 1.0.4.3",
+      version_format = "Version %s",
       language = "ภาษา",
       change_interface_language = "  เปลี่ยนภาษาของอินเทอร์เฟซ",
       instructions = "คำแนะนำ",

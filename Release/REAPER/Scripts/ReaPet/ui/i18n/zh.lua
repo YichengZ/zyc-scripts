@@ -40,21 +40,26 @@ local translations = {
       window_floating = "浮动"
     },
     stats = {
-      lifetime_stats = "累计统计",
+      lifetime_stats = "生涯统计",
       label = "标签",
       value = "数值",
-      total_focus = "总专注时间:",
-      total_time = "总时间:",
-      operations = "操作次数:",
-      economy = "经济",
-      balance = "余额: ",
-      today_earned = "今日获得: ",
-      manage_data = "数据管理",
-      reset_daily_limit = "重置每日限制"
+      total_focus = "总专注时长:",
+      total_time = "总运行时间:",
+      operations = "总操作数:",
+      economy = "经济系统",
+      balance = "当前余额: ",
+      today_earned = "今日获取: ",
+      manage_data = "全局数据管理",
+      reset_daily_limit = "重置每日限制",
+      -- 【优化后】
+      reset_daily_limit_description = "重置每日金币获取上限（注意休息！）",
+      reset_project_stats = "工程数据管理",
+      reset_project_stats_description = "清除当前工程的所有统计数据（如操作数、活跃时间）。此操作不可撤销。",
+      reset_project_stats_button = "重置工程数据"
     },
     system = {
       about = "关于",
-      version = "版本 1.0.4.3",
+      version_format = "Version %s",
       language = "语言",
       change_interface_language = "  更改界面语言",
       instructions = "说明",
