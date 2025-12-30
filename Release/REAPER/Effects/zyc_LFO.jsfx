@@ -1,15 +1,19 @@
 desc:zyc_LFO_Lite (FX Parameter Modulator)
-//author: EthanZhu @yichengzhu316@outlook.com
-//version: v1.1
-//changelog:
-//v1.1 - Bug Fix
-//v1.0 - Lite version release
-//  - Removed all extra outputs functionality
-//  - Removed MOOOAAARRR outputs functionality
-//  - Kept only main output and core LFO features
-//  - Optimized performance by removing unused calculations
-//  - Simplified UI with only essential controls
-//  - Maintained all 7 waveform types and modulation features
+// @description Zyc LFO Lite - FX Parameter Modulator
+// @version 1.1
+// @author Yicheng Zhu (Ethan)
+// @about
+//   A lightweight version of Zyc LFO with optimized performance.
+//   Features 7 waveforms, essential modulation controls, and minimized CPU usage.
+// @changelog
+//   + v1.1 - Bug Fix
+//   + v1.0 - Lite version release
+//     - Removed all extra outputs functionality
+//     - Removed MOOOAAARRR outputs functionality
+//     - Kept only main output and core LFO features
+//     - Optimized performance by removing unused calculations
+//     - Simplified UI with only essential controls
+//     - Maintained all 7 waveform types and modulation features
 
 slider1:0<-100,100,0.01>Main Output
 slider2:0<0,6,1{Sine,Up,Down,Triangle,Square,Random,Bin}>Waveform
