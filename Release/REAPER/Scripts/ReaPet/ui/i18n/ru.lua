@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "О программе",
-      version = "Version 1.0.4.3",
+      version_format = "Version %s",
       language = "Язык",
       change_interface_language = "  Изменить язык интерфейса",
       instructions = "Инструкции",

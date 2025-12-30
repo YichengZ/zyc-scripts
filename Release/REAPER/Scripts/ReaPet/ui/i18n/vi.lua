@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "Giới thiệu",
-      version = "Version 1.0.4.3",
+      version_format = "Version %s",
       language = "Ngôn ngữ",
       change_interface_language = "  Thay đổi ngôn ngữ giao diện",
       instructions = "Hướng dẫn",

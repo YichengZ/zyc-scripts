@@ -54,7 +54,7 @@ local translations = {
     },
     system = {
       about = "关于",
-      version = "版本 1.0.4.3",
+      version_format = "Version %s",
       language = "语言",
       change_interface_language = "  更改界面语言",
       instructions = "说明",

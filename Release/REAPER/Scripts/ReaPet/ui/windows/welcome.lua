@@ -176,85 +176,44 @@ function Welcome.draw(ctx, open, data)
     r.ImGui_SetCursorPosX(ctx, (window_w - startup_btn_w) * 0.5)
     
     if r.ImGui_Button(ctx, I18n.get("welcome.startup_actions_button"), startup_btn_w, startup_btn_h) then
-      -- 打开 Startup Actions
-      local found = false
+      -- === 统一启动逻辑开始 ===
       local current_script_path = debug.getinfo(1, "S").source:match("@(.*[\\//])")
+      local found = false
       
-      -- 方法 1: 使用相对路径（最可靠，因为两个脚本在同一仓库）
-      if current_script_path then
-        -- 从 ReaPet/ui/windows/ 到 StartupActions/
-        -- 需要向上三级：../../
-        local relative_paths = {
-          current_script_path .. "../../../StartupActions/zyc_startup_actions.lua",
-          current_script_path .. "../../StartupActions/zyc_startup_actions.lua",
-          current_script_path .. "../StartupActions/zyc_startup_actions.lua",
-        }
-        
-        for _, path in ipairs(relative_paths) do
-          -- 规范化路径
-          path = path:gsub("/+", "/"):gsub("\\+", "\\")
-          if r.file_exists(path) then
-            local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
-            if cmd_id and cmd_id > 0 then
-              r.Main_OnCommand(cmd_id, 0)
-              found = true
-              break
-            else
-              -- 如果注册失败，尝试直接运行
-              local success = pcall(dofile, path)
-              if success then
-                found = true
-                break
-              end
+      -- 定义查找路径：从当前目录一直往上找 StartupActions 文件夹
+      local search_paths = {
+        "../StartupActions/zyc_startup_actions.lua",
+        "../../StartupActions/zyc_startup_actions.lua",
+        "../../../StartupActions/zyc_startup_actions.lua",
+        "../../../../StartupActions/zyc_startup_actions.lua",
+        r.GetResourcePath() .. "/Scripts/StartupActions/zyc_startup_actions.lua"
+      }
+      
+      for _, rel_path in ipairs(search_paths) do
+         local target_path = rel_path
+         if current_script_path and not rel_path:match("^/") and not rel_path:match("^[a-zA-Z]:") then
+            target_path = current_script_path .. rel_path
+         end
+         
+         target_path = target_path:gsub("[\\/]+", package.config:sub(1,1))
+         
+         if r.file_exists(target_path) then
+            -- 找到了！直接运行，绝不注册
+            local success, err = pcall(dofile, target_path)
+            if not success then
+               r.ShowMessageBox("Script execution error:\n" .. tostring(err), "Error", 0)
             end
-          end
-        end
-      end
-      
-      -- 方法 2: 通过命令 ID 查找（如果脚本已注册）
-      if not found and r.kbd_getTextFromCmd then
-        -- 搜索包含 "Startup Actions" 或 "startup actions" 的脚本
-        for i = 32000, 33000 do
-          local text = r.kbd_getTextFromCmd(i, 0)
-          if text and (text:find("Startup Actions") or text:find("startup actions") or text:find("Zyc Startup")) then
-            r.Main_OnCommand(i, 0)
             found = true
             break
-          end
-        end
-      end
-      
-      -- 方法 3: 使用绝对路径（后备方案）
-      if not found then
-        local resource_path = r.GetResourcePath()
-        if resource_path then
-          local absolute_paths = {
-            resource_path .. "/Scripts/StartupActions/zyc_startup_actions.lua",
-            resource_path .. "/Scripts/zyc_startup_actions.lua",
-          }
-          
-          for _, path in ipairs(absolute_paths) do
-            if r.file_exists(path) then
-              local cmd_id = r.AddRemoveReaScript(true, 0, path, true)
-              if cmd_id and cmd_id > 0 then
-                r.Main_OnCommand(cmd_id, 0)
-                found = true
-                break
-              end
-            end
-          end
-        end
+         end
       end
       
       if not found then
-        local error_msg = "Startup Actions script not found.\n\n"
-        error_msg = error_msg .. "Please ensure Startup Actions is installed via ReaPack.\n\n"
-        if current_script_path then
-          error_msg = error_msg .. "Current path: " .. current_script_path .. "\n"
-          error_msg = error_msg .. "Tried relative: ../StartupActions/zyc_startup_actions.lua"
-        end
-        r.ShowMessageBox(error_msg, "Not Found", 0)
+         local msg = "Startup Actions script not found.\n\n"
+         msg = msg .. "Please ensure 'zyc_startup_actions' folder is installed next to 'ReaPet'."
+         r.ShowMessageBox(msg, "File Not Found", 0)
       end
+      -- === 统一启动逻辑结束 ===
     end
     
     r.ImGui_Dummy(ctx, 0, 15)
