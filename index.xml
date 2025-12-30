@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Zyc Scripts" commit="53b9e6bdc170e2f7c603d4d880df6586a2292fbf">
+<index version="1" name="Zyc Scripts" commit="c6b9face7ccd959410f28234fc11cee20b59022a">
   <category name="archive">
     <reapack name="check_data_paths.lua" type="script" desc="Check Data File Paths">
       <metadata>
@@ -53,21 +53,13 @@
         <source>https://github.com/YichengZ/zyc-scripts/raw/53b9e6bdc170e2f7c603d4d880df6586a2292fbf/Release/REAPER/Effects/zyc_EnvFollower.jsfx</source>
       </version>
     </reapack>
-    <reapack name="zyc_LFO.jsfx" type="effect" desc="zyc_LFO (FX Parameter Modulator)">
+    <reapack name="zyc_LFO.jsfx" type="effect" desc="zyc_LFO_Lite (FX Parameter Modulator)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc LFO - FX Parameter Modulator\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 A lightweight, high-performance LFO (Low Frequency Oscillator) for parameter modulation in REAPER.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Key Features\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b 7 Waveforms}: Sine, Up, Down, Triangle, Square, Random, Bin.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Visualizer}: Real-time smooth waveform display with oscilloscope view.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Advanced Control}: Features Jitter, Smoothing, and Phase adjustment.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b CPU Efficient}: Optimized for low resource usage.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Retrigger Support}: Sync to transport for rhythmic modulation.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Perfect for adding movement and life to static parameters!\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 A lightweight version of Zyc LFO with optimized performance. Features 7 waveforms, essential modulation controls, and minimized CPU usage.\par}
 }
 ]]></description>
       </metadata>
@@ -76,6 +68,17 @@
 + Removed extra outputs for better performance
 + Simplified UI]]></changelog>
         <source>https://github.com/YichengZ/zyc-scripts/raw/e405aa1ffa9dda424c40d1ed09889051f69cb79b/Release/REAPER/Effects/zyc_LFO.jsfx</source>
+      </version>
+      <version name="1.1" author="Yicheng Zhu (Ethan)" time="2025-12-30T10:04:14Z">
+        <changelog><![CDATA[+ v1.1 - Bug Fix
++ v1.0 - Lite version release
+  - Removed all extra outputs functionality
+  - Removed MOOOAAARRR outputs functionality
+  - Kept only main output and core LFO features
+  - Optimized performance by removing unused calculations
+  - Simplified UI with only essential controls
+  - Maintained all 7 waveform types and modulation features]]></changelog>
+        <source>https://github.com/YichengZ/zyc-scripts/raw/c6b9face7ccd959410f28234fc11cee20b59022a/Release/REAPER/Effects/zyc_LFO.jsfx</source>
       </version>
     </reapack>
   </category>
