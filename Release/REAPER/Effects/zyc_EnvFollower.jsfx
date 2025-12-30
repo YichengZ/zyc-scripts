@@ -1,7 +1,8 @@
 desc:zyc_EnvFollower (Envelope Follower)
 //author: EthanZhu @yichengzhu316@outlook.com
-//version: v3.3
+//version: v3.4
 //changelog:
+//v3.4 - Bug Fix
 //v3.3 - Set RMS Smooth default to 15% for optimal balance
 //v3.2 - Added RMS Smooth control to eliminate step-like changes
 //v3.1 - Fixed Y-coordinate alignment for oscilloscope display
