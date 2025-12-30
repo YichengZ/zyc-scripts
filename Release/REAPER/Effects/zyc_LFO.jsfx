@@ -1,24 +1,26 @@
-desc:zyc_LFO (FX Parameter Modulator)
-// @description Zyc LFO - FX Parameter Modulator (Lite)
-// @version 1.0
-// @author Yicheng Zhu (Ethan)
-// @about
-//   # Zyc LFO - FX Parameter Modulator
-//
-//   A lightweight, high-performance LFO (Low Frequency Oscillator) for parameter modulation in REAPER.
-//
-//   ### Key Features
-//   * **7 Waveforms**: Sine, Up, Down, Triangle, Square, Random, Bin.
-//   * **Visualizer**: Real-time smooth waveform display with oscilloscope view.
-//   * **Advanced Control**: Features Jitter, Smoothing, and Phase adjustment.
-//   * **CPU Efficient**: Optimized for low resource usage.
-//   * **Retrigger Support**: Sync to transport for rhythmic modulation.
-//
-//   Perfect for adding movement and life to static parameters!
-// @changelog
-//   + Initial Lite version release
-//   + Removed extra outputs for better performance
-//   + Simplified UI
+desc:zyc_LFO_Lite (FX Parameter Modulator)
+//author: EthanZhu @yichengzhu316@outlook.com
+//version: v1.0
+//changelog:
+//v1.0 - Lite version release
+//  - Removed all extra outputs functionality
+//  - Removed MOOOAAARRR outputs functionality
+//  - Kept only main output and core LFO features
+//  - Optimized performance by removing unused calculations
+//  - Simplified UI with only essential controls
+//  - Maintained all 7 waveform types and modulation features
+
+slider1:0<-100,100,0.01>Main Output
+slider2:0<0,6,1{Sine,Up,Down,Triangle,Square,Random,Bin}>Waveform
+slider3:1<0,5,0.01>Rate Fine (Hz)
+slider4:0<0,10,0.01>Rate Coarse (Hz)
+slider5:100<0,100,0.01>Depth (%)
+slider6:0<-100,100,0.01>Offset (%)
+slider7:0<0,100,0.01>Jitter (%)
+slider8:0<0,100,0.01>Smooth (%)
+slider9:0<0,100,0.01>Phase (%)
+slider10:0<0,1,1{Off,On}>Hold
+slider11:0<0,1,1{Off,Retrigger}>Retrigger
 
 @init
 // Basic variable initialization
