@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Ofset Y",
       text_offset_x = "Metin ofseti X",
       text_offset_y = "Metin ofseti Y",
+      stats_box_use_monospace = "Sayılar için monospace font kullan",
+      stats_box_use_monospace_tooltip = "Tutarlı sayı genişlikleri için monospace font kullan (bazı Windows cihazlarda görüntüleme sorunlarını çözmeye yardımcı olur)",
       reset_stats_box_defaults = "Varsayılanları sıfırla",
       show_pomodoro_timer = "Zamanlayıcıyı göster",
       timer_scale = "Zamanlayıcı ölçeği",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Görünüm mağazası",
+    title = "Mağaza",
     unlock = "Kilidi aç",
     cost = "Maliyet",
     coins = "Jetonlar",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "İptal",
     balance = "Bakiye",
     daily = "Günlük",
+    daily_limit = "Günlük limit",
     my_collection = "KOLEKSİYONUM",
     shop = "MAĞAZA",
     blind_box = "Sürpriz kutu"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Jetonlar",
     coins_1 = "   • Oturumları tamamlayarak jeton kazanın",
     coins_2 = "   • 1 dakika odaklanma = 1 jeton",
-    coins_3 = "   • Günde 600 jeton kazanabilirsiniz",
+    coins_3 = "   • Günde 800 jeton kazanabilirsiniz",
     coins_4 = "   • Günlük limite ulaşırsanız, Ayarlar'da sıfırlayabilirsiniz (Dinlenin!)",
     shop_title = "🛒 Mağaza",
     shop_1 = "   • Masanın sağ tarafındaki düğmeye tıklayın",

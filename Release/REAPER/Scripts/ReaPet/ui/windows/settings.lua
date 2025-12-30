@@ -387,7 +387,7 @@ function Settings.draw(ctx, open, data)
           r.ImGui_Dummy(ctx, 0, 5)
           
           r.ImGui_Text(ctx, I18n.get("settings.stats.balance") .. tostring(CoinSystem.get_balance()))
-          r.ImGui_Text(ctx, I18n.get("settings.stats.today_earned") .. tostring(CoinSystem.get_daily_earned()) .. " / 600")
+          r.ImGui_Text(ctx, I18n.get("settings.stats.today_earned") .. tostring(CoinSystem.get_daily_earned()) .. " / 800")
           
           r.ImGui_Dummy(ctx, 0, 15)
           r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.stats.manage_data"))

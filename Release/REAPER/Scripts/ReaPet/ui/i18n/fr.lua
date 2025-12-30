@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Décalage Y",
       text_offset_x = "Décalage du texte X",
       text_offset_y = "Décalage du texte Y",
+      stats_box_use_monospace = "Utiliser une police à chasse fixe pour les chiffres",
+      stats_box_use_monospace_tooltip = "Utiliser une police à chasse fixe pour garantir une largeur uniforme des chiffres (aide à résoudre les problèmes d'affichage sur certains appareils Windows)",
       reset_stats_box_defaults = "Réinitialiser les valeurs par défaut",
       show_pomodoro_timer = "Afficher le minuteur",
       timer_scale = "Échelle du minuteur",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Boutique de skins",
+    title = "Boutique",
     unlock = "Déverrouiller",
     cost = "Coût",
     coins = "Pièces",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Annuler",
     balance = "Solde",
     daily = "Quotidien",
+    daily_limit = "Limite quotidienne",
     my_collection = "MA COLLECTION",
     shop = "BOUTIQUE",
     blind_box = "Boîte surprise"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Pièces",
     coins_1 = "   • Gagnez des pièces en terminant des sessions",
     coins_2 = "   • 1 minute de concentration = 1 pièce",
-    coins_3 = "   • Vous pouvez gagner jusqu'à 600 pièces par jour",
+    coins_3 = "   • Vous pouvez gagner jusqu'à 800 pièces par jour",
     coins_4 = "   • Si vous atteignez la limite quotidienne, vous pouvez la réinitialiser dans Paramètres (Reposez-vous!)",
     shop_title = "🛒 Boutique",
     shop_1 = "   • Cliquez sur le bouton à droite du bureau",

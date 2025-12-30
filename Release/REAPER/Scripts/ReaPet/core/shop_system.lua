@@ -11,8 +11,8 @@ local Debug = require("utils.debug")
 local r = reaper
 
 -- 配置
-local BLIND_BOX_PRICE = 500      -- 盲盒价格
-local DIRECT_BUY_PRICE = 1500    -- 直购价格
+local BLIND_BOX_PRICE = 300      -- 盲盒价格
+local DIRECT_BUY_PRICE = 600    -- 直购价格
 local DUPLICATE_REFUND = 250     -- 重复皮肤返现金币
 
 -- 数据文件路径

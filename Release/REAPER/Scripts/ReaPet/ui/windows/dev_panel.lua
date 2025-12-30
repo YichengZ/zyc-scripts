@@ -378,7 +378,7 @@ function DevPanel.draw(ctx, open, data)
       local daily_remaining = CoinSystem.get_daily_remaining()
       
       r.ImGui_Text(ctx, "Balance: " .. tostring(current_balance) .. " coins")
-      r.ImGui_Text(ctx, "Daily: " .. tostring(daily_earned) .. " / 600 coins")
+      r.ImGui_Text(ctx, "Daily: " .. tostring(daily_earned) .. " / 800 coins")
       r.ImGui_Text(ctx, "Remaining: " .. tostring(daily_remaining) .. " coins")
       
       r.ImGui_Spacing(ctx)
