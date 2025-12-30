@@ -1,22 +1,26 @@
 desc:zyc_EnvFollower (Envelope Follower)
-//author: EthanZhu @yichengzhu316@outlook.com
-//version: v3.4
-//changelog:
-//v3.4 - Bug Fix
-//v3.3 - Set RMS Smooth default to 15% for optimal balance
-//v3.2 - Added RMS Smooth control to eliminate step-like changes
-//v3.1 - Fixed Y-coordinate alignment for oscilloscope display
-//v3.0 - Optimized Peak response and smooth drawing
-//v2.9 - Implemented time-based smoothing for display values
-//v2.8 - Fixed RMS detection mode
-//v2.7 - Added time-based smoothing
-//v2.6 - Implemented window-based RMS calculation
-//v2.5 - Fixed RMS buffer allocation
-//v2.4 - Implemented sliding window RMS
-//v2.3 - Fixed RMS debug display
-//v2.2 - Removed delay functionality
-//v2.0 - Bug fixes and simplified
-//v1.0 - Initial release
+// @description Zyc EnvFollower - Professional Envelope Follower
+// @version 3.4
+// @author Yicheng Zhu (Ethan)
+// @about
+//   Professional Envelope Follower with Peak/RMS detection.
+//   Features HPF/LPF pre-filtering and real-time visual feedback.
+// @changelog
+//   + v3.4 - Bug Fix
+//   + v3.3 - Set RMS Smooth default to 15% for optimal balance
+//   + v3.2 - Added RMS Smooth control to eliminate step-like changes
+//   + v3.1 - Fixed Y-coordinate alignment for oscilloscope display
+//   + v3.0 - Optimized Peak response and smooth drawing
+//   + v2.9 - Implemented time-based smoothing for display values
+//   + v2.8 - Fixed RMS detection mode
+//   + v2.7 - Added time-based smoothing
+//   + v2.6 - Implemented window-based RMS calculation
+//   + v2.5 - Fixed RMS buffer allocation
+//   + v2.4 - Implemented sliding window RMS
+//   + v2.3 - Fixed RMS debug display
+//   + v2.2 - Removed delay functionality
+//   + v2.0 - Bug fixes and simplified
+//   + v1.0 - Initial release
 
 // Main Output control
 slider1:0<0,100,0.01>Main Output
@@ -40,6 +44,7 @@ slider21:0<0,1,0.001>Attack (s) [Exp]
 slider22:0<0,1,0.001>Release (s) [Exp]
 slider23:15<0,100,0.01>RMS Smooth (%)
 slider24:0<-48,0,0.1>Envelope (dB) [Debug]
+
 
 @init
 // Basic variable initialization
