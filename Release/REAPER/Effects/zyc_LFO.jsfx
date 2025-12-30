@@ -1,7 +1,8 @@
 desc:zyc_LFO_Lite (FX Parameter Modulator)
 //author: EthanZhu @yichengzhu316@outlook.com
-//version: v1.0
+//version: v1.1
 //changelog:
+//v1.1 - Bug Fix
 //v1.0 - Lite version release
 //  - Removed all extra outputs functionality
 //  - Removed MOOOAAARRR outputs functionality
