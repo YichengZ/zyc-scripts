@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.7
+-- @version 1.0.4.8
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,7 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.8: Economic system rebalancing (lowered prices, increased daily limit to 800), fixed factory reset skin switching, optimized shop UI (Daily Limit display), fixed monospace font feature and added i18n translations
 --   + v1.0.4.6: Removed "Unlock xxxx?" text from shop purchase popup, removed "Current Skin" display from settings (skin names are dev codes)
 --   + v1.0.4.5: Optimized window ID logic to prevent flickering during skin or language switches
 --   + v1.0.4.3: Hidden Developer Mode UI in production release
@@ -652,7 +653,8 @@ local function Loop()
         Config.reset_to_defaults()
         CoinSystem.reset()
         ShopSystem.reset()
-        Config.CURRENT_SKIN_ID = "cat_base"
+        -- 切换回默认猫猫皮肤
+        SkinManager.set_active_skin("cat_base")
         local global_stats = tracker:get_global_stats()
         Config.save_to_data(global_stats)
         SaveAllDataAtomic()

@@ -5,6 +5,7 @@
 
 local FontManager = {}
 local r = reaper
+local Config = require('config')
 
 -- ========= 字体配置 =========
 local fonts = {
@@ -18,6 +19,7 @@ local fonts = {
 -- 1. 不依赖任何外部 .ttf 文件（避免 Windows / macOS 路径差异）
 -- 2. 如果当前 ReaImGui 版本不支持 ImGui_CreateFont，则完全退回到 ImGui 默认字体
 local FONT_FAMILY = 'sans-serif'  -- 让 ImGui 自己挑选系统 sans-serif 字体
+local MONOSPACE_FAMILY = 'monospace'  -- 等宽字体
 
 -- ========= 初始化字体 =========
 -- @param ctx ImGui context
@@ -46,8 +48,10 @@ function FontManager.init(ctx)
     r.ImGui_Attach(ctx, fonts.timer)
   end
   
-  -- 创建统计框字体
-  fonts.stats = r.ImGui_CreateFont(FONT_FAMILY, base_size)
+  -- 创建统计框字体（根据配置选择等宽或非等宽）
+  local use_monospace = Config.STATS_BOX_USE_MONOSPACE or false
+  local stats_font_family = use_monospace and MONOSPACE_FAMILY or FONT_FAMILY
+  fonts.stats = r.ImGui_CreateFont(stats_font_family, base_size)
   if fonts.stats then
     r.ImGui_Attach(ctx, fonts.stats)
   end
@@ -63,6 +67,8 @@ function FontManager.get_timer()
 end
 
 function FontManager.get_stats()
+  -- 如果配置改变，需要重新初始化字体
+  -- 注意：这个检查在 init 时已经处理，这里直接返回即可
   return fonts.stats
 end
 

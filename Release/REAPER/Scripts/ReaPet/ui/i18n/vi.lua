@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Độ lệch Y",
       text_offset_x = "Độ lệch văn bản X",
       text_offset_y = "Độ lệch văn bản Y",
+      stats_box_use_monospace = "Sử dụng font monospace cho số",
+      stats_box_use_monospace_tooltip = "Sử dụng font monospace để đảm bảo độ rộng số nhất quán (giúp giải quyết vấn đề hiển thị trên một số thiết bị Windows)",
       reset_stats_box_defaults = "Đặt lại mặc định",
       show_pomodoro_timer = "Hiển thị bộ hẹn giờ",
       timer_scale = "Tỷ lệ bộ hẹn giờ",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Cửa hàng giao diện",
+    title = "Cửa hàng",
     unlock = "Mở khóa",
     cost = "Chi phí",
     coins = "Xu",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Hủy",
     balance = "Số dư",
     daily = "Hàng ngày",
+    daily_limit = "Giới hạn hàng ngày",
     my_collection = "BỘ SƯU TẬP CỦA TÔI",
     shop = "CỬA HÀNG",
     blind_box = "Hộp bí ẩn"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Xu",
     coins_1 = "   • Kiếm xu bằng cách hoàn thành phiên",
     coins_2 = "   • 1 phút tập trung = 1 xu",
-    coins_3 = "   • Bạn có thể kiếm tối đa 600 xu mỗi ngày",
+    coins_3 = "   • Bạn có thể kiếm tối đa 800 xu mỗi ngày",
     coins_4 = "   • Nếu đạt giới hạn hàng ngày, bạn có thể đặt lại trong Cài đặt (Nghỉ ngơi!)",
     shop_title = "🛒 Cửa hàng",
     shop_1 = "   • Nhấp vào nút ở bên phải bàn làm việc",

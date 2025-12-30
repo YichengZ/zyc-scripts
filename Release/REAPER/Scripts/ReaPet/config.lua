@@ -4,7 +4,7 @@
 --]]
 
 local Config = {}
-Config.VERSION = "1.0.4.7"
+Config.VERSION = "1.0.4.8"
 -- ========= UI 显示选项 =========
 Config.SHOW_GLOBAL_STATS = true
 Config.SHOW_PROJECT_STATS = true
@@ -34,6 +34,7 @@ Config.STATS_BOX_OFFSET_X = 0
 Config.STATS_BOX_OFFSET_Y = 100
 Config.STATS_BOX_TEXT_OFFSET_X = 0.01  -- StatsBox 文本水平偏移（相对于box宽度）
 Config.STATS_BOX_TEXT_OFFSET_Y = -0.12  -- StatsBox 文本垂直偏移（相对于box高度）
+Config.STATS_BOX_USE_MONOSPACE = false  -- 统计框数字是否使用等宽字体（用于解决部分 Windows 设备上数字宽度不一致的问题）
 Config.MENU_BUTTON_SCALE = 1.0  -- Menu Button 独立缩放
 Config.MENU_BUTTON_OFFSET_X = 230
 Config.MENU_BUTTON_OFFSET_Y = 0
@@ -201,6 +202,7 @@ function Config.load_from_data(global_stats)
   Config.STATS_BOX_OFFSET_Y = settings.stats_box_offset_y or 100
   Config.STATS_BOX_TEXT_OFFSET_X = settings.stats_box_text_offset_x or 0.01
   Config.STATS_BOX_TEXT_OFFSET_Y = settings.stats_box_text_offset_y or -0.12
+  Config.STATS_BOX_USE_MONOSPACE = settings.stats_box_use_monospace or false
   Config.MENU_BUTTON_SCALE = settings.menu_button_scale or 1.0
   Config.MENU_BUTTON_OFFSET_X = settings.menu_button_offset_x or 230
   Config.MENU_BUTTON_OFFSET_Y = settings.menu_button_offset_y or 0
@@ -266,6 +268,7 @@ function Config.save_to_data(global_stats)
   settings.stats_box_offset_y = Config.STATS_BOX_OFFSET_Y
   settings.stats_box_text_offset_x = Config.STATS_BOX_TEXT_OFFSET_X
   settings.stats_box_text_offset_y = Config.STATS_BOX_TEXT_OFFSET_Y
+  settings.stats_box_use_monospace = Config.STATS_BOX_USE_MONOSPACE
   settings.menu_button_scale = Config.MENU_BUTTON_SCALE
   settings.menu_button_offset_x = Config.MENU_BUTTON_OFFSET_X
   settings.menu_button_offset_y = Config.MENU_BUTTON_OFFSET_Y
@@ -326,6 +329,7 @@ function Config.reset_to_defaults()
   Config.STATS_BOX_OFFSET_Y = 100
   Config.STATS_BOX_TEXT_OFFSET_X = 0.01
   Config.STATS_BOX_TEXT_OFFSET_Y = -0.12
+  Config.STATS_BOX_USE_MONOSPACE = false
   Config.MENU_BUTTON_SCALE = 1.0
   Config.MENU_BUTTON_OFFSET_X = 230
   Config.MENU_BUTTON_OFFSET_Y = 0

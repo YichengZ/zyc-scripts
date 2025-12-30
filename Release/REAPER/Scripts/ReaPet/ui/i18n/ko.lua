@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Y 오프셋",
       text_offset_x = "텍스트 X 오프셋",
       text_offset_y = "텍스트 Y 오프셋",
+      stats_box_use_monospace = "숫자에 고정폭 글꼴 사용",
+      stats_box_use_monospace_tooltip = "고정폭 글꼴을 사용하여 숫자 너비를 일관되게 유지 (일부 Windows 기기에서 표시 문제 해결)",
       reset_stats_box_defaults = "통계 상자 기본값 재설정",
       show_pomodoro_timer = "포모도로 타이머 표시",
       timer_scale = "타이머 크기",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "스킨 상점",
+    title = "상점",
     unlock = "잠금 해제",
     cost = "가격",
     coins = "코인",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "취소",
     balance = "잔액",
     daily = "오늘",
+    daily_limit = "일일 한도",
     my_collection = "내 컬렉션",
     shop = "상점",
     blind_box = "블라인드 박스"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 코인",
     coins_1 = "   • 집중 세션을 완료하면 코인을 얻어요",
     coins_2 = "   • 1분 집중 = 1 코인",
-    coins_3 = "   • 하루에 최대 600 코인까지 얻을 수 있어요",
+    coins_3 = "   • 하루에 최대 800 코인까지 얻을 수 있어요",
     coins_4 = "   • 일일 한도에 도달하면 설정에서 리셋할 수 있어요 (휴식을 취하세요!)",
     shop_title = "🛒 상점",
     shop_1 = "   • 책상 오른쪽 버튼을 클릭하세요",

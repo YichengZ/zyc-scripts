@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Yオフセット",
       text_offset_x = "テキストXオフセット",
       text_offset_y = "テキストYオフセット",
+      stats_box_use_monospace = "数字に等幅フォントを使用",
+      stats_box_use_monospace_tooltip = "等幅フォントを使用して数字の幅を統一（一部のWindowsデバイスでの表示問題を解決）",
       reset_stats_box_defaults = "統計ボックスのデフォルトをリセット",
       show_pomodoro_timer = "ポモドーロタイマーを表示",
       timer_scale = "タイマーのサイズ",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "スキンショップ",
+    title = "ショップ",
     unlock = "ロック解除",
     cost = "価格",
     coins = "コイン",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "キャンセル",
     balance = "残高",
     daily = "今日",
+    daily_limit = "1日の上限",
     my_collection = "マイコレクション",
     shop = "ショップ",
     blind_box = "ブラインドボックス"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 コイン",
     coins_1 = "   • 集中セッションを完了するとコインがもらえます",
     coins_2 = "   • 1分の集中 = 1コイン",
-    coins_3 = "   • 1日に最大600コインまで獲得できます",
+    coins_3 = "   • 1日に最大800コインまで獲得できます",
     coins_4 = "   • 1日の上限に達したら、設定でリセットできます（休憩を取ってください！）",
     shop_title = "🛒 ショップ",
     shop_1 = "   • 机の右側のボタンをクリックしてください",

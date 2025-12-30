@@ -23,6 +23,8 @@ local translations = {
       offset_y = "垂直偏移",
       text_offset_x = "文字水平偏移",
       text_offset_y = "文字垂直偏移",
+      stats_box_use_monospace = "数字使用等宽字体",
+      stats_box_use_monospace_tooltip = "使用等宽字体确保数字宽度一致（有助于解决部分 Windows 设备上的显示问题）",
       reset_stats_box_defaults = "重置统计框默认值",
       show_pomodoro_timer = "显示专注计时器",
       timer_scale = "计时器缩放",
@@ -113,7 +115,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "皮肤商店",
+    title = "商店",
     unlock = "解锁",
     cost = "价格",
     coins = "金币",
@@ -123,6 +125,7 @@ local translations = {
     cancel = "取消",
     balance = "余额",
     daily = "今日",
+    daily_limit = "每日上限",
     my_collection = "我的收藏",
     shop = "商店",
     blind_box = "盲盒"
@@ -144,7 +147,7 @@ local translations = {
     coins_title = "💰 金币",
     coins_1 = "   • 完成专注时间就能获得金币",
     coins_2 = "   • 专注 1 分钟 = 1 金币",
-    coins_3 = "   • 每天最多能获得 600 金币",
+    coins_3 = "   • 每天最多能获得 800 金币",
     coins_4 = "   • 如果到了每日限制，可以在设置中重置每日限制（注意休息！）",
     shop_title = "🛒 商店",
     shop_1 = "   • 点击桌子右边的按钮",

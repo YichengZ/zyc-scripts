@@ -11,6 +11,7 @@
 local StatsBox = {}
 local r = reaper -- 本地化 API
 local Config = require('config')
+local FontManager = require('utils.font_manager')
 
 -- ========= 内部状态 =========
 local state = {
@@ -173,8 +174,15 @@ function StatsBox.draw(ctx, dl, x, y, w, h, tracker, scale, skin_rect, extra_sca
   local baseline_offset = text_height * 0.03
   local text_y = box_y + (box_height - text_height) * 0.5 + baseline_offset + text_vertical_offset
   
+  -- 使用字体管理器获取字体（支持 monospace 切换）
+  -- 只有在启用 monospace 时才使用自定义字体，否则使用 nil（ImGui 默认字体，更清晰）
+  local stats_font = nil
+  if Config.STATS_BOX_USE_MONOSPACE then
+    stats_font = FontManager.get_stats()
+  end
+  
   if r.ImGui_DrawList_AddTextEx then
-    r.ImGui_DrawList_AddTextEx(dl, nil, font_size, text_x, text_y, config.text_color, display_text)
+    r.ImGui_DrawList_AddTextEx(dl, stats_font, font_size, text_x, text_y, config.text_color, display_text)
   else
     r.ImGui_DrawList_AddText(dl, text_x, text_y, config.text_color, display_text)
   end

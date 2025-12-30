@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Versatz Y",
       text_offset_x = "Text-Versatz X",
       text_offset_y = "Text-Versatz Y",
+      stats_box_use_monospace = "Monospace-Schriftart für Zahlen verwenden",
+      stats_box_use_monospace_tooltip = "Monospace-Schriftart verwenden, um einheitliche Zahlenbreiten zu gewährleisten (hilft bei Anzeigeproblemen auf einigen Windows-Geräten)",
       reset_stats_box_defaults = "Standardwerte zurücksetzen",
       show_pomodoro_timer = "Timer anzeigen",
       timer_scale = "Timer-Skalierung",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Skin-Shop",
+    title = "Shop",
     unlock = "Freischalten",
     cost = "Kosten",
     coins = "Münzen",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Abbrechen",
     balance = "Guthaben",
     daily = "Täglich",
+    daily_limit = "Tageslimit",
     my_collection = "MEINE SAMMLUNG",
     shop = "SHOP",
     blind_box = "Überraschungsbox"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Münzen",
     coins_1 = "   • Verdiene Münzen durch Abschluss von Sitzungen",
     coins_2 = "   • 1 Minute Fokus = 1 Münze",
-    coins_3 = "   • Du kannst bis zu 600 Münzen pro Tag verdienen",
+    coins_3 = "   • Du kannst bis zu 800 Münzen pro Tag verdienen",
     coins_4 = "   • Wenn du das Tageslimit erreichst, kannst du es in den Einstellungen zurücksetzen (Ruhe dich aus!)",
     shop_title = "🛒 Shop",
     shop_1 = "   • Klicke auf die Schaltfläche rechts am Schreibtisch",

@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Offset Y",
       text_offset_x = "Text Offset X",
       text_offset_y = "Text Offset Y",
+      stats_box_use_monospace = "Use Monospace Font for Numbers",
+      stats_box_use_monospace_tooltip = "Use monospace font to ensure consistent number widths (helps with display issues on some Windows devices)",
       reset_stats_box_defaults = "Reset Stats Box Defaults",
       show_pomodoro_timer = "Show Pomodoro Timer",
       timer_scale = "Timer Scale",
@@ -113,7 +115,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Skin Shop",
+    title = "Shop",
     unlock = "Unlock",
     cost = "Cost",
     coins = "Coins",
@@ -123,6 +125,7 @@ local translations = {
     cancel = "Cancel",
     balance = "Balance",
     daily = "Daily",
+    daily_limit = "Daily Limit",
     my_collection = "MY COLLECTION",
     shop = "SHOP",
     blind_box = "Blind Box"
@@ -144,7 +147,7 @@ local translations = {
     coins_title = "💰 Coins",
     coins_1 = "   • Earn coins by finishing focus sessions",
     coins_2 = "   • 1 minute of focus = 1 coin",
-    coins_3 = "   • You can earn up to 600 coins per day",
+    coins_3 = "   • You can earn up to 800 coins per day",
     coins_4 = "   • If you reach the daily limit, you can reset it in Settings (Take a rest!)",
     shop_title = "🛒 Shop",
     shop_1 = "   • Click the button on the right side of the desk",

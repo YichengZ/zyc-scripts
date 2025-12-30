@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Desplazamiento Y",
       text_offset_x = "Desplazamiento de texto X",
       text_offset_y = "Desplazamiento de texto Y",
+      stats_box_use_monospace = "Usar fuente monoespaciada para números",
+      stats_box_use_monospace_tooltip = "Usar fuente monoespaciada para garantizar anchos de números consistentes (ayuda con problemas de visualización en algunos dispositivos Windows)",
       reset_stats_box_defaults = "Restablecer valores predeterminados",
       show_pomodoro_timer = "Mostrar temporizador",
       timer_scale = "Escala del temporizador",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Tienda de pieles",
+    title = "Tienda",
     unlock = "Desbloquear",
     cost = "Costo",
     coins = "Monedas",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Cancelar",
     balance = "Saldo",
     daily = "Diario",
+    daily_limit = "Límite diario",
     my_collection = "MI COLECCIÓN",
     shop = "TIENDA",
     blind_box = "Caja sorpresa"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Monedas",
     coins_1 = "   • Gana monedas completando sesiones",
     coins_2 = "   • 1 minuto de enfoque = 1 moneda",
-    coins_3 = "   • Puedes ganar hasta 600 monedas por día",
+    coins_3 = "   • Puedes ganar hasta 800 monedas por día",
     coins_4 = "   • Si alcanzas el límite diario, puedes restablecerlo en Configuración (¡Descansa!)",
     shop_title = "🛒 Tienda",
     shop_1 = "   • Haz clic en el botón del lado derecho del escritorio",

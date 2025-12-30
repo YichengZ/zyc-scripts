@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Offset Y",
       text_offset_x = "Offset testo X",
       text_offset_y = "Offset testo Y",
+      stats_box_use_monospace = "Usa font monospazio per i numeri",
+      stats_box_use_monospace_tooltip = "Usa font monospazio per garantire larghezze uniformi dei numeri (aiuta con problemi di visualizzazione su alcuni dispositivi Windows)",
       reset_stats_box_defaults = "Ripristina valori predefiniti",
       show_pomodoro_timer = "Mostra timer",
       timer_scale = "Scala timer",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Negozio skin",
+    title = "Negozio",
     unlock = "Sblocca",
     cost = "Costo",
     coins = "Monete",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Annulla",
     balance = "Saldo",
     daily = "Giornaliero",
+    daily_limit = "Limite giornaliero",
     my_collection = "LA MIA COLLEZIONE",
     shop = "NEGOZIO",
     blind_box = "Scatola a sorpresa"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Monete",
     coins_1 = "   • Guadagna monete completando sessioni",
     coins_2 = "   • 1 minuto di concentrazione = 1 moneta",
-    coins_3 = "   • Puoi guadagnare fino a 600 monete al giorno",
+    coins_3 = "   • Puoi guadagnare fino a 800 monete al giorno",
     coins_4 = "   • Se raggiungi il limite giornaliero, puoi resettarlo nelle Impostazioni (Riposati!)",
     shop_title = "🛒 Negozio",
     shop_1 = "   • Clicca il pulsante sul lato destro della scrivania",

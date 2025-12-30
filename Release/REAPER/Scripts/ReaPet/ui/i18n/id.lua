@@ -23,6 +23,8 @@ local translations = {
       offset_y = "Offset Y",
       text_offset_x = "Offset teks X",
       text_offset_y = "Offset teks Y",
+      stats_box_use_monospace = "Gunakan font monospace untuk angka",
+      stats_box_use_monospace_tooltip = "Gunakan font monospace untuk memastikan lebar angka konsisten (membantu mengatasi masalah tampilan di beberapa perangkat Windows)",
       reset_stats_box_defaults = "Reset ke default",
       show_pomodoro_timer = "Tampilkan timer",
       timer_scale = "Skala timer",
@@ -110,7 +112,7 @@ local translations = {
   },
   -- Shop Window
   shop = {
-    title = "Toko skin",
+    title = "Toko",
     unlock = "Buka kunci",
     cost = "Biaya",
     coins = "Koin",
@@ -120,6 +122,7 @@ local translations = {
     cancel = "Batal",
     balance = "Saldo",
     daily = "Harian",
+    daily_limit = "Batas harian",
     my_collection = "KOLEKSI SAYA",
     shop = "TOKO",
     blind_box = "Kotak misteri"
@@ -141,7 +144,7 @@ local translations = {
     coins_title = "💰 Koin",
     coins_1 = "   • Dapatkan koin dengan menyelesaikan sesi",
     coins_2 = "   • 1 menit fokus = 1 koin",
-    coins_3 = "   • Anda bisa mendapatkan hingga 600 koin per hari",
+    coins_3 = "   • Anda bisa mendapatkan hingga 800 koin per hari",
     coins_4 = "   • Jika mencapai batas harian, Anda bisa meresetnya di Pengaturan (Istirahatlah!)",
     shop_title = "🛒 Toko",
     shop_1 = "   • Klik tombol di sisi kanan meja",

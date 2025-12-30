@@ -9,7 +9,7 @@ local Debug = require("utils.debug")
 local r = reaper
 
 -- 配置
-local DAILY_COIN_LIMIT = 600  -- 每日上限 600 金币
+local DAILY_COIN_LIMIT = 800  -- 每日上限 800 金币
 local COINS_PER_MINUTE = 1     -- 每分钟专注获得 1 金币
 local INITIAL_COINS = 500      -- 首次启动赠送 500 金币
 
