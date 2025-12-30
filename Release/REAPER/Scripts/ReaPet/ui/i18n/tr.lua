@@ -40,17 +40,22 @@ local translations = {
       window_floating = "Yüzen"
     },
     stats = {
-      lifetime_stats = "Yaşam boyu istatistikler",
+      lifetime_stats = "Ömür Boyu İstatistikler",
       label = "Etiket",
       value = "Değer",
-      total_focus = "Toplam odaklanma:",
-      total_time = "Toplam süre:",
+      total_focus = "Toplam Odak:",
+      total_time = "Toplam Süre:",
       operations = "İşlemler:",
       economy = "Ekonomi",
       balance = "Bakiye: ",
-      today_earned = "Bugün kazanılan: ",
-      manage_data = "Verileri yönet",
-      reset_daily_limit = "Günlük limiti sıfırla"
+      today_earned = "Bugün Kazanılan: ",
+      manage_data = "Verileri Yönet",
+      reset_daily_limit = "Günlük Limiti Sıfırla",
+      -- 【Updated】
+      reset_daily_limit_description = "Limiti sıfırla (Dinlen biraz!)",
+      reset_project_stats = "Proje Verileri",
+      reset_project_stats_description = "Bu proje istatistiklerini temizle. Geri alınamaz.",
+      reset_project_stats_button = "Verileri Sıfırla"
     },
     system = {
       about = "Hakkında",

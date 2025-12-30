@@ -50,7 +50,12 @@ local translations = {
       balance = "残高: ",
       today_earned = "今日獲得: ",
       manage_data = "データ管理",
-      reset_daily_limit = "1日の上限をリセット"
+      reset_daily_limit = "1日の上限をリセット",
+      -- 【Optimized】
+      reset_daily_limit_description = "上限リセット（休憩しましょう！）",
+      reset_project_stats = "プロジェクトデータ",
+      reset_project_stats_description = "このプロジェクトの全統計（時間、操作数）を消去します。元に戻せません。",
+      reset_project_stats_button = "データをリセット"
     },
     system = {
       about = "について",

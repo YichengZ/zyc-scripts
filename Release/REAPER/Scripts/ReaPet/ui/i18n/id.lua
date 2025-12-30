@@ -50,7 +50,12 @@ local translations = {
       balance = "Saldo: ",
       today_earned = "Diperoleh hari ini: ",
       manage_data = "Kelola data",
-      reset_daily_limit = "Reset batas harian"
+      reset_daily_limit = "Reset batas harian",
+      -- 【Optimized】
+      reset_daily_limit_description = "Reset batas harian (Istirahatlah!)",
+      reset_project_stats = "Data Proyek",
+      reset_project_stats_description = "Hapus semua statistik untuk proyek ini. Tidak dapat dibatalkan.",
+      reset_project_stats_button = "Reset Data Proyek"
     },
     system = {
       about = "Tentang",

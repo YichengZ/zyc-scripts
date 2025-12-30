@@ -40,7 +40,7 @@ local translations = {
       window_floating = "Nổi"
     },
     stats = {
-      lifetime_stats = "Thống kê tổng thể",
+      lifetime_stats = "Thống kê trọn đời",
       label = "Nhãn",
       value = "Giá trị",
       total_focus = "Tổng thời gian tập trung:",
@@ -50,7 +50,12 @@ local translations = {
       balance = "Số dư: ",
       today_earned = "Kiếm được hôm nay: ",
       manage_data = "Quản lý dữ liệu",
-      reset_daily_limit = "Đặt lại giới hạn hàng ngày"
+      reset_daily_limit = "Đặt lại giới hạn hàng ngày",
+      -- 【Updated】
+      reset_daily_limit_description = "Đặt lại giới hạn (Nghỉ ngơi đi!)",
+      reset_project_stats = "Dữ liệu dự án",
+      reset_project_stats_description = "Xóa thống kê dự án này. Không thể hoàn tác.",
+      reset_project_stats_button = "Đặt lại dữ liệu"
     },
     system = {
       about = "Giới thiệu",
