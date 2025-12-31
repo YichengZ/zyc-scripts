@@ -558,22 +558,24 @@ function Settings.draw(ctx, open, data)
         -- r.ImGui_Separator(ctx)
         -- r.ImGui_Dummy(ctx, 0, 5)
         -- 
-        -- -- Developer Mode Toggle
-        -- local dev_mode = Config.DEVELOPER_MODE
-        -- if r.ImGui_Checkbox(ctx, "Developer Mode", dev_mode) then
-        --   Config.DEVELOPER_MODE = not dev_mode
-        --   if not data.needs_save then data.needs_save = {} end
-        --   data.needs_save.config = true
-        -- end
-        -- r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Enable developer features")
-        -- 
-        -- -- Open Dev Panel Button (only if developer mode is enabled)
-        -- if Config.DEVELOPER_MODE then
-        --   r.ImGui_Dummy(ctx, 0, 5)
-        --   if r.ImGui_Button(ctx, "Open Developer Panel", 200, 32) then
-        --     state.dev_panel_requested = true
-        --   end
-        -- end
+        --[[
+        -- Developer Mode Toggle
+        local dev_mode = Config.DEVELOPER_MODE
+        if r.ImGui_Checkbox(ctx, "Developer Mode", dev_mode) then
+          Config.DEVELOPER_MODE = not dev_mode
+          if not data.needs_save then data.needs_save = {} end
+          data.needs_save.config = true
+        end
+        r.ImGui_TextColored(ctx, COL.TEXT_DIM, "  Enable developer features")
+        
+        -- Open Dev Panel Button (only if developer mode is enabled)
+        if Config.DEVELOPER_MODE then
+          r.ImGui_Dummy(ctx, 0, 5)
+          if r.ImGui_Button(ctx, "Open Developer Panel", 200, 32) then
+            state.dev_panel_requested = true
+          end
+        end
+        --]]
 
         r.ImGui_Dummy(ctx, 0, 20)
         r.ImGui_TextColored(ctx, COL.HEADER_TEXT, I18n.get("settings.system.exit"))
