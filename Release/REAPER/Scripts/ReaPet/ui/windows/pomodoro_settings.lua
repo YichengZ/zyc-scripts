@@ -259,7 +259,7 @@ function PomodoroSettings.draw(ctx, open, data)
     local changed_preset, new_preset_idx = reaper.ImGui_Combo(ctx, "##preset_combo", current_preset_idx, table.concat(preset_names, "\0") .. "\0", #preset_names)
     if changed_preset and new_preset_idx >= 0 and new_preset_idx < #preset_keys then
       local selected_key = preset_keys[new_preset_idx + 1]
-      PomodoroPresets.set_current_preset(selected_key)
+      PomodoroPresets.set_current_preset(selected_key, Pomodoro)
       
       local preset = PomodoroPresets.get_preset(selected_key)
       if preset then
