@@ -117,6 +117,7 @@ local translations = {
     cost = "Biaya",
     coins = "Koin",
     insufficient_funds = "Dana tidak mencukupi",
+    earn_tip = "Tips: Klik pengatur waktu di jendela utama dan selesaikan sesi fokus untuk mendapatkan koin!",
     close = "Tutup",
     purchase = "Beli",
     cancel = "Batal",

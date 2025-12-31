@@ -117,6 +117,7 @@ local translations = {
     cost = "Chi phí",
     coins = "Xu",
     insufficient_funds = "Không đủ tiền",
+    earn_tip = "Mẹo: Nhấp vào đồng hồ hẹn giờ trên cửa sổ chính và hoàn thành các phiên tập trung để kiếm xu!",
     close = "Đóng",
     purchase = "Mua",
     cancel = "Hủy",

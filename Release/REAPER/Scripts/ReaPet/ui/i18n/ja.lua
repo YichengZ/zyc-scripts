@@ -117,6 +117,7 @@ local translations = {
     cost = "価格",
     coins = "コイン",
     insufficient_funds = "残高不足",
+    earn_tip = "ヒント：メインウィンドウのタイマーをクリックして、集中セッションを完了するとコインを獲得できます！",
     close = "閉じる",
     purchase = "購入",
     cancel = "キャンセル",

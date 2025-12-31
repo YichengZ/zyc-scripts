@@ -117,6 +117,7 @@ local translations = {
     cost = "Coût",
     coins = "Pièces",
     insufficient_funds = "Fonds insuffisants",
+    earn_tip = "Astuce : Cliquez sur le minuteur de la fenêtre principale et terminez des sessions de concentration pour gagner des pièces !",
     close = "Fermer",
     purchase = "Acheter",
     cancel = "Annuler",

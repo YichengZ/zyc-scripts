@@ -144,6 +144,8 @@ local function draw_purchase_popup(ctx, skins, tracker, main_win_info)
     if current_balance < price then
       r.ImGui_TextColored(ctx, 0xFF6666FF, I18n.get("shop.insufficient_funds"))
       r.ImGui_Spacing(ctx)
+      r.ImGui_TextColored(ctx, Style.text_dim, I18n.get("shop.earn_tip", "Tip: Click the timer on main window \nand complete focus sessions to earn coins!"))
+      r.ImGui_Spacing(ctx)
       if r.ImGui_Button(ctx, I18n.get("shop.close"), btn_w, btn_h) then
         r.ImGui_CloseCurrentPopup(ctx)
         shop_purchase_confirm = nil
@@ -238,7 +240,7 @@ local function draw_skin_item(ctx, dl, skin, item_size, is_selected, is_owned, i
   end
   
   if not is_owned or is_blind_box then
-    local price_str = format_price(is_blind_box and 500 or ShopSystem.get_direct_buy_price())
+    local price_str = format_price(is_blind_box and ShopSystem.get_blind_box_price() or ShopSystem.get_direct_buy_price())
     local tag_h, tag_w = 18, item_size - 8
     local tag_x, tag_y = sx + 4, sy2 - 22
     r.ImGui_DrawList_AddRectFilled(dl, tag_x, tag_y, tag_x + tag_w, tag_y + tag_h, Style.price_tag.bg, 6.0) 
@@ -258,7 +260,7 @@ end
 -- ========= 主绘制函数 =========
 function Shop.draw(ctx, open, data)
   if not open then 
-    skin_preview_cache = {}
+    -- skin_preview_cache = {}  
     shop_purchase_confirm = nil
     should_open_popup = false 
     return false 

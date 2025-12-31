@@ -117,6 +117,7 @@ local translations = {
     cost = "Kosten",
     coins = "Münzen",
     insufficient_funds = "Unzureichende Mittel",
+    earn_tip = "Tipp: Klicke auf den Timer im Hauptfenster und beende Fokus-Sitzungen, um Münzen zu verdienen!",
     close = "Schließen",
     purchase = "Kaufen",
     cancel = "Abbrechen",

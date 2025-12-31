@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.8
+-- @version 1.0.4.9
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,7 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.4.9: Timer and preset feature improvements, added earn_tip i18n translations, UI refinements
 --   + v1.0.4.8: Economic system rebalancing (lowered prices, increased daily limit to 800), fixed factory reset skin switching, optimized shop UI (Daily Limit display), fixed monospace font feature and added i18n translations
 --   + v1.0.4.6: Removed "Unlock xxxx?" text from shop purchase popup, removed "Current Skin" display from settings (skin names are dev codes)
 --   + v1.0.4.5: Optimized window ID logic to prevent flickering during skin or language switches
@@ -122,7 +123,8 @@ Treasure.init(script_path)
 CoinSystem.init(Config.DATA_FILE)
 ShopSystem.init(Config.DATA_FILE)
 local global_stats_init = tracker:get_global_stats()
-PomodoroPresets.init(global_stats_init)
+PomodoroPresets.init(nil)
+PomodoroPresets.apply_to_timer(Pomodoro)
 SkinManager.init(ctx, script_path)
 TreasureBox.init()
 PomodoroTimer.init()

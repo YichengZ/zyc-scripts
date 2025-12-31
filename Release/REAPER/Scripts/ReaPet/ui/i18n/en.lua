@@ -120,6 +120,7 @@ local translations = {
     cost = "Cost",
     coins = "Coins",
     insufficient_funds = "Insufficient funds",
+    earn_tip = "Tip: Click the timer on the main window and complete focus sessions to earn coins!",
     close = "Close",
     purchase = "Purchase",
     cancel = "Cancel",

@@ -132,7 +132,7 @@ function CoinEffect.trigger(center_x, center_y, coins_earned, current_total_bala
   
   local count = coins_earned
   if count > cfg.MAX_COINS then count = cfg.MAX_COINS end
-  if count < 5 then count = 5 end 
+  --if count < 5 then count = 5 end 
   
   local val_per_particle = coins_earned / count
   
@@ -423,7 +423,7 @@ function CoinEffect.draw(ctx, dl)
     r.ImGui_DrawList_AddCircle(dl, icon_cx, icon_cy, icon_size * 0.5, border_col, 0, 1.5 * scale)
     
     local text_x = start_x + padding_h + icon_size + spacing
-    local text_y = start_y + (total_h - font_size) * 0.5 - (1.5 * scale)
+    local text_y = start_y + (total_h - font_size) * 0.5 - (4.5 * scale)
     
     if r.ImGui_DrawList_AddTextEx then
       r.ImGui_DrawList_AddTextEx(dl, nil, font_size, text_x, text_y, text_col, text)
