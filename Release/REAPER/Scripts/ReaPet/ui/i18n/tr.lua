@@ -117,6 +117,7 @@ local translations = {
     cost = "Maliyet",
     coins = "Jetonlar",
     insufficient_funds = "Yetersiz bakiye",
+    earn_tip = "İpucu: Jeton kazanmak için ana penceredeki zamanlayıcıya tıkla ve odaklanma oturumlarını tamamla!",
     close = "Kapat",
     purchase = "Satın al",
     cancel = "İptal",

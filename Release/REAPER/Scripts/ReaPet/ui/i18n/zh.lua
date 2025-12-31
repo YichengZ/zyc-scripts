@@ -120,6 +120,7 @@ local translations = {
     cost = "价格",
     coins = "金币",
     insufficient_funds = "余额不足",
+    earn_tip = "提示：点击主界面的计时器，完成专注时间即可获得金币！",
     close = "关闭",
     purchase = "购买",
     cancel = "取消",

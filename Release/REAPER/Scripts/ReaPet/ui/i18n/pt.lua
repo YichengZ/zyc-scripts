@@ -117,6 +117,7 @@ local translations = {
     cost = "Custo",
     coins = "Moedas",
     insufficient_funds = "Fundos insuficientes",
+    earn_tip = "Dica: Clique no cronômetro da janela principal e complete sessões de foco para ganhar moedas!",
     close = "Fechar",
     purchase = "Comprar",
     cancel = "Cancelar",
