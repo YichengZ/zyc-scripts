@@ -1,11 +1,11 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.4.9
+-- @version 1.0.5.0
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
 --
---   Turn your music production into a game! Zyc ReaPet is a gamified productivity
---   companion designed specifically for REAPER users.
+--   Zyc ReaPet is a cute productivity companion designed specifically for
+--   REAPER users, helping you stay motivated and track your creative workflow.
 --
 --   ### Key Features
 --   * **Stats Tracking**: Monitor your daily active usage and working habits.
@@ -13,7 +13,7 @@
 --   * **Pet System**: Level up your companion by being productive.
 --   * **Shop & Skins**: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.
 --
---   Stay motivated and make your mixing sessions more fun!
+--   Stay motivated and enjoy your creative workflow with your adorable companion!
 -- @provides
 --   config.lua
 --   core/*.lua
@@ -21,6 +21,7 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.5.0: Updated character skin assets (lion and panda), improved product description wording
 --   + v1.0.4.9: Timer and preset feature improvements, added earn_tip i18n translations, UI refinements
 --   + v1.0.4.8: Economic system rebalancing (lowered prices, increased daily limit to 800), fixed factory reset skin switching, optimized shop UI (Daily Limit display), fixed monospace font feature and added i18n translations
 --   + v1.0.4.6: Removed "Unlock xxxx?" text from shop purchase popup, removed "Current Skin" display from settings (skin names are dev codes)
