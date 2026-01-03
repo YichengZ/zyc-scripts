@@ -47,10 +47,8 @@ zyc-scripts/
    - In REAPER: `Extensions` > `ReaPack` > `Manage repositories...`
    - Click `Import a repository`
    - Paste one of the following URLs:
-     - **Gitee mirror (China users)**: `https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml`
-     - **Recommended (jsDelivr CDN)**: `https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml`
      - **GitHub direct**: `https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
-     - **China mirror proxy**: `https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
+     - **Gitee mirror (China users)**: `https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml`
    - Click `OK` then `Apply`
 
 3. **Install scripts**
