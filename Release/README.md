@@ -44,10 +44,28 @@ Advanced LFO modulator with the following features:
 1. Ensure [ReaPack plugin](https://reapack.com/) is installed
 2. In REAPER: `Extensions` > `ReaPack` > `Manage repositories`
 3. Click `Import a repository`
-4. Paste the following URL:
+4. Paste one of the following URLs (choose based on your network):
+
+   **Gitee mirror (recommended for China users - fastest access):**
+   ```
+   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml
+   ```
+
+   **Recommended (jsDelivr CDN - fast worldwide, including China):**
+   ```
+   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
+   ```
+
+   **GitHub direct (international users):**
    ```
    https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
    ```
+
+   **China mirror proxy (if GitHub is blocked):**
+   ```
+   https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+   ```
+
 5. Click `OK` then `Apply`
 6. Search and install scripts in `Extensions` > `ReaPack` > `Browse packages`
 
