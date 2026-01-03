@@ -44,12 +44,32 @@ REAPER 桌面伴侣应用，具有以下特性：
 1. 确保已安装 [ReaPack插件](https://reapack.com/)
 2. 在REAPER中：`Extensions` > `ReaPack` > `Manage repositories`
 3. 点击 `Import a repository`
-4. 粘贴以下URL：
+4. 根据你的网络环境选择以下链接之一：
+
+   **🇨🇳 Gitee 镜像（国内用户推荐，访问最快最稳定）：**
+   ```
+   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml
+   ```
+
+   **🌍 jsDelivr CDN（全球加速，国内访问快）：**
+   ```
+   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
+   ```
+
+   **🇨🇳 GitHub 镜像代理（国内用户备选）：**
+   ```
+   https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+   ```
+
+   **🔷 GitHub 直接访问（国际用户）：**
    ```
    https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
    ```
+
 5. 点击 `OK` 然后 `Apply`
 6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
+
+> 💡 **提示**：国内用户推荐使用 Gitee 镜像链接，访问最快最稳定。如果遇到连接问题，也可以尝试 jsDelivr CDN 链接。
 
 ## 🔗 推荐配套脚本
 
