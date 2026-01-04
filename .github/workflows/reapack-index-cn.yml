@@ -1,11 +1,11 @@
-name: ReaPack Indexer (CN)
+name: ReaPack Indexer
 
 on:
   push:
     branches: [ main ]
     paths:
       - 'Release/**'
-      - '.github/workflows/reapack-index-cn.yml'
+      - '.github/workflows/reapack-index.yml'
   workflow_dispatch:
 
 permissions:
@@ -38,64 +38,34 @@ jobs:
         run: gem install reapack-index
       
       # =========================================================
-      # 生成标准版索引 (国际通用) -> index.xml
+      # 3. 生成双版本索引 (Standard + China)
       # =========================================================
-      - name: Run reapack-index (Standard)
+      - name: Run reapack-index (Dual Generation)
         run: |
-          echo "Generating standard index.xml..."
+          # A. 标准版 (国际通用) -> 生成 index.xml
           reapack-index --scan Release
-      
-      # =========================================================
-      # 生成中国专版索引 (使用 ghproxy 镜像) -> index-cn.xml
-      # =========================================================
-      - name: Generate CN index from standard
-        run: |
-          echo "Generating index-cn.xml for Chinese users..."
           
-          # 检查 index.xml 是否存在
-          if [ ! -f "index.xml" ]; then
-            echo "❌ Error: index.xml not found!"
-            exit 1
-          fi
-          
-          # 替换 GitHub URL 为 ghproxy 镜像 URL
-          # 格式: https://github.com/... -> https://mirror.ghproxy.com/https://github.com/...
-          sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
-          
-          # 验证替换
-          echo "Verifying replacement..."
-          github_count=$(grep -c "https://github.com/" index-cn.xml || echo "0")
-          ghproxy_count=$(grep -c "mirror.ghproxy.com" index-cn.xml || echo "0")
-          
-          echo "GitHub URLs remaining: $github_count"
-          echo "ghproxy URLs found: $ghproxy_count"
-          
-          if [ "$ghproxy_count" -eq "0" ]; then
-            echo "❌ Error: No ghproxy URLs found in index-cn.xml"
-            exit 1
-          fi
-          
-          echo "✅ Successfully generated index-cn.xml"
+          # B. 中国专版 (加速链接) -> 生成 index-cn.xml
+          # 名字改为 index-cn.xml 更直观
+          reapack-index \
+            --output index-cn.xml \
+            --scan Release \
+            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
 
-      # =========================================================
-      # 提交并推送更改
-      # =========================================================
-      - name: Commit and push changes
+      # 4. 推送更改
+      - name: Push changes
         run: |
           git fetch origin main
           
-          # 检查是否有更改
           if git diff --quiet HEAD; then
             echo "No local changes to commit"
             exit 0
           fi
           
-          # 添加所有更改
-          git add -A
-          
-          # 检查是否有暂存的更改
           if ! git diff --cached --quiet; then
             echo "Staging changes..."
+            git add -A
+            # 提交信息里也更新一下名字
             git commit -m "index: update ReaPack index (Standard & CN)" || echo "No changes to commit"
           fi
           
@@ -106,21 +76,16 @@ jobs:
           while [ $retry_count -lt $max_retries ]; do
             git fetch origin main
             
-            # 检查远程是否有新提交
             if git merge-base --is-ancestor HEAD origin/main 2>/dev/null; then
-              echo "Remote has new commits (attempt $((retry_count + 1))/$max_retries), syncing..."
-              
-              # 尝试 rebase
+              echo "Remote updated, syncing..."
               if ! git pull --rebase origin main 2>/dev/null; then
-                echo "Rebase failed, trying merge..."
-                # 尝试 merge
                 if ! git pull --no-rebase origin main 2>/dev/null; then
-                  echo "Merge failed, resetting and regenerating..."
+                  echo "Merge failed, resetting..."
                   git reset --hard origin/main
                   
                   # === 冲突恢复：重新生成两个文件 ===
                   reapack-index --scan Release
-                  sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
+                  reapack-index --output index-cn.xml --scan Release --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
                   # ==============================
                   
                   git add -A
@@ -129,19 +94,13 @@ jobs:
               fi
             fi
             
-            # 尝试推送
             if git push origin main 2>&1; then
-              echo "✅ Push successful!"
+              echo "Push successful!"
               exit 0
             else
               retry_count=$((retry_count + 1))
-              if [ $retry_count -lt $max_retries ]; then
-                echo "Push failed, retrying in 2 seconds... ($retry_count/$max_retries)"
-                sleep 2
-              fi
+              sleep 2
             fi
           done
           
-          echo "❌ Failed to push after $max_retries attempts"
           exit 1
-
