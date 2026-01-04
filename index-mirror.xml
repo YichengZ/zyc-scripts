@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" name="Zyc Scripts (Mirror)">
+  <category name="Release/REAPER/Effects">
+    <reapack name="zyc_EnvFollower.jsfx" type="effect" desc="zyc_EnvFollower (Envelope Follower)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Professional Envelope Follower with Peak/RMS detection. Features HPF/LPF pre-filtering and real-time visual feedback.\par}
+}
+]]></description>
+      </metadata>
+      <version name="3.4" author="Yicheng Zhu (Ethan)" time="2025-12-31T14:52:23Z">
+        <changelog><![CDATA[+ v3.4 - Bug Fix
++ v3.3 - Set RMS Smooth default to 15% for optimal balance
++ v3.2 - Added RMS Smooth control to eliminate step-like changes
++ v3.1 - Fixed Y-coordinate alignment for oscilloscope display
++ v3.0 - Optimized Peak response and smooth drawing
++ v2.9 - Implemented time-based smoothing for display values
++ v2.8 - Fixed RMS detection mode
++ v2.7 - Added time-based smoothing
++ v2.6 - Implemented window-based RMS calculation
++ v2.5 - Fixed RMS buffer allocation
++ v2.4 - Implemented sliding window RMS
++ v2.3 - Fixed RMS debug display
++ v2.2 - Removed delay functionality
++ v2.0 - Bug fixes and simplified
++ v1.0 - Initial release]]></changelog>
+        <source>https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@800b11246a8a566b1ceb286b0c9f7bfa63cb5569/Release/REAPER/Effects/zyc_EnvFollower.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="zyc_LFO.jsfx" type="effect" desc="zyc_LFO_Lite (FX Parameter Modulator)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 A lightweight version of Zyc LFO with optimized performance. Features 7 waveforms, essential modulation controls, and minimized CPU usage.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="Yicheng Zhu (Ethan)" time="2025-12-31T14:52:23Z">
+        <changelog><![CDATA[+ v1.1 - Bug Fix
++ v1.0 - Lite version release
+  - Removed all extra outputs functionality
+  - Removed MOOOAAARRR outputs functionality
+  - Kept only main output and core LFO features
+  - Optimized performance by removing unused calculations
+  - Simplified UI with only essential controls
+  - Maintained all 7 waveform types and modulation features]]></changelog>
+        <source>https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@800b11246a8a566b1ceb286b0c9f7bfa63cb5569/Release/REAPER/Effects/zyc_LFO.jsfx</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Release/REAPER/Scripts/ReaPet">
+    <reapack name="zyc_ReaPet.lua" type="script" desc="Zyc ReaPet - Productivity Companion">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Zyc ReaPet\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Zyc ReaPet is a cute productivity companion designed specifically for REAPER users, helping you stay motivated and track your creative workflow.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Key Features\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Stats Tracking}: Monitor your daily active usage and working habits.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pomodoro Timer}: Stay focused with a built-in work/break timer system.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pet System}: Level up your companion by being productive.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Shop & Skins}: Earn coins to unlock new skins (Cat, Dog, Bear, etc.) and items.\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Stay motivated and enjoy your creative workflow with your adorable companion!\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0.5.0" author="Yicheng Zhu (Ethan)" time="2026-01-03T16:01:26Z">
+        <changelog><![CDATA[+ v1.0.5.0: Updated character skin assets (lion and panda), improved product description wording
++ v1.0.4.9: Timer and preset feature improvements, added earn_tip i18n translations, UI refinements
++ v1.0.4.8: Economic system rebalancing (lowered prices, increased daily limit to 800), fixed factory reset skin switching, optimized shop UI (Daily Limit display), fixed monospace font feature and added i18n translations
++ v1.0.4.6: Removed "Unlock xxxx?" text from shop purchase popup, removed "Current Skin" display from settings (skin names are dev codes)
++ v1.0.4.5: Optimized window ID logic to prevent flickering during skin or language switches
++ v1.0.4.3: Hidden Developer Mode UI in production release
++ v1.0.4.2: Removed auto-start on REAPER launch feature
++ v1.0.4.2: Updated UI terminology
++ v1.0.4.1: Fixed data file paths and added migration
++ Initial public release]]></changelog>
+        <source main="main">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/zyc_ReaPet.lua</source>
+        <source file="config.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/config.lua</source>
+        <source file="core/coin_system.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/coin_system.lua</source>
+        <source file="core/fx_scanner.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/fx_scanner.lua</source>
+        <source file="core/pomodoro.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/pomodoro.lua</source>
+        <source file="core/pomodoro_presets.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/pomodoro_presets.lua</source>
+        <source file="core/shop_system.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/shop_system.lua</source>
+        <source file="core/tracker.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/tracker.lua</source>
+        <source file="core/treasure.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/core/treasure.lua</source>
+        <source file="utils/auto_start.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/auto_start.lua</source>
+        <source file="utils/debug.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/debug.lua</source>
+        <source file="utils/font_manager.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/font_manager.lua</source>
+        <source file="utils/i18n.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/i18n.lua</source>
+        <source file="utils/imgui_utils.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/imgui_utils.lua</source>
+        <source file="utils/json.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/json.lua</source>
+        <source file="utils/object_pool.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/object_pool.lua</source>
+        <source file="utils/scale_manager.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/scale_manager.lua</source>
+        <source file="utils/window_flags.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/utils/window_flags.lua</source>
+        <source file="ui/i18n/de.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/de.lua</source>
+        <source file="ui/i18n/en.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/en.lua</source>
+        <source file="ui/i18n/es.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/es.lua</source>
+        <source file="ui/i18n/fr.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/fr.lua</source>
+        <source file="ui/i18n/id.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/id.lua</source>
+        <source file="ui/i18n/it.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/it.lua</source>
+        <source file="ui/i18n/ja.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/ja.lua</source>
+        <source file="ui/i18n/ko.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/ko.lua</source>
+        <source file="ui/i18n/pt.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/pt.lua</source>
+        <source file="ui/i18n/ru.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/ru.lua</source>
+        <source file="ui/i18n/th.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/th.lua</source>
+        <source file="ui/i18n/tr.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/tr.lua</source>
+        <source file="ui/i18n/vi.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/vi.lua</source>
+        <source file="ui/i18n/zh.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/i18n/zh.lua</source>
+        <source file="ui/menu_button.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/menu_button.lua</source>
+        <source file="ui/pomodoro_timer.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/pomodoro_timer.lua</source>
+        <source file="ui/skins/bear_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/bear_base.lua</source>
+        <source file="ui/skins/cat_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/cat_base.lua</source>
+        <source file="ui/skins/chick_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/chick_base.lua</source>
+        <source file="ui/skins/dog_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/dog_base.lua</source>
+        <source file="ui/skins/koala_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/koala_base.lua</source>
+        <source file="ui/skins/lion_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/lion_base.lua</source>
+        <source file="ui/skins/onion_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/onion_base.lua</source>
+        <source file="ui/skins/panda_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/panda_base.lua</source>
+        <source file="ui/skins/rabbit_base.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/rabbit_base.lua</source>
+        <source file="ui/skins/skin_manager.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/skins/skin_manager.lua</source>
+        <source file="ui/stats_box.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/stats_box.lua</source>
+        <source file="ui/transformation_effect.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/transformation_effect.lua</source>
+        <source file="ui/treasure_box.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/treasure_box.lua</source>
+        <source file="ui/utils/coin_effect.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/utils/coin_effect.lua</source>
+        <source file="ui/utils/debug_treasure.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/utils/debug_treasure.lua</source>
+        <source file="ui/utils/particles.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/utils/particles.lua</source>
+        <source file="ui/utils/treasure_chest.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/utils/treasure_chest.lua</source>
+        <source file="ui/window.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/window.lua</source>
+        <source file="ui/windows/dev_panel.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/dev_panel.lua</source>
+        <source file="ui/windows/pomodoro_settings.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/pomodoro_settings.lua</source>
+        <source file="ui/windows/settings.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/settings.lua</source>
+        <source file="ui/windows/shop.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/shop.lua</source>
+        <source file="ui/windows/welcome.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/welcome.lua</source>
+        <source file="ui/windows/welcome_i18n.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/ui/windows/welcome_i18n.lua</source>
+        <source file="assets/skins/bear_base/bear_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base.png</source>
+        <source file="assets/skins/bear_base/bear_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_desk.png</source>
+        <source file="assets/skins/bear_base/bear_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_face.png</source>
+        <source file="assets/skins/bear_base/bear_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_hand_left.png</source>
+        <source file="assets/skins/bear_base/bear_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_hand_right.png</source>
+        <source file="assets/skins/bear_base/bear_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_head.png</source>
+        <source file="assets/skins/bear_base/bear_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/bear_base/bear_base_rest.png</source>
+        <source file="assets/skins/cat_base/cat_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base.png</source>
+        <source file="assets/skins/cat_base/cat_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_desk.png</source>
+        <source file="assets/skins/cat_base/cat_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_face.png</source>
+        <source file="assets/skins/cat_base/cat_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_hand_left.png</source>
+        <source file="assets/skins/cat_base/cat_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_hand_right.png</source>
+        <source file="assets/skins/cat_base/cat_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_head.png</source>
+        <source file="assets/skins/cat_base/cat_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/cat_base/cat_base_rest.png</source>
+        <source file="assets/skins/chick_base/chick_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base.png</source>
+        <source file="assets/skins/chick_base/chick_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_desk.png</source>
+        <source file="assets/skins/chick_base/chick_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_face.png</source>
+        <source file="assets/skins/chick_base/chick_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_hand_left.png</source>
+        <source file="assets/skins/chick_base/chick_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_hand_right.png</source>
+        <source file="assets/skins/chick_base/chick_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_head.png</source>
+        <source file="assets/skins/chick_base/chick_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/chick_base/chick_base_rest.png</source>
+        <source file="assets/skins/dog_base/dog_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base.png</source>
+        <source file="assets/skins/dog_base/dog_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_desk.png</source>
+        <source file="assets/skins/dog_base/dog_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_face.png</source>
+        <source file="assets/skins/dog_base/dog_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_hand_left.png</source>
+        <source file="assets/skins/dog_base/dog_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_hand_right.png</source>
+        <source file="assets/skins/dog_base/dog_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_head.png</source>
+        <source file="assets/skins/dog_base/dog_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/dog_base/dog_base_rest.png</source>
+        <source file="assets/skins/koala_base/koala_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base.png</source>
+        <source file="assets/skins/koala_base/koala_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_desk.png</source>
+        <source file="assets/skins/koala_base/koala_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_face.png</source>
+        <source file="assets/skins/koala_base/koala_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_hand_left.png</source>
+        <source file="assets/skins/koala_base/koala_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_hand_right.png</source>
+        <source file="assets/skins/koala_base/koala_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_head.png</source>
+        <source file="assets/skins/koala_base/koala_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/koala_base/koala_base_rest.png</source>
+        <source file="assets/skins/lion_base/lion_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base.png</source>
+        <source file="assets/skins/lion_base/lion_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_desk.png</source>
+        <source file="assets/skins/lion_base/lion_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_face.png</source>
+        <source file="assets/skins/lion_base/lion_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_hand_left.png</source>
+        <source file="assets/skins/lion_base/lion_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_hand_right.png</source>
+        <source file="assets/skins/lion_base/lion_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_head.png</source>
+        <source file="assets/skins/lion_base/lion_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/lion_base/lion_base_rest.png</source>
+        <source file="assets/skins/onion_base/onion_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base.png</source>
+        <source file="assets/skins/onion_base/onion_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_desk.png</source>
+        <source file="assets/skins/onion_base/onion_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_face.png</source>
+        <source file="assets/skins/onion_base/onion_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_hand_left.png</source>
+        <source file="assets/skins/onion_base/onion_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_hand_right.png</source>
+        <source file="assets/skins/onion_base/onion_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_head.png</source>
+        <source file="assets/skins/onion_base/onion_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/onion_base/onion_base_rest.png</source>
+        <source file="assets/skins/panda_base/panda_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base.png</source>
+        <source file="assets/skins/panda_base/panda_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_desk.png</source>
+        <source file="assets/skins/panda_base/panda_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_face.png</source>
+        <source file="assets/skins/panda_base/panda_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_hand_left.png</source>
+        <source file="assets/skins/panda_base/panda_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_hand_right.png</source>
+        <source file="assets/skins/panda_base/panda_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_head.png</source>
+        <source file="assets/skins/panda_base/panda_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/panda_base/panda_base_rest.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_desk.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_desk.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_face.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_face.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_hand_left.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_hand_left.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_hand_right.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_hand_right.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_head.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_head.png</source>
+        <source file="assets/skins/rabbit_base/rabbit_base_rest.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/rabbit_base/rabbit_base_rest.png</source>
+        <source file="assets/skins/shop/blindbox.png">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@769a5c32e1588984d4f685c53221e9591887cb95/Release/REAPER/Scripts/ReaPet/assets/skins/shop/blindbox.png</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Release/REAPER/Scripts/StartupActions">
+    <reapack name="zyc_startup_actions.lua" type="script" desc="Zyc Startup Actions Manager">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \u36825 ?\u26159 ?\u19968 ?\u20010 ?\u24378 ?\u22823 ?\u30340 ? REAPER \u21551 ?\u21160 ?\u39033 ?\u31649 ?\u29702 ?\u22120 ?\u65292 ?\u20801 ?\u35768 ?\u20320 ?\u37197 ?\u32622 ? REAPER \u21551 ?\u21160 ?\u26102 ?\u33258 ?\u21160 ?\u36816 ?\u34892 ?\u30340 ?\u21160 ?\u20316 ?\u12290 ? \u25903 ?\u25345 ?\u40664 ?\u35748 ?\u21160 ?\u20316 ?\u65288 ?\u22914 ? ReaPet\u65289 ?\u21644 ?\u33258 ?\u23450 ?\u20041 ?\u29992 ?\u25143 ?\u21160 ?\u20316 ?\u65292 ?\u24182 ?\u25552 ?\u20379 ?\u23436 ?\u25972 ?\u30340 ?\u26412 ?\u22320 ?\u21270 ?\u25903 ?\u25345 ?\u12290 ?\par}
+}
+]]></description>
+      </metadata>
+      <version name="2.2.3" author="Yicheng Zhu (Ethan)" time="2025-12-30T06:31:30Z">
+        <changelog><![CDATA[+ 优化语言切换逻辑：窗口标题栏现在支持即时平滑切换，消除视觉闪烁
++ 修复了切换语言时可能导致的 ShowMessageBox 报错问题
++ 配合 ReaPet 1.0.4.4 更新，确保所有语言包和运行依赖正确索引]]></changelog>
+        <source main="main">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/zyc_startup_actions.lua</source>
+        <source file="zyc_startup_actions_run.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/zyc_startup_actions_run.lua</source>
+        <source file="utils/i18n.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/utils/i18n.lua</source>
+        <source file="i18n/de.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/de.lua</source>
+        <source file="i18n/en.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/en.lua</source>
+        <source file="i18n/es.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/es.lua</source>
+        <source file="i18n/fr.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/fr.lua</source>
+        <source file="i18n/id.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/id.lua</source>
+        <source file="i18n/it.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/it.lua</source>
+        <source file="i18n/ja.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/ja.lua</source>
+        <source file="i18n/ko.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/ko.lua</source>
+        <source file="i18n/pt.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/pt.lua</source>
+        <source file="i18n/ru.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/ru.lua</source>
+        <source file="i18n/th.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/th.lua</source>
+        <source file="i18n/tr.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/tr.lua</source>
+        <source file="i18n/vi.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/vi.lua</source>
+        <source file="i18n/zh.lua">https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@3a0882d994b78cc1574a8194ceca3b407d0d10a5/Release/REAPER/Scripts/StartupActions/i18n/zh.lua</source>
+      </version>
+    </reapack>
+  </category>
+</index>
