@@ -21,13 +21,11 @@ jobs:
         with:
           fetch-depth: 0
       
-      # 1. 配置 Git 身份
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 2. 安装 Pandoc
       - name: Install system dependencies
         run: sudo apt-get install -y pandoc
 
@@ -45,17 +43,19 @@ jobs:
       - name: Run reapack-index (Dual Generation)
         run: |
           echo "🔹 Generating Standard Index (index.xml)..."
-          # A. 生成标准版 (去掉 --commit，稍后统一提交)
-          reapack-index --scan Release
+          # A. 生成标准版
+          # 关键修改：加上 --no-commit，禁止它弹出 [y/N] 交互提示
+          reapack-index --scan Release --no-commit
           
           echo "🔹 Generating China Index (index-cn.xml)..."
-          # B. 生成中国版 (直接注入 ghproxy 链接，无需 sed)
+          # B. 生成中国版
+          # 关键修改：加上 --no-commit，禁止它弹出 [y/N] 交互提示
           reapack-index \
             --output index-cn.xml \
             --scan Release \
-            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
+            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path" \
+            --no-commit
 
-          # 验证日志：打印一行看看链接对不对
           echo "✅ Verification (Check URL pattern):"
           grep "mirror.ghproxy.com" index-cn.xml | head -n 1 || echo "Waiting for commit..."
 
@@ -68,7 +68,7 @@ jobs:
           # 关键点：不管文件是修改的还是新生成的，全部加入暂存区
           git add -A
           
-          # 检查暂存区是否有内容 (这样能检测到 Untracked 文件)
+          # 检查暂存区是否有内容
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
@@ -93,17 +93,17 @@ jobs:
                   echo "Merge failed, performing HARD RESET and REGENERATING..."
                   
                   # === 冲突恢复逻辑 ===
-                  # 如果合并彻底失败，重置回远程状态
                   git reset --hard origin/main
                   git checkout main
                   
-                  # 重新生成双版本 (确保恢复后文件依然正确)
-                  reapack-index --scan Release
+                  # 重新生成双版本 (这里也要加 --no-commit)
+                  reapack-index --scan Release --no-commit
                   
                   reapack-index \
                     --output index-cn.xml \
                     --scan Release \
-                    --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
+                    --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path" \
+                    --no-commit
                   
                   git add -A
                   git commit -m "index: update ReaPack index (Standard & CN)" || true
