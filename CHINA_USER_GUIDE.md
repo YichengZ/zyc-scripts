@@ -17,15 +17,15 @@
 
 3. 点击 `导入仓库` 或 `Import a repository`
 
-4. **重要**：粘贴以下链接（**必须使用这个链接，不要用 GitHub 的**）：
+4. **重要**：粘贴以下链接（**推荐中国用户使用**）：
 
    ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
+   https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml
    ```
 
    > 💡 **为什么用这个链接？**
-   > - 这个链接指向 `index-gitee.xml`，文件内所有下载链接都指向 Gitee
-   > - 如果使用 `index.xml`，虽然能读取索引，但下载文件时还是会从 GitHub 下载，可能很慢或失败
+   > - 这是 REAPER 社区提供的镜像服务，国内访问速度快且稳定
+   > - 所有文件都通过镜像下载，无需访问 GitHub
 
 5. 点击 `确定` 或 `OK`
 
@@ -63,29 +63,30 @@
 
 **解决方法**：
 1. 检查网络连接
-2. 确认链接完整：`https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml`
+2. 确认链接完整：`https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml`
 3. 尝试使用其他网络（如手机热点）
 
 ### 问题 2：添加仓库成功，但无法下载文件
 
 **可能原因**：
-- 使用了错误的链接（用了 `index.xml` 而不是 `index-gitee.xml`）
+- 网络连接问题
+- 镜像服务暂时不可用
 
 **解决方法**：
-1. 删除现有仓库
-2. 重新添加，使用正确的链接：`index-gitee.xml`
+1. 确认使用的是推荐链接：`https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml`
+2. 如果镜像不可用，可以尝试备用链接：
+   - GitHub 直接链接：`https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
+   - jsDelivr CDN：`https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml`
 
 ### 问题 3：下载很慢或失败
 
 **可能原因**：
-- 使用了 GitHub 链接
-- Gitee 同步未完成
+- 使用了 GitHub 直接链接
+- 网络环境限制
 
 **解决方法**：
-1. 确认使用的是 `index-gitee.xml` 链接
-2. 如果还是慢，可以尝试：
-   - jsDelivr CDN：`https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml`
-   - GitHub 镜像代理：`https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml`
+1. 优先使用推荐镜像：`https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml`
+2. 如果还是慢，可以尝试 jsDelivr CDN 作为备用
 
 ---
 
@@ -105,7 +106,7 @@ REAPER 菜单栏
 1. 点击 `导入仓库` 或 `Import a repository` 按钮
 2. 在弹出的输入框中粘贴：
    ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
+   https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml
    ```
 3. 点击 `确定` 或 `OK`
 4. 点击 `应用` 或 `Apply`
@@ -129,28 +130,29 @@ REAPER 菜单栏
 
 ### 最佳实践
 
-1. **使用 Gitee 链接**（`index-gitee.xml`）
+1. **使用推荐镜像**（`group.reaget.com`）
    - ✅ 访问最快
    - ✅ 最稳定
-   - ✅ 所有文件都从 Gitee 下载
+   - ✅ 专为中国用户优化
 
-2. **备用方案**（如果 Gitee 不可用）
+2. **备用方案**（如果镜像不可用）
+   - GitHub 直接链接
    - jsDelivr CDN
-   - GitHub 镜像代理
 
 ---
 
 ## 📝 常见问题 FAQ
 
-### Q: 为什么必须用 `index-gitee.xml`？
+### Q: 为什么推荐使用 `group.reaget.com` 镜像？
 
 **A:** 因为：
-- `index.xml` 虽然可以从 Gitee 访问，但文件内的下载链接还是指向 GitHub
-- `index-gitee.xml` 中的所有链接都指向 Gitee，国内用户可以正常下载
+- 这是 REAPER 社区提供的镜像服务，专门为国内用户优化
+- 访问速度快，稳定性好
+- 所有文件都通过镜像下载，无需访问 GitHub
 
 ### Q: 可以同时添加多个仓库链接吗？
 
-**A:** 可以，但建议只添加一个（Gitee 的），避免混淆。
+**A:** 可以，但建议只添加一个（推荐镜像），避免混淆。
 
 ### Q: 如何更新脚本？
 
@@ -169,7 +171,7 @@ REAPER 菜单栏
 
 ## 🔗 相关链接
 
-- **Gitee 仓库**：https://gitee.com/YichengEthanZhu/zyc-scripts
+- **推荐镜像**：https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml
 - **GitHub 仓库**：https://github.com/YichengZ/zyc-scripts
 - **ReaPack 官网**：https://reapack.com/
 

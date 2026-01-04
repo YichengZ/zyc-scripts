@@ -56,11 +56,11 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 3. 粘贴以下链接（根据你的网络选择）：
    
-   **🇨🇳 推荐（中国用户）**：使用镜像链接（jsDelivr CDN）：
+   **🇨🇳 推荐（中国用户）**：使用镜像链接：
    ```
-   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index-mirror.xml
+   https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml
    ```
-   > 💡 **说明**：`index-mirror.xml` 使用 jsDelivr CDN 链接，加速下载，特别适合中国用户。
+   > 💡 **说明**：这是 REAPER 社区提供的镜像服务，访问速度快且稳定，特别适合中国用户。
 
    **标准版（国际用户）**：使用 GitHub 直接链接：
    ```
@@ -95,7 +95,7 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 如果需要，也可以使用以下链接：
 
-**jsDelivr CDN（标准索引）：**
+**jsDelivr CDN（备用）：**
 ```
 https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
 ```

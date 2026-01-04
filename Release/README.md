@@ -51,11 +51,11 @@ Advanced LFO modulator with the following features:
    https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
    ```
 
-   **Mirror (jsDelivr CDN - recommended for users in China):**
+   **Mirror (recommended for users in China):**
    ```
-   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index-mirror.xml
+   https://group.reaget.com/mirrors/YichengZ/zyc-scripts/index.xml
    ```
-   > 💡 **Note**: The `index-mirror.xml` file uses jsDelivr CDN URLs for faster download speeds, especially for users in China.
+   > 💡 **Note**: This is a mirror service provided by the REAPER community, optimized for users in China with faster access speeds.
 
    **Alternative (jsDelivr CDN - standard index):**
    ```
