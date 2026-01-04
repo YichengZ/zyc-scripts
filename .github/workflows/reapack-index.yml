@@ -38,46 +38,44 @@ jobs:
         run: gem install reapack-index
       
       # =========================================================
-      # 3. 核心步骤：生成双版本索引 (文件名已修改为 index-china.xml)
+      # 3. 核心步骤：生成双版本索引 (文件名已修改为 index-mirror.xml)
       # =========================================================
       - name: Run reapack-index (Dual Generation)
         run: |
-          # 1. 生成国际版 (index.xml) - 原生 GitHub 链接
+          # 1. 生成主版本 (index.xml)
           reapack-index \
             --scan Release \
             --name "Zyc Scripts" \
             --no-commit
           
-          # 2. 生成中国版 (index-china.xml) - jsDelivr 加速链接
-          # 注意：这里 output 改成了 index-china.xml
+          # 2. 生成镜像版本 (index-mirror.xml)
+          # 注意：文件名改为了 index-mirror.xml
           reapack-index \
-            --output index-china.xml \
+            --output index-mirror.xml \
             --scan Release \
-            --name "Zyc Scripts (CN)" \
+            --name "Zyc Scripts (Mirror)" \
             --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
             --no-commit
 
-          # 验证日志：检查新文件是否生成正确
-          echo "🔍 Verifying index-china.xml source URLs..."
-          grep "cdn.jsdelivr.net" index-china.xml | head -n 1 || echo "❌ ERROR: jsDelivr link NOT found!"
+          # 验证日志
+          echo "🔍 Verifying index-mirror.xml source URLs..."
+          grep "cdn.jsdelivr.net" index-mirror.xml | head -n 1 || echo "❌ ERROR: jsDelivr link NOT found!"
 
       # 4. 推送更改
       - name: Push changes
         run: |
           git fetch origin main
-          # 把所有变化（包括新文件）加入暂存区
           git add -A
           
-          # 如果没有变化就退出
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
           
           echo "Staging changes..."
-          git commit -m "index: update ReaPack index (index-china.xml)"
+          git commit -m "index: update ReaPack index (index-mirror.xml)"
           
-          # 循环重试推送，防止并发冲突
+          # 循环重试推送
           max_retries=5
           retry_count=0
           
@@ -90,13 +88,13 @@ jobs:
                   git reset --hard origin/main
                   git checkout main
                   
-                  # === 冲突后的重新生成逻辑 (必须和上面完全一致，包括新文件名) ===
+                  # === 冲突后的重新生成逻辑 (同步修改为 mirror) ===
                   reapack-index --scan Release --name "Zyc Scripts" --no-commit
                   
                   reapack-index \
-                    --output index-china.xml \
+                    --output index-mirror.xml \
                     --scan Release \
-                    --name "Zyc Scripts (CN)" \
+                    --name "Zyc Scripts (Mirror)" \
                     --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
                     --no-commit
                   
@@ -119,13 +117,11 @@ jobs:
           exit 1
 
       # =========================================================
-      # 5. 新增步骤：自动清除 jsDelivr 缓存
+      # 5. 自动刷新 jsDelivr 缓存 (针对 index-mirror.xml)
       # =========================================================
       - name: Purge jsDelivr Cache
-        if: success() # 只有上面的 push 成功了才执行
+        if: success()
         run: |
-          echo "🚀 Purging jsDelivr cache for index-china.xml..."
-          # 发送 purge 请求，强制刷新 CDN
-          curl -s -I "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/index-china.xml"
-          
+          echo "🚀 Purging jsDelivr cache for index-mirror.xml..."
+          curl -s -I "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/index-mirror.xml"
           echo "✅ Cache purge request sent."
