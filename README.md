@@ -29,7 +29,7 @@ zyc-scripts/
 
 ### REAPER Scripts
 
-* **zyc_ReaPet** (v1.0.5.0) - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
+* **zyc_ReaPet** (v1.0.5.1) - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
 * **zyc_startup_actions** (v2.2.0) - Startup Actions Manager for configuring commands to run automatically when REAPER starts
 
 ### REAPER Effects
@@ -85,7 +85,7 @@ zyc-scripts/
 
 ## 🎯 Featured Scripts
 
-### zyc_ReaPet (v1.0.5.0)
+### zyc_ReaPet (v1.0.5.1)
 
 A comprehensive REAPER companion application featuring:
 

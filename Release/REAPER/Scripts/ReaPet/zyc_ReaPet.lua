@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.5.0
+-- @version 1.0.5.1
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -612,9 +612,10 @@ local function Loop()
     if TransformationEffect and TransformationEffect.is_active and TransformationEffect.is_active() then
       TransformationEffect.draw(ctx, dl)
     end
+    
+    r.ImGui_End(ctx)
   end
   
-  r.ImGui_End(ctx)
   r.ImGui_PopStyleColor(ctx)
   r.ImGui_PopStyleVar(ctx, 2)
   

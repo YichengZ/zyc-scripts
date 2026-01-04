@@ -4,7 +4,7 @@
 
 ## 🎵 REAPER 脚本
 
-### zyc_ReaPet (v1.0.5.0)
+### zyc_ReaPet (v1.0.5.1)
 REAPER 桌面伴侣应用，具有以下特性：
 - **操作统计** - 追踪操作次数、总时长和活跃时长（全局和项目级别）
 - **番茄钟** - 专注/休息计时器，支持自定义预设
@@ -145,6 +145,9 @@ https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
 - **现代UI** - 深色主题，清晰的视觉反馈
 
 ## 📝 版本历史
+
+### zyc_ReaPet v1.0.5.1
+- 修复 ReaImGui 0.10.0.2 中的 ImGui_End 错误（"Calling End() too many times!"）
 
 ### zyc_ReaPet v1.0.5.0
 - 更新角色皮肤资源（狮子和熊猫头部图片）
