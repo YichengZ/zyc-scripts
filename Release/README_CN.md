@@ -54,13 +54,18 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 2. 点击 `导入仓库` 或 `Import a repository`
 
-3. **🇨🇳 国内用户（推荐）**：粘贴以下链接：
+3. 粘贴以下链接（根据你的网络选择）：
+   
+   **🇨🇳 推荐（中国用户）**：使用镜像链接（jsDelivr CDN）：
    ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
+   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index-mirror.xml
    ```
-   > ⚠️ **重要**：必须使用 `index-gitee.xml`（不是 `index.xml`）！
-   > - 这个文件中的所有下载链接都指向 Gitee
-   > - 如果使用 `index.xml`，虽然能读取索引，但下载文件时还是会从 GitHub 下载，可能很慢或失败
+   > 💡 **说明**：`index-mirror.xml` 使用 jsDelivr CDN 链接，加速下载，特别适合中国用户。
+
+   **标准版（国际用户）**：使用 GitHub 直接链接：
+   ```
+   https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+   ```
 
 4. 点击 `确定` 或 `OK`，然后点击 `应用` 或 `Apply`
 
@@ -88,24 +93,12 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 ### 🌍 其他安装链接（备选）
 
-如果 Gitee 链接不可用，可以尝试：
+如果需要，也可以使用以下链接：
 
-**jsDelivr CDN（全球加速）：**
+**jsDelivr CDN（标准索引）：**
 ```
 https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
 ```
-
-**GitHub 镜像代理：**
-```
-https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
-```
-
-**GitHub 直接访问（国际用户）：**
-```
-https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
-```
-
-> 💡 **提示**：国内用户强烈推荐使用 Gitee 链接（`index-gitee.xml`），访问最快最稳定，所有文件都从 Gitee 下载。
 
 ## 🔗 推荐配套脚本
 

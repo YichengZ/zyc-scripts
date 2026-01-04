@@ -46,25 +46,20 @@ Advanced LFO modulator with the following features:
 3. Click `Import a repository`
 4. Paste one of the following URLs (choose based on your network):
 
-   **Gitee mirror (recommended for China users - fastest access):**
-   ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
-   ```
-   > ⚠️ **Note**: Please use `index-gitee.xml` (not `index.xml`). All download URLs in this file point to Gitee, so China users can download normally.
-
-   **Recommended (jsDelivr CDN - fast worldwide, including China):**
-   ```
-   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
-   ```
-
-   **GitHub direct (international users):**
+   **Standard (GitHub direct - recommended for most users):**
    ```
    https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
    ```
 
-   **China mirror proxy (if GitHub is blocked):**
+   **Mirror (jsDelivr CDN - recommended for users in China):**
    ```
-   https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index-mirror.xml
+   ```
+   > 💡 **Note**: The `index-mirror.xml` file uses jsDelivr CDN URLs for faster download speeds, especially for users in China.
+
+   **Alternative (jsDelivr CDN - standard index):**
+   ```
+   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
    ```
 
 5. Click `OK` then `Apply`
