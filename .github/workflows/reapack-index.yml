@@ -38,21 +38,19 @@ jobs:
         run: gem install reapack-index
       
       # =========================================================
-      # 3. 生成双版本索引 (Standard + CN)
+      # 3. 核心步骤：生成双版本索引
       # =========================================================
       - name: Run reapack-index (Dual Generation)
         run: |
-          echo "🔹 Generating Standard Index (index.xml)..."
-          # A. 生成标准版
-          # 加上 --name 参数，防止 ReaPack 报错
+          # 1. 生成国际版 (index.xml) - 原生 GitHub 链接
+          # 加上 --name 是为了美观，加上 --no-commit 是为了防止报错
           reapack-index \
             --scan Release \
             --name "Zyc Scripts" \
             --no-commit
           
-          echo "🔹 Generating China Index (index-cn.xml)..."
-          # B. 生成中国版
-          # 加上 --name 参数，这里我特意加了 (CN) 后缀，方便用户区分
+          # 2. 生成中国版 (index-cn.xml) - jsDelivr 加速链接
+          # 关键点：这里用了 --url-template 强行指定 jsDelivr 域名
           reapack-index \
             --output index-cn.xml \
             --scan Release \
@@ -60,23 +58,27 @@ jobs:
             --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
             --no-commit
 
-          echo "✅ Verification:"
-          head -n 2 index-cn.xml
+          # 验证日志：打印一行看看链接是不是 cdn.jsdelivr.net
+          echo "🔍 Verifying index-cn.xml source URLs..."
+          grep "cdn.jsdelivr.net" index-cn.xml | head -n 1 || echo "❌ ERROR: jsDelivr link NOT found!"
 
       # 4. 推送更改
       - name: Push changes
         run: |
           git fetch origin main
+          # 把新生成的文件加入暂存区
           git add -A
           
+          # 如果没有变化就退出
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
           
           echo "Staging changes..."
-          git commit -m "index: fix empty repo name error"
+          git commit -m "index: update ReaPack index (Force jsDelivr)"
           
+          # 循环重试推送，防止并发冲突
           max_retries=5
           retry_count=0
           
@@ -85,11 +87,11 @@ jobs:
             if git merge-base --is-ancestor HEAD origin/main 2>/dev/null; then
               if ! git pull --rebase origin main 2>/dev/null; then
                 if ! git pull --no-rebase origin main 2>/dev/null; then
-                  echo "Merge failed, performing HARD RESET..."
+                  echo "Merge failed, performing HARD RESET and REGENERATING..."
                   git reset --hard origin/main
                   git checkout main
                   
-                  # === 重新生成逻辑 (带名字) ===
+                  # === 冲突后的重新生成逻辑 (必须和上面完全一致) ===
                   reapack-index --scan Release --name "Zyc Scripts" --no-commit
                   
                   reapack-index \
@@ -100,7 +102,7 @@ jobs:
                     --no-commit
                   
                   git add -A
-                  git commit -m "index: fix empty repo name error" || true
+                  git commit -m "index: update ReaPack index (Force jsDelivr)" || true
                 fi
               fi
             fi
@@ -110,7 +112,9 @@ jobs:
               exit 0
             else
               retry_count=$((retry_count + 1))
+              echo "Push failed, retrying... ($retry_count/$max_retries)"
               sleep 2
             fi
           done
+          echo "❌ Failed to push after retries"
           exit 1
