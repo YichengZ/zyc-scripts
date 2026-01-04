@@ -40,20 +40,31 @@ jobs:
         run: gem install reapack-index
       
       # =========================================================
-      # 3. 核心升级：同时生成标准版和中国版
+      # 3. Generate dual index files (Standard + CN)
       # =========================================================
       - name: Run reapack-index (Dual Generation)
         run: |
-          # A. 生成标准版 (index.xml) - 给老外用
-          # 注意：这里去掉了 --commit，我们后面统一提交
-          reapack-index --scan Release
+          # A. Generate standard index.xml (for international users)
+          reapack-index --scan Release --commit
           
-          # B. 生成中国版 (index-cn.xml) - 给国人用
-          # 使用 ghproxy 加速链接
-          reapack-index \
-            --output index-cn.xml \
-            --scan Release \
-            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
+          # B. Generate CN index (index-cn.xml) with ghproxy mirror
+          # Note: reapack-index may not support --url-template, so we use sed to replace URLs
+          reapack-index --scan Release --output index-cn.xml --commit || true
+          
+          # Replace GitHub URLs with ghproxy mirror URLs
+          if [ -f "index-cn.xml" ]; then
+            sed -i 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index-cn.xml
+            echo "✅ Generated index-cn.xml with ghproxy URLs"
+          else
+            # Fallback: generate from standard index.xml
+            echo "Generating index-cn.xml from index.xml..."
+            sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
+            echo "✅ Generated index-cn.xml using sed replacement"
+          fi
+          
+          # Verify CN index
+          ghproxy_count=$(grep -c "mirror.ghproxy.com" index-cn.xml || echo "0")
+          echo "ghproxy URLs in index-cn.xml: $ghproxy_count"
 
       # 4. 推送更改 (保留了你原有的健壮重试逻辑)
       - name: Push changes
@@ -94,10 +105,15 @@ jobs:
                   git reset --hard origin/main
                   git checkout main
                   
-                  # 重新生成 index.xml
-                  reapack-index --scan Release
-                  # 重新生成 index-cn.xml
-                  reapack-index --output index-cn.xml --scan Release --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
+                  # Regenerate index.xml
+                  reapack-index --scan Release --commit
+                  # Regenerate index-cn.xml
+                  reapack-index --scan Release --output index-cn.xml --commit || true
+                  if [ -f "index-cn.xml" ]; then
+                    sed -i 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index-cn.xml
+                  else
+                    sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
+                  fi
                   
                   git add -A
                   git commit -m "index: update ReaPack index (Standard & CN)" || true
