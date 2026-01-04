@@ -1,0 +1,106 @@
+name: Generate Gitee Index
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'index.xml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Generate Gitee index
+        run: |
+          echo "Generating index-gitee.xml..."
+          
+          # 替换所有 GitHub URL 为 Gitee URL
+          sed 's|https://github.com/YichengZ/zyc-scripts/raw|https://gitee.com/YichengEthanZhu/zyc-scripts/raw|g' index.xml > index-gitee.xml
+          
+          # 验证替换
+          echo "Verifying replacement..."
+          github_count=$(grep -c "github.com/YichengZ/zyc-scripts/raw" index-gitee.xml || echo "0")
+          gitee_count=$(grep -c "gitee.com/YichengEthanZhu/zyc-scripts/raw" index-gitee.xml || echo "0")
+          
+          echo "GitHub URLs remaining: $github_count"
+          echo "Gitee URLs found: $gitee_count"
+          
+          if [ "$github_count" -gt "0" ]; then
+            echo "⚠️ Warning: Still found $github_count GitHub URLs in index-gitee.xml"
+          fi
+          
+          if [ "$gitee_count" -eq "0" ]; then
+            echo "❌ Error: No Gitee URLs found in index-gitee.xml"
+            exit 1
+          fi
+          
+          echo "✅ Successfully generated index-gitee.xml"
+      
+      - name: Commit and push to GitHub
+        run: |
+          git add index-gitee.xml
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: Update Gitee index.xml with Gitee URLs" || echo "No changes to commit"
+            
+            # 尝试推送，处理并发更新
+            max_retries=3
+            retry_count=0
+            
+            while [ $retry_count -lt $max_retries ]; do
+              if git push origin main; then
+                echo "✅ Successfully pushed to GitHub"
+                exit 0
+              else
+                retry_count=$((retry_count + 1))
+                if [ $retry_count -lt $max_retries ]; then
+                  echo "Push failed, retrying... ($retry_count/$max_retries)"
+                  git pull --rebase origin main || git pull origin main
+                  sleep 2
+                fi
+              fi
+            done
+            
+            echo "⚠️ Failed to push after $max_retries attempts"
+          else
+            echo "No changes to commit"
+          fi
+      
+      - name: Push to Gitee (if token configured)
+        if: success() && secrets.GITEE_TOKEN != ''
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          echo "Pushing to Gitee..."
+          
+          # 配置 Gitee remote
+          git remote remove gitee 2>/dev/null || true
+          git remote add gitee https://oauth2:${GITEE_TOKEN}@gitee.com/YichengEthanZhu/zyc-scripts.git
+          
+          # 推送 index-gitee.xml
+          git push gitee main || echo "⚠️ Failed to push to Gitee (may need manual push)"
+      
+      - name: Note about Gitee sync
+        if: success()
+        run: |
+          if [ -z "${{ secrets.GITEE_TOKEN }}" ]; then
+            echo "ℹ️ Gitee token not configured. To enable automatic Gitee sync:"
+            echo "1. Go to Gitee: https://gitee.com/profile/personal_access_tokens"
+            echo "2. Create a token with 'projects' scope"
+            echo "3. Add token to GitHub Secrets as GITEE_TOKEN"
+            echo "4. Or manually push: git push gitee main"
+          fi

@@ -41,35 +41,71 @@ REAPER 桌面伴侣应用，具有以下特性：
 
 ### 通过ReaPack安装（推荐）
 
-1. 确保已安装 [ReaPack插件](https://reapack.com/)
-2. 在REAPER中：`Extensions` > `ReaPack` > `Manage repositories`
-3. 点击 `Import a repository`
-4. 根据你的网络环境选择以下链接之一：
+#### 第一步：安装 ReaPack（如果还没有）
 
-   **🇨🇳 Gitee 镜像（国内用户推荐，访问最快最稳定）：**
-   ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml
-   ```
+1. 访问 [ReaPack官网](https://reapack.com/) 下载插件
+2. 按照说明安装到 REAPER
+3. 重启 REAPER
 
-   **🌍 jsDelivr CDN（全球加速，国内访问快）：**
-   ```
-   https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
-   ```
+#### 第二步：添加仓库
 
-   **🇨🇳 GitHub 镜像代理（国内用户备选）：**
-   ```
-   https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
-   ```
+1. 在 REAPER 中：`扩展` → `ReaPack` → `管理仓库...`
+   - 英文界面：`Extensions` > `ReaPack` > `Manage repositories...`
 
-   **🔷 GitHub 直接访问（国际用户）：**
-   ```
-   https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
-   ```
+2. 点击 `导入仓库` 或 `Import a repository`
 
-5. 点击 `OK` 然后 `Apply`
-6. 在 `Extensions` > `ReaPack` > `Browse packages` 中搜索并安装脚本
+3. **🇨🇳 国内用户（推荐）**：粘贴以下链接：
+   ```
+   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
+   ```
+   > ⚠️ **重要**：必须使用 `index-gitee.xml`（不是 `index.xml`）！
+   > - 这个文件中的所有下载链接都指向 Gitee
+   > - 如果使用 `index.xml`，虽然能读取索引，但下载文件时还是会从 GitHub 下载，可能很慢或失败
 
-> 💡 **提示**：国内用户推荐使用 Gitee 镜像链接，访问最快最稳定。如果遇到连接问题，也可以尝试 jsDelivr CDN 链接。
+4. 点击 `确定` 或 `OK`，然后点击 `应用` 或 `Apply`
+
+#### 第三步：安装脚本
+
+1. `扩展` → `ReaPack` → `浏览包...`
+   - 英文界面：`Extensions` > `ReaPack` > `Browse packages...`
+
+2. 在搜索框输入：`zyc_ReaPet` 或 `ReaPet`
+
+3. 找到脚本后，点击 `安装` 或 `Install`
+
+4. 等待安装完成
+
+#### 第四步：运行脚本
+
+1. `操作` → `显示操作列表...`
+   - 英文界面：`Actions` > `Show action list...`
+
+2. 搜索：`zyc_ReaPet`
+
+3. 双击运行，或添加到工具栏
+
+---
+
+### 🌍 其他安装链接（备选）
+
+如果 Gitee 链接不可用，可以尝试：
+
+**jsDelivr CDN（全球加速）：**
+```
+https://cdn.jsdelivr.net/gh/YichengZ/zyc-scripts@main/index.xml
+```
+
+**GitHub 镜像代理：**
+```
+https://ghproxy.com/https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+```
+
+**GitHub 直接访问（国际用户）：**
+```
+https://github.com/YichengZ/zyc-scripts/raw/main/index.xml
+```
+
+> 💡 **提示**：国内用户强烈推荐使用 Gitee 链接（`index-gitee.xml`），访问最快最稳定，所有文件都从 Gitee 下载。
 
 ## 🔗 推荐配套脚本
 

@@ -48,8 +48,9 @@ Advanced LFO modulator with the following features:
 
    **Gitee mirror (recommended for China users - fastest access):**
    ```
-   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index.xml
+   https://gitee.com/YichengEthanZhu/zyc-scripts/raw/main/index-gitee.xml
    ```
+   > ⚠️ **Note**: Please use `index-gitee.xml` (not `index.xml`). All download URLs in this file point to Gitee, so China users can download normally.
 
    **Recommended (jsDelivr CDN - fast worldwide, including China):**
    ```
