@@ -81,10 +81,20 @@ jobs:
           fi
       
       - name: Push to Gitee (if token configured)
-        if: success() && secrets.GITEE_TOKEN != ''
+        if: success()
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
+          if [ -z "$GITEE_TOKEN" ]; then
+            echo "ℹ️ Gitee token not configured. Skipping Gitee push."
+            echo "To enable automatic Gitee sync:"
+            echo "1. Go to Gitee: https://gitee.com/profile/personal_access_tokens"
+            echo "2. Create a token with 'projects' scope"
+            echo "3. Add token to GitHub Secrets as GITEE_TOKEN"
+            echo "4. Or manually push: git push gitee main"
+            exit 0
+          fi
+          
           echo "Pushing to Gitee..."
           
           # 配置 Gitee remote
@@ -93,14 +103,3 @@ jobs:
           
           # 推送 index-gitee.xml
           git push gitee main || echo "⚠️ Failed to push to Gitee (may need manual push)"
-      
-      - name: Note about Gitee sync
-        if: success()
-        run: |
-          if [ -z "${{ secrets.GITEE_TOKEN }}" ]; then
-            echo "ℹ️ Gitee token not configured. To enable automatic Gitee sync:"
-            echo "1. Go to Gitee: https://gitee.com/profile/personal_access_tokens"
-            echo "2. Create a token with 'projects' scope"
-            echo "3. Add token to GitHub Secrets as GITEE_TOKEN"
-            echo "4. Or manually push: git push gitee main"
-          fi
