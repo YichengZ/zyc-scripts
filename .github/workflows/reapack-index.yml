@@ -43,18 +43,25 @@ jobs:
       - name: Run reapack-index (Dual Generation)
         run: |
           echo "🔹 Generating Standard Index (index.xml)..."
-          reapack-index --scan Release --no-commit
+          # A. 生成标准版
+          # 加上 --name 参数，防止 ReaPack 报错
+          reapack-index \
+            --scan Release \
+            --name "Zyc Scripts" \
+            --no-commit
           
           echo "🔹 Generating China Index (index-cn.xml)..."
-          # 改用 jsDelivr CDN，解决 SSL 报错问题，且速度极快
+          # B. 生成中国版
+          # 加上 --name 参数，这里我特意加了 (CN) 后缀，方便用户区分
           reapack-index \
             --output index-cn.xml \
             --scan Release \
+            --name "Zyc Scripts (CN)" \
             --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
             --no-commit
 
-          echo "✅ Verification (Check URL pattern):"
-          grep "cdn.jsdelivr.net" index-cn.xml | head -n 1 || echo "Waiting for commit..."
+          echo "✅ Verification:"
+          head -n 2 index-cn.xml
 
       # 4. 推送更改
       - name: Push changes
@@ -68,7 +75,7 @@ jobs:
           fi
           
           echo "Staging changes..."
-          git commit -m "index: update ReaPack index (Standard & CN to jsDelivr)"
+          git commit -m "index: fix empty repo name error"
           
           max_retries=5
           retry_count=0
@@ -82,16 +89,18 @@ jobs:
                   git reset --hard origin/main
                   git checkout main
                   
-                  # 重新生成逻辑也必须同步修改为 jsDelivr
-                  reapack-index --scan Release --no-commit
+                  # === 重新生成逻辑 (带名字) ===
+                  reapack-index --scan Release --name "Zyc Scripts" --no-commit
+                  
                   reapack-index \
                     --output index-cn.xml \
                     --scan Release \
+                    --name "Zyc Scripts (CN)" \
                     --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
                     --no-commit
                   
                   git add -A
-                  git commit -m "index: update ReaPack index (Standard & CN to jsDelivr)" || true
+                  git commit -m "index: fix empty repo name error" || true
                 fi
               fi
             fi
