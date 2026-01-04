@@ -43,84 +43,65 @@ jobs:
       - name: Run reapack-index (Dual Generation)
         run: |
           echo "🔹 Generating Standard Index (index.xml)..."
-          # A. 生成标准版
-          # 关键修改：加上 --no-commit，禁止它弹出 [y/N] 交互提示
           reapack-index --scan Release --no-commit
           
           echo "🔹 Generating China Index (index-cn.xml)..."
-          # B. 生成中国版
-          # 关键修改：加上 --no-commit，禁止它弹出 [y/N] 交互提示
+          # 改用 jsDelivr CDN，解决 SSL 报错问题，且速度极快
           reapack-index \
             --output index-cn.xml \
             --scan Release \
-            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path" \
+            --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
             --no-commit
 
           echo "✅ Verification (Check URL pattern):"
-          grep "mirror.ghproxy.com" index-cn.xml | head -n 1 || echo "Waiting for commit..."
+          grep "cdn.jsdelivr.net" index-cn.xml | head -n 1 || echo "Waiting for commit..."
 
-      # 4. 推送更改 (修正版：先 Add 所有文件，确保捕获新生成的文件)
+      # 4. 推送更改
       - name: Push changes
         run: |
-          # --- 阶段一：准备提交 ---
           git fetch origin main
-          
-          # 关键点：不管文件是修改的还是新生成的，全部加入暂存区
           git add -A
           
-          # 检查暂存区是否有内容
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
           
           echo "Staging changes..."
-          git commit -m "index: update ReaPack index (Standard & CN)"
+          git commit -m "index: update ReaPack index (Standard & CN to jsDelivr)"
           
-          # --- 阶段二：循环重试推送 (处理并发冲突) ---
           max_retries=5
           retry_count=0
           
           while [ $retry_count -lt $max_retries ]; do
             git fetch origin main
-            
-            # 检查远程是否有新提交需要合并
             if git merge-base --is-ancestor HEAD origin/main 2>/dev/null; then
-              # 尝试 Rebase
               if ! git pull --rebase origin main 2>/dev/null; then
-                # 尝试 Merge
                 if ! git pull --no-rebase origin main 2>/dev/null; then
-                  echo "Merge failed, performing HARD RESET and REGENERATING..."
-                  
-                  # === 冲突恢复逻辑 ===
+                  echo "Merge failed, performing HARD RESET..."
                   git reset --hard origin/main
                   git checkout main
                   
-                  # 重新生成双版本 (这里也要加 --no-commit)
+                  # 重新生成逻辑也必须同步修改为 jsDelivr
                   reapack-index --scan Release --no-commit
-                  
                   reapack-index \
                     --output index-cn.xml \
                     --scan Release \
-                    --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path" \
+                    --url-template "https://cdn.jsdelivr.net/gh/${{ github.repository }}@\$commit/\$path" \
                     --no-commit
                   
                   git add -A
-                  git commit -m "index: update ReaPack index (Standard & CN)" || true
+                  git commit -m "index: update ReaPack index (Standard & CN to jsDelivr)" || true
                 fi
               fi
             fi
             
-            # 尝试推送
             if git push origin main 2>&1; then
               echo "✅ Push successful!"
               exit 0
             else
               retry_count=$((retry_count + 1))
-              echo "Push failed, retrying in 2 seconds... ($retry_count/$max_retries)"
               sleep 2
             fi
           done
-          
-          echo "❌ Failed to push after $max_retries attempts"
           exit 1
