@@ -40,80 +40,70 @@ jobs:
         run: gem install reapack-index
       
       # =========================================================
-      # 3. Generate dual index files (Standard + CN)
+      # 3. 生成双版本索引 (Standard + CN)
       # =========================================================
       - name: Run reapack-index (Dual Generation)
         run: |
-          # A. Generate standard index.xml (for international users)
-          reapack-index --scan Release --commit
+          echo "🔹 Generating Standard Index (index.xml)..."
+          # A. 生成标准版 (去掉 --commit，稍后统一提交)
+          reapack-index --scan Release
           
-          # B. Generate CN index (index-cn.xml) with ghproxy mirror
-          # Note: reapack-index may not support --url-template, so we use sed to replace URLs
-          reapack-index --scan Release --output index-cn.xml --commit || true
-          
-          # Replace GitHub URLs with ghproxy mirror URLs
-          if [ -f "index-cn.xml" ]; then
-            sed -i 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index-cn.xml
-            echo "✅ Generated index-cn.xml with ghproxy URLs"
-          else
-            # Fallback: generate from standard index.xml
-            echo "Generating index-cn.xml from index.xml..."
-            sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
-            echo "✅ Generated index-cn.xml using sed replacement"
-          fi
-          
-          # Verify CN index
-          ghproxy_count=$(grep -c "mirror.ghproxy.com" index-cn.xml || echo "0")
-          echo "ghproxy URLs in index-cn.xml: $ghproxy_count"
+          echo "🔹 Generating China Index (index-cn.xml)..."
+          # B. 生成中国版 (直接注入 ghproxy 链接，无需 sed)
+          reapack-index \
+            --output index-cn.xml \
+            --scan Release \
+            --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
 
-      # 4. 推送更改 (保留了你原有的健壮重试逻辑)
+          # 验证日志：打印一行看看链接对不对
+          echo "✅ Verification (Check URL pattern):"
+          grep "mirror.ghproxy.com" index-cn.xml | head -n 1 || echo "Waiting for commit..."
+
+      # 4. 推送更改 (修正版：先 Add 所有文件，确保捕获新生成的文件)
       - name: Push changes
         run: |
-          # 先获取最新状态
+          # --- 阶段一：准备提交 ---
           git fetch origin main
           
-          # 检查是否有本地更改需要提交 (任何一个文件变动都算)
-          if git diff --quiet HEAD; then
-            echo "No local changes to commit"
+          # 关键点：不管文件是修改的还是新生成的，全部加入暂存区
+          git add -A
+          
+          # 检查暂存区是否有内容 (这样能检测到 Untracked 文件)
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
             exit 0
           fi
           
-          # 提交本地更改
-          if ! git diff --cached --quiet; then
-            echo "Staging changes..."
-            git add -A
-            git commit -m "index: update ReaPack index (Standard & CN)" || echo "No changes to commit"
-          fi
+          echo "Staging changes..."
+          git commit -m "index: update ReaPack index (Standard & CN)"
           
-          # 循环重试推送，处理并发更新
+          # --- 阶段二：循环重试推送 (处理并发冲突) ---
           max_retries=5
           retry_count=0
           
           while [ $retry_count -lt $max_retries ]; do
-            # 获取最新远程状态
             git fetch origin main
             
-            # 检查远程是否有新的提交
+            # 检查远程是否有新提交需要合并
             if git merge-base --is-ancestor HEAD origin/main 2>/dev/null; then
-              echo "Remote has new commits (attempt $((retry_count + 1))/$max_retries), updating local branch..."
-              # 远程有新的提交，需要先合并
+              # 尝试 Rebase
               if ! git pull --rebase origin main 2>/dev/null; then
-                echo "Rebase failed, trying merge..."
+                # 尝试 Merge
                 if ! git pull --no-rebase origin main 2>/dev/null; then
-                  echo "Merge failed, resetting and retrying..."
-                  # === 关键：如果合并彻底失败，重置回远程状态，然后重新运行生成 ===
+                  echo "Merge failed, performing HARD RESET and REGENERATING..."
+                  
+                  # === 冲突恢复逻辑 ===
+                  # 如果合并彻底失败，重置回远程状态
                   git reset --hard origin/main
                   git checkout main
                   
-                  # Regenerate index.xml
-                  reapack-index --scan Release --commit
-                  # Regenerate index-cn.xml
-                  reapack-index --scan Release --output index-cn.xml --commit || true
-                  if [ -f "index-cn.xml" ]; then
-                    sed -i 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index-cn.xml
-                  else
-                    sed 's|https://github.com/|https://mirror.ghproxy.com/https://github.com/|g' index.xml > index-cn.xml
-                  fi
+                  # 重新生成双版本 (确保恢复后文件依然正确)
+                  reapack-index --scan Release
+                  
+                  reapack-index \
+                    --output index-cn.xml \
+                    --scan Release \
+                    --url-template "https://mirror.ghproxy.com/https://github.com/${{ github.repository }}/raw/\$commit/\$path"
                   
                   git add -A
                   git commit -m "index: update ReaPack index (Standard & CN)" || true
@@ -123,16 +113,14 @@ jobs:
             
             # 尝试推送
             if git push origin main 2>&1; then
-              echo "Push successful!"
+              echo "✅ Push successful!"
               exit 0
             else
               retry_count=$((retry_count + 1))
-              if [ $retry_count -lt $max_retries ]; then
-                echo "Push failed, retrying in 2 seconds..."
-                sleep 2
-              fi
+              echo "Push failed, retrying in 2 seconds... ($retry_count/$max_retries)"
+              sleep 2
             fi
           done
           
-          echo "Failed to push after $max_retries attempts"
+          echo "❌ Failed to push after $max_retries attempts"
           exit 1
