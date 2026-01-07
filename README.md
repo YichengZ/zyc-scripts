@@ -29,8 +29,8 @@ zyc-scripts/
 
 ### REAPER Scripts
 
-* **zyc_ReaPet** (v1.0.5.1) - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
-* **zyc_startup_actions** (v2.2.0) - Startup Actions Manager for configuring commands to run automatically when REAPER starts
+* **zyc_ReaPet** (v1.0.5.2) - REAPER companion app with operation statistics, pomodoro timer, treasure box system, and 8 character skins
+* **zyc_startup_actions** (v2.2.4) - Startup Actions Manager for configuring commands to run automatically when REAPER starts
 
 ### REAPER Effects
 
@@ -63,6 +63,13 @@ zyc-scripts/
    - Find scripts in `Actions` list or ReaPack browser
    - Run directly or add to toolbar
 
+### System Requirements
+
+- **REAPER**: Version 7.0 or later (required)
+- **ReaImGui**: Version 0.10.0.2 or later (required for ReaPet and Startup Actions)
+- **SWS Extension**: Recommended (required for some features)
+- **ReaPack**: Required for installation
+
 ### For Developers
 
 1. Clone the repository
@@ -85,7 +92,7 @@ zyc-scripts/
 
 ## 🎯 Featured Scripts
 
-### zyc_ReaPet (v1.0.5.1)
+### zyc_ReaPet (v1.0.5.2)
 
 A comprehensive REAPER companion application featuring:
 

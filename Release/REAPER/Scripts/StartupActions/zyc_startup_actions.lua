@@ -1,10 +1,11 @@
 -- @description Zyc Startup Actions Manager
--- @version 2.2.3
+-- @version 2.2.4
 -- @author Yicheng Zhu (Ethan)
 -- @changelog
---   + 优化语言切换逻辑：窗口标题栏现在支持即时平滑切换，消除视觉闪烁
---   + 修复了切换语言时可能导致的 ShowMessageBox 报错问题
---   + 配合 ReaPet 1.0.4.4 更新，确保所有语言包和运行依赖正确索引
+--   + v2.2.4: Added REAPER 7.0 version requirement check, improved ReaImGui outdated error message with ReaPack update instructions
+--   + v2.2.3: 优化语言切换逻辑：窗口标题栏现在支持即时平滑切换，消除视觉闪烁
+--   + v2.2.3: 修复了切换语言时可能导致的 ShowMessageBox 报错问题
+--   + v2.2.3: 配合 ReaPet 1.0.4.4 更新，确保所有语言包和运行依赖正确索引
 -- @provides
 --   [main] .
 --   zyc_startup_actions_run.lua
@@ -14,7 +15,7 @@
 --   这是一个强大的 REAPER 启动项管理器，允许你配置 REAPER 启动时自动运行的动作。
 --   支持默认动作（如 ReaPet）和自定义用户动作，并提供完整的本地化支持。
 local r = reaper
-local script_version = "2.2.3"
+local script_version = "2.2.4"
 local script_path = debug.getinfo(1, 'S').source:match('@(.+[/\\])')
 local run_script_path = script_path .. 'zyc_startup_actions_run.lua'
 
@@ -103,25 +104,76 @@ local desc_cache = {}
 local picking_action = false
 local picker_status = nil
 
-if not r.ImGui_CreateContext then
-    r.ShowMessageBox(I18n.get("messages.must_install_reaimgui"), "Error", 0)
-    return
-end
-if not r.JS_Window_HandleFromAddress then
-    r.ShowMessageBox(I18n.get("messages.must_install_jsapi"), "Error", 0)
-    return
+-- ========= REAPER Version Check =========
+local function check_reaper_version()
+  -- 要求 REAPER 7.0 或更高版本
+  local version_str = r.GetAppVersion()
+  if not version_str then
+    -- 如果无法获取版本，允许继续（可能是旧版 API）
+    return true
+  end
+  
+  -- 解析版本号：格式通常是 "6.xx" 或 "7.xx"
+  local major_version = tonumber(version_str:match("^(%d+)%."))
+  if major_version and major_version < 7 then
+    local msg = "REAPER 7.0 or later is required.\n\n"
+    msg = msg .. "Your current version: " .. version_str .. "\n"
+    msg = msg .. "Required version: REAPER 7.0 or later\n\n"
+    msg = msg .. "Please update REAPER to the latest version:\n"
+    msg = msg .. "https://www.reaper.fm/download.php\n\n"
+    msg = msg .. "Or check for updates in REAPER:\n"
+    msg = msg .. "Help > Check for updates"
+    r.ShowMessageBox(msg, "REAPER Version Required", 0)
+    return false
+  end
+  return true
 end
 
--- Check SWS Extension
-if not r.NF_GetGlobalStartupAction and not r.CF_GetConfigPath and not r.BR_GetMediaItemByGUID then
+-- ========= ReaImGui Version Check =========
+local function check_imgui_compatibility()
+  if not r.ImGui_CreateContext then
+    local msg = "ReaImGui extension is outdated or not installed.\n\n"
+    msg = msg .. "Startup Actions requires ReaImGui v0.10.0.2 or later.\n\n"
+    msg = msg .. "How to update via ReaPack:\n"
+    msg = msg .. "1. In REAPER: Extensions > ReaPack > Browse packages\n"
+    msg = msg .. "2. Search for 'ReaImGui'\n"
+    msg = msg .. "3. Right-click > Install/Update\n"
+    msg = msg .. "4. Restart REAPER\n\n"
+    msg = msg .. "After updating, restart REAPER and run Startup Actions again."
+    r.ShowMessageBox(msg, "ReaImGui Update Required", 0)
+    return false
+  end
+  return true
+end
+
+-- ========= JS API Check =========
+local function check_jsapi()
+  if not r.JS_Window_HandleFromAddress then
+    r.ShowMessageBox(I18n.get("messages.must_install_jsapi"), "Error", 0)
+    return false
+  end
+  return true
+end
+
+-- ========= SWS Extension Check =========
+local function check_sws_extension()
+  if not r.NF_GetGlobalStartupAction and not r.CF_GetConfigPath and not r.BR_GetMediaItemByGUID then
     local msg = "SWS Extension is not installed.\n\n"
     msg = msg .. "SWS Extension is required for Startup Actions to work properly.\n\n"
     msg = msg .. "Please install SWS Extension from:\n"
     msg = msg .. "https://www.sws-extension.org/\n\n"
     msg = msg .. "Or via ReaPack: Extensions > ReaPack > Browse Packages > Search 'SWS'"
     r.ShowMessageBox(msg, "SWS Extension Required", 0)
-    return
+    return false
+  end
+  return true
 end
+
+-- 按顺序检查：REAPER 版本 -> ReaImGui -> JS API -> SWS
+if not check_reaper_version() then return end
+if not check_imgui_compatibility() then return end
+if not check_jsapi() then return end
+if not check_sws_extension() then return end
 
 local function get_action_description(cmd_id)
     if not cmd_id or cmd_id == 0 then return nil end
