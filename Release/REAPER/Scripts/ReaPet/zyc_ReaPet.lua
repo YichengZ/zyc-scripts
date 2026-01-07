@@ -1,5 +1,5 @@
 -- @description Zyc ReaPet - Productivity Companion
--- @version 1.0.5.1
+-- @version 1.0.5.2
 -- @author Yicheng Zhu (Ethan)
 -- @about
 --   # Zyc ReaPet
@@ -21,6 +21,8 @@
 --   ui/**/*.lua
 --   assets/**/*.png
 -- @changelog
+--   + v1.0.5.2: Added REAPER 7.0 version requirement check, improved ReaImGui outdated error message with ReaPack update instructions
+--   + v1.0.5.1: Fixed ImGui_End error ("Calling End() too many times!") in ReaImGui 0.10.0.2
 --   + v1.0.5.0: Updated character skin assets (lion and panda), improved product description wording
 --   + v1.0.4.9: Timer and preset feature improvements, added earn_tip i18n translations, UI refinements
 --   + v1.0.4.8: Economic system rebalancing (lowered prices, increased daily limit to 800), fixed factory reset skin switching, optimized shop UI (Daily Limit display), fixed monospace font feature and added i18n translations
@@ -73,6 +75,49 @@ local function init_i18n()
   I18n.init(lang)
 end
 
+-- ========= REAPER Version Check =========
+local function check_reaper_version()
+  -- 要求 REAPER 7.0 或更高版本
+  local version_str = r.GetAppVersion()
+  if not version_str then
+    -- 如果无法获取版本，允许继续（可能是旧版 API）
+    return true
+  end
+  
+  -- 解析版本号：格式通常是 "6.xx" 或 "7.xx"
+  local major_version = tonumber(version_str:match("^(%d+)%."))
+  if major_version and major_version < 7 then
+    local msg = "REAPER 7.0 or later is required.\n\n"
+    msg = msg .. "Your current version: " .. version_str .. "\n"
+    msg = msg .. "Required version: REAPER 7.0 or later\n\n"
+    msg = msg .. "Please update REAPER to the latest version:\n"
+    msg = msg .. "https://www.reaper.fm/download.php\n\n"
+    msg = msg .. "Or check for updates in REAPER:\n"
+    msg = msg .. "Help > Check for updates"
+    r.ShowMessageBox(msg, "REAPER Version Required", 0)
+    return false
+  end
+  return true
+end
+
+-- ========= ReaImGui Version Check =========
+local function check_imgui_compatibility()
+  -- 标准 API 检查
+  if not r.ImGui_CreateContext or not r.ImGui_CreateImage or not r.ImGui_DrawList_AddTextEx then
+    local msg = "ReaImGui extension is outdated or not installed.\n\n"
+    msg = msg .. "ReaPet requires ReaImGui v0.10.0.2 or later.\n\n"
+    msg = msg .. "How to update via ReaPack:\n"
+    msg = msg .. "1. In REAPER: Extensions > ReaPack > Browse packages\n"
+    msg = msg .. "2. Search for 'ReaImGui'\n"
+    msg = msg .. "3. Right-click > Install/Update\n"
+    msg = msg .. "4. Restart REAPER\n\n"
+    msg = msg .. "After updating, restart REAPER and run ReaPet again."
+    r.ShowMessageBox(msg, "ReaImGui Update Required", 0)
+    return false
+  end
+  return true
+end
+
 -- ========= SWS Extension Check =========
 local function check_sws_extension()
   -- 检查 SWS 扩展是否安装（通过检查 SWS API 函数）
@@ -88,16 +133,8 @@ local function check_sws_extension()
   return true
 end
 
--- ========= ReaImGui Version Check =========
-local function check_imgui_compatibility()
-  -- 标准 API 检查
-  if not r.ImGui_CreateContext or not r.ImGui_CreateImage or not r.ImGui_DrawList_AddTextEx then
-    r.ShowMessageBox("ReaImGui outdated.", "Error", 0)
-    return false
-  end
-  return true
-end
-
+-- 按顺序检查：REAPER 版本 -> ReaImGui -> SWS
+if not check_reaper_version() then return end
 if not check_imgui_compatibility() then return end
 if not check_sws_extension() then return end
 

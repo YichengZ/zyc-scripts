@@ -13,7 +13,7 @@ REAPER companion app with the following features:
 - **8 Character Skins** - cat, dog, bear, rabbit, koala, lion, onion, chick
 - **Multi-Project Support** - Automatic data switching between projects
 
-### zyc_startup_actions (v2.2.0)
+### zyc_startup_actions (v2.2.4)
 Startup Actions Manager for configuring commands to run automatically when REAPER starts:
 - **Startup Commands Configuration** - Add/remove commands to run on REAPER launch
 - **ReaPet Integration** - Automatically detect and add ReaPet to startup commands
@@ -65,6 +65,13 @@ Advanced LFO modulator with the following features:
 5. Click `OK` then `Apply`
 6. Search and install scripts in `Extensions` > `ReaPack` > `Browse packages`
 
+## 📋 System Requirements
+
+- **REAPER**: Version 7.0 or later (required)
+- **ReaImGui**: Version 0.10.0.2 or later (required for ReaPet and Startup Actions)
+- **SWS Extension**: Recommended (required for some features)
+- **ReaPack**: Required for installation
+
 ## 🔗 Recommended Companion Scripts
 
 For enhanced workflow, we recommend using these scripts together with Zyc Scripts:
@@ -110,6 +117,10 @@ For enhanced workflow, we recommend using these scripts together with Zyc Script
 - **Modern UI** - Dark theme, clear visual feedback
 
 ## 📝 Version History
+
+### zyc_ReaPet v1.0.5.2
+- Added REAPER 7.0 version requirement check
+- Improved ReaImGui outdated error message with ReaPack update instructions
 
 ### zyc_ReaPet v1.0.5.1
 - Fixed ImGui_End error ("Calling End() too many times!") in ReaImGui 0.10.0.2

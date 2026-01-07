@@ -128,10 +128,12 @@ This mirror service is provided by the REAPER community, optimized for users in 
 
 [b]Requirements:[/b]
 [list]
-[*]REAPER (tested on REAPER 6.x and 7.x)
-[*]ReaImGui extension (for UI rendering) - v0.10.0.2 or later recommended
+[*]REAPER 7.0 or later (required)
+[*]ReaImGui extension (for UI rendering) - v0.10.0.2 or later (required)
 [*]SWS Extension (recommended, for Startup Actions integration)
 [/list]
+
+[b]Note:[/b] If you see an error message about outdated ReaImGui or REAPER version, the script will provide detailed instructions on how to update.
 
 ---
 

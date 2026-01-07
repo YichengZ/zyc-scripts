@@ -4,7 +4,7 @@
 --]]
 
 local Config = {}
-Config.VERSION = "1.0.5.1"
+Config.VERSION = "1.0.5.2"
 -- ========= UI 显示选项 =========
 Config.SHOW_GLOBAL_STATS = true
 Config.SHOW_PROJECT_STATS = true
